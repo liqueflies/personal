@@ -1,0 +1,198 @@
+@font-face {
+  font-family: 'Apfel Grotezk';
+  src: url('/fonts/apfelGrotezk/ApfelGrotezk-Regular.woff2') format('woff2'),
+				url('/fonts/apfelGrotezk/ApfelGrotezk-Regular.woff') format('woff');
+	font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Sprat';
+  src: url('/fonts/sprat/SpratRegular.woff2') format('woff2'),
+				url('/fonts/sprat/SpratRegular.woff') format('woff');
+	font-weight: 400;
+}
+
+:root {
+	--color-bg: #ffffff;
+	--color-text: #202124;
+	--color-primary: #34a853;
+	--color-grey: #dddddd;
+
+	--font-family-primary: Apfel Grotezk, Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	--font-family-secondary: Sprat, Palatino Linotype, Book Antiqua, Palatino, serif;
+
+	--font-size-h1: 120px;
+	--font-size-h2: 46px;
+	--font-size-h4: 24px;
+	--font-size-default: 14px;
+
+	--letter-spacing-headings: -0.1em;
+	--spacer: 8px;
+
+	--easing-out: cubic-bezier(.61, .01, .08, .99);
+}
+
+*, :after, :before {
+	box-sizing: inherit;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+html {
+	font-size: 100%;
+}
+
+body {
+	margin: 0;
+	font-size: var(--font-size-default);
+	font-family: var(--font-family-primary);
+	color: var(--color-text);
+	background-color: var(--color-bg);
+}
+
+html.has-scroll-smooth {
+	overflow: hidden; 
+}
+
+html.has-scroll-dragging {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+	user-select: none; 
+}
+
+.has-scroll-smooth body {
+	overflow: hidden; 
+}
+
+.has-scroll-smooth [data-scroll-container] {
+	min-height: 100vh; 
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	display: inline-block;
+	margin: 0;
+
+	font-weight: 400;
+
+	color: var(--color-primary);
+}
+
+h1, .h1 {
+	font-size: var(--font-size-h1);
+	font-family: var(--font-family-secondary);
+	letter-spacing: var(--letter-spacing-headings);
+}
+
+h2, .h2 {
+	font-size: var(--font-size-h2);
+	font-family: var(--font-family-secondary);
+	letter-spacing: var(--letter-spacing-headings);
+}
+
+h4, .h4 {
+	font-size: var(--font-size-h4);
+	font-family: var(--font-family-secondary);
+	letter-spacing: var(--letter-spacing-headings);
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	vertical-align: middle;
+}
+
+@keyframes paint-stripes {
+	0% {
+			transform: scale(1,1);
+			transform-origin: 100%;
+	}
+	50% {
+			transform: scale(0,1);
+			transform-origin: 100%;
+	}
+	51% {
+			transform: scale(0,1);
+			transform-origin: 0;
+	}
+	100% {
+			transform: scale(1,1);
+			transform-origin: 0;
+	}
+}
+
+a {
+	position: relative;
+	color: var(--color-text);
+	text-decoration: none;
+	padding-bottom: calc( var(--spacer) / 2 );
+}
+
+a::after {
+	content: '';
+	position: absolute;	
+	left: 0;
+	right: 0;
+	bottom: 0;
+	transform-origin: 100%;
+	height: 1px;
+	background-color: currentColor;
+}
+
+a:hover::after {
+	animation: paint-stripes .6s;
+	animation-fill-mode: forwards;
+	animation-timing-function: var(--easing-out);
+	animation-delay: .1s;
+}
+
+.l-grid {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+}
+
+.l-container {
+	grid-column-start: 2;
+	grid-column-end: 12;
+}
+
+.l-container--full {
+	grid-column-start: 1;
+	grid-column-end: 13;
+}
+
+.visually-hidden {
+	position: absolute;
+	clip: rect(1px, 1px, 1px, 1px);
+	padding:0;
+	border:0;
+	height: 1px; 
+	width: 1px; 
+	overflow: hidden;
+}
+
+body.t-dark {
+	--color-primary: #fdd1d1;
+	--color-bg: #202124;
+	--color-text: #fff;
+}
+
+@media screen and (min-width: 40em) {
+	:root {
+		--font-size-h1: 280px;
+		--font-size-h2: 96px;
+		--font-size-h4: 96px;
+		--font-size-default: 16px;	
+	}
+
+	.l-container--small {
+		grid-column-start: 4;
+		grid-column-end: 10;
+	}
+}
