@@ -190,6 +190,7 @@
     
     /* transform: translateY(30%) skewY(4deg); */
     transform: translateY(30%) scale(1.2);
+    transition-delay: 0s;
   }
 
   .c-work__placeholder {
