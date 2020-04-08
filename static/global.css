@@ -26,10 +26,11 @@
 	--font-size-h4: 24px;
 	--font-size-default: 14px;
 
-	--letter-spacing-headings: -0.1em;
+	--letter-spacing-headings: -0.09em;
 	--spacer: 8px;
 
-	--easing-out: cubic-bezier(.61, .01, .08, .99);
+	--ease-in-out: cubic-bezier(.61, .01, .08, .99);
+	--ease-out-quad: cubic-bezier(.5, 1, .89, 1);
 }
 
 *, :after, :before {
@@ -49,6 +50,8 @@ body {
 	font-family: var(--font-family-primary);
 	color: var(--color-text);
 	background-color: var(--color-bg);
+
+	transition: background-color 0.25s, color 0.25s;
 }
 
 html.has-scroll-smooth {
@@ -102,10 +105,37 @@ h4, .h4 {
 	letter-spacing: var(--letter-spacing-headings);
 }
 
-img {
+img,
+video {
 	max-width: 100%;
 	height: auto;
 	vertical-align: middle;
+}
+
+button {
+	overflow: visible;
+
+  width: auto;
+  margin: 0;
+  padding: 0;
+
+  cursor: pointer;
+  text-align: inherit;
+  /* inherit font & color from ancestor */
+
+  color: inherit;
+  border: none;
+  background: transparent;
+  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+
+	font-size: inherit;
+  line-height: normal;
+  /* Corrects font smoothing for webkit */
+
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  /* Corrects inability to style clickable `input` types in iOS */
+  -webkit-appearance: none;
 }
 
 @keyframes paint-stripes {
@@ -148,7 +178,7 @@ a::after {
 a:hover::after {
 	animation: paint-stripes .6s;
 	animation-fill-mode: forwards;
-	animation-timing-function: var(--easing-out);
+	animation-timing-function: var(--ease-in-out);
 	animation-delay: .1s;
 }
 
@@ -175,6 +205,10 @@ a:hover::after {
 	height: 1px; 
 	width: 1px; 
 	overflow: hidden;
+}
+
+.serif {
+	font-family: var(--font-family-secondary);
 }
 
 body.t-dark {

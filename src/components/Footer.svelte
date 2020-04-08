@@ -1,5 +1,12 @@
-<script context="module">
+<script>
   import Spacer from '../components/Spacer';
+
+  const today = new Date().getFullYear();
+
+  function onToggleClick(e) {
+    e.preventDefault();
+    window.document.body.classList.toggle('t-dark');
+  }
 </script>
 
 <style>
@@ -19,7 +26,9 @@
   transform-origin: center center;
   transform-style: preserve-3d;
   transform: translateY(100%) rotateX(-80deg);
-  transition: opacity 0.65s var(--easing-out), transform 0.65s var(--easing-out);
+  transition: all 1s var(--ease-out-quad);
+  transition-property: transform, opacity;
+
   font-size: 0;
 
   margin-bottom: calc( var(--spacer) * 2 );
@@ -46,8 +55,17 @@
   color: var(--color-text);
 }
 
-.c-footer__sign {
+.c-footer__lg,
+.c-footer__sst {
   color: var(--color-grey);
+}
+
+.c-footer__sst {
+  grid-column-start: 4;
+}
+
+.c-footer__toggle {
+  grid-column-start: 10;
 }
 
 @media screen and (min-width: 40em) {
@@ -61,18 +79,22 @@
   <div>Lorenzo Girardi</div>
   <div>Creative Developer</div>
   <Spacer size="10" />
-  <ul class="c-footer__list" data-scroll data-scroll-call="bet" data-scroll-repeat>
+  <ul class="c-footer__list" data-scroll data-scroll-repeat>
     <li class="c-footer__contact">
-      <a class="h4" href="#">Email</a>
+      <a class="h4" href="/">Email</a>
     </li>
     <li class="c-footer__contact">
-      <a class="h4" href="#">Twitter</a>
+      <a class="h4" href="https://twitter.com/loregirardi" rel="noopener" target="_blank">Twitter</a>
     </li>
     <li class="c-footer__contact">
-      <a class="h4" href="#">LinkedIn</a>
+      <a class="h4" href="https://www.linkedin.com/in/lorenzo-girardi-61241374/" rel="noopener" target="_blank">LinkedIn</a>
     </li>
   </ul>
   <Spacer size="10" />
-  <div class="c-footer__sign">LG2020</div>
+  <div class="l-grid">
+    <div class="c-footer__lg">LG{today} — ∞</div>
+    <div class="c-footer__sst">(: — S)</div>
+    <button class="c-footer__toggle" on:click={onToggleClick}>Dark Mode</button>
+  </div>
   <Spacer size="10" />
 </footer>

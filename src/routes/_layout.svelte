@@ -26,7 +26,7 @@
 
     scroll.on('call', (value, way, obj) => {
       emitter.emit('call', { value, way, obj });
-    })
+    });
   });
 </script>
 

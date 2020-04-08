@@ -22,8 +22,8 @@
   }
 
   function unsubscribe() {
+    emitter.off('call', onCall);
     emitter.off('scroll', onScroll);
-    emitter.off('call', onScroll);
   }
 
   emitter.on('call', onCall);

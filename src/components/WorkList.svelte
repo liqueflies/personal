@@ -8,6 +8,6 @@
 
 <div class="l-container">
 	{#each posts as post}
-		<Work data={post.data} />
+		<Work data={post.data} uid={post.uid} />
 	{/each}
 </div>
