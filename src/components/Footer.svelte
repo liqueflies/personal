@@ -61,7 +61,7 @@
   <div>Lorenzo Girardi</div>
   <div>Creative Developer</div>
   <Spacer size="10" />
-  <ul class="c-footer__list" data-scroll>
+  <ul class="c-footer__list" data-scroll data-scroll-call="bet" data-scroll-repeat>
     <li class="c-footer__contact">
       <a class="h4" href="#">Email</a>
     </li>

@@ -3,19 +3,20 @@
 
   import Marquee from '../components/Marquee.svelte';
 
-  import { scrollInstance } from '../store';
+  import emitter from '../emitter';
 
   let patchRef;
-
-  const unsubscribe = scrollInstance.subscribe(instance => {
-    if (!instance) {
-      return false;
-    }
-
+  
+  function onScroll(instance) {
     const progress = patchRef.offsetHeight * instance.scroll.y / instance.limit;
     patchRef.style.transform = `scaleX(${1 + progress * 0.01 })`;
-  });
+  }
 
+  function unsubscribe() {
+    emitter.off('scroll', onScroll);
+  }
+  
+  emitter.on('scroll', onScroll);
   onDestroy(unsubscribe);
 </script>
 

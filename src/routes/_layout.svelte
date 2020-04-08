@@ -4,7 +4,7 @@
 	import Header from '../components/Header.svelte';
 	import Footer from '../components/Footer.svelte';
 
-  import { scrollInstance } from '../store';
+  import emitter from '../emitter';
 
   let rootRef;
 
@@ -21,8 +21,12 @@
     });
 
     scroll.on('scroll', instance => {
-      scrollInstance.set(instance);
+      emitter.emit('scroll', instance);
     });
+
+    scroll.on('call', (value, way, obj) => {
+      emitter.emit('call', { value, way, obj });
+    })
   });
 </script>
 

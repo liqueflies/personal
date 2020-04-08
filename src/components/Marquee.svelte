@@ -1,31 +1,33 @@
 <script>
   import { onDestroy } from 'svelte';
 
-  import { scrollInstance } from '../store';
-  import { isElementInViewport } from '../utils';
+  import emitter from '../emitter';
 
-  let labelRef;
   let transform = 0;
+  const CALL_VALUE = 'marquee';
 
-  const unsubscribe = scrollInstance.subscribe(instance => {
-    if (!instance) {
-      return false;
-    }
+  function onScroll(instance) {
+    transform -= Math.min(Math.abs(instance.speed), 5);
+  }
 
-    if (isElementInViewport(labelRef)) {
-      transform -= Math.min(Math.abs(instance.speed), 5);
-    } else {
+  function onCall({ value, way, obj }) {
+    if (value === CALL_VALUE && way === 'exit') {
+      // avoid continuously set to 0.
       if (transform === 0) {
-        // avoid continuously set to 0.
         return false;
       }
-      
+  
       transform = 0;
     }
-    
-    labelRef.style.transform = `translate3d(${transform}px, 0, 0)`;
-  });
+  }
 
+  function unsubscribe() {
+    emitter.off('scroll', onScroll);
+    emitter.off('call', onScroll);
+  }
+
+  emitter.on('call', onCall);
+  emitter.on('scroll', onScroll);
   onDestroy(unsubscribe);
 
   export let text;
@@ -73,7 +75,14 @@
 </style>
 
 <div class="o-marquee">
-  <h1 class="o-marquee__label" data-text="{text}" bind:this={labelRef}>
+  <h1
+    data-text="{text}"
+    data-scroll
+    data-scroll-call="{CALL_VALUE}"
+    data-scroll-repeat
+    class="o-marquee__label"
+    style="transform: translate3d({transform}px, 0, 0);"
+  >
     <span class="visually-hidden">{text}</span>
   </h1>
 </div>
