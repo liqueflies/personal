@@ -106,7 +106,8 @@ h4, .h4 {
 }
 
 img,
-video {
+video,
+picture {
 	max-width: 100%;
 	height: auto;
 	vertical-align: middle;

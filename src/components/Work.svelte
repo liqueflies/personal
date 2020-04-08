@@ -85,9 +85,16 @@
   grid-column-end: 11;
 }
 
+.c-work__placeholder {
+  position: relative;
+  height: 400px;
+  background-color: var(--color-primary);
+}
+
 .c-work__media video {
   /* visibility: hidden; */
   /* transition: visibility 0.2s 0.3s; */
+  display: none;
 }
 
 .c-work__media video.active {
@@ -171,6 +178,18 @@
     grid-column-start: 1;
     grid-column-end: 13;
   }
+
+  .c-work__placeholder {
+    height: 600px;
+  }
+
+  .c-work__media video {
+    display: block;
+  }
+
+  .c-work__media video + .c-work__placeholder {
+    display: none;
+  }
 }
 </style>
 
@@ -212,7 +231,7 @@
       data-scroll-repeat
     >
       {#if data.video.url}
-        <video 
+        <video
           muted
           loop
           autoplay={isActive}
@@ -221,9 +240,8 @@
           style="transform: translate3d({$mX}px, {$mY}px, 0); transform-origin: 50% 50%;"
           src="{PrismicDOM.Link.url(data.video)}"
         />
-      {:else}
-        <div style="width: 100%;height: 600px;background:var(--color-primary);"></div>
       {/if}
+      <div class="c-work__placeholder"></div>
     </div>
   </div>
   <Spacer size={6} />

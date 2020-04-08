@@ -23,9 +23,13 @@
 <style>
 .c-hero {
   position: relative;
+
   margin: 0;
-  text-align: center;
   padding-bottom: calc( var( --font-size-h1 ) / 2 );
+
+  overflow: hidden;
+
+  text-align: center;
 }
 
 .c-hero__image {
@@ -78,11 +82,17 @@
 <div data-scroll-section class="l-container l-container--full">
   <figure class="c-hero l-grid">
     <div class="l-container l-container--small c-hero__frame">
-      <img
-        class="c-hero__image"
-        srcset="lollo@mobile.jpg 240w, lollo.jpg 720w"
-        src="lollo@mobile.jpg"
-        alt="Lorenzo Girardi - Creative Technologist" />
+      <picture>
+        <source media="(max-width: 768px)"
+          srcset="lollo@mobile.jpg"
+          type="image/jpeg"
+        />
+        <img
+          class="c-hero__image"
+          src="lollo.jpg"
+          alt="Lorenzo Girardi - Creative Technologist"
+        />
+      </picture>
       <div class="c-hero__patch" bind:this={patchRef}></div>
     </div>
     <figcaption class="l-container l-container--full c-hero__caption">

@@ -8,7 +8,7 @@
 }
 
 .c-abstract__para {
-  font-size: 64px;
+  font-size: 42px;
   line-height: 1;
   letter-spacing: var(--letter-spacing-headings);
 
@@ -38,12 +38,11 @@ transition-delay: 0.8s;
   opacity: 1;
 }
 
-/* @media screen and (min-width: 40em) {
-  .c-abstract {
-    grid-column-start: 5;
-		grid-column-end: 9;
+@media screen and (min-width: 40em) {
+  .c-abstract__para {
+      font-size: 64px;
   }
-} */
+}
 </style>
 
 <div data-scroll-section class="l-container l-container--small c-abstract">

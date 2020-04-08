@@ -53,7 +53,7 @@
   </div>
   <div class="c-header__position">  
     <Spacer size="3" />
-    <span> Creative Developer </span>
+    <span> Creative Technologist </span>
     <Spacer size="3" />
   </div>
   <div class="c-header__location c-header__location-right">
