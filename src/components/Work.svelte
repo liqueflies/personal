@@ -10,7 +10,8 @@
 
   import emitter from '../emitter';
 
-  export let data, uid;
+  export let uid;
+  export let data;
 
   const CALL_VALUE = `work_${uid}`;
 
@@ -140,6 +141,8 @@
 
 .c-work__media {
   transform: translateY(40px);
+
+  transition-delay: 0.35s;
 }
 
 :global(.is-inview).c-work__header .c-work__title,
@@ -185,7 +188,8 @@
     grid-column-start: 1;
     grid-column-end: 13;
     
-    transform: translateY(30%) skewY(4deg);
+    /* transform: translateY(30%) skewY(4deg); */
+    transform: translateY(30%) scale(1.2);
   }
 
   .c-work__placeholder {

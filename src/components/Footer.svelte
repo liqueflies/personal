@@ -49,26 +49,44 @@
     text-align: left;
   }
 
+  .c-footer__me {
+    display: none;
+  }
+
+  .c-footer__contact {
+    transform: translateY(80px);
+  }
+
+  .c-footer__contact,
+  .c-footer__lg,
+  .c-footer__sst,
+  .c-footer__toggle {
+    opacity: 0;
+    transform-style: preserve-3d;
+    transition: all 1s var(--ease-in-out);
+    transition-property: opacity, transform;
+  }
+
+  .c-footer__lg,
+  .c-footer__sst,
+  .c-footer__toggle {
+    transform: translateY(30px);
+  }
+
   .c-footer__sst {
     grid-column-start: 4;
+    transition-delay: 0.25s;
   }
 
   .c-footer__toggle {
     grid-column-start: 10;
+    transition-delay: 0.35s;
   }
 
-  .c-footer__contact {
-    opacity: 0;
-    transform-origin: center center;
-    transform-style: preserve-3d;
-    transform: translateY(100%) rotateX(-80deg);
-    transition: all 1s var(--ease-out-quad);
-    transition-property: transform, opacity;
-
-    font-size: 0;
-  }
-
-  :global(.is-inview) .c-footer__contact {
+  :global(.is-inview) .c-footer__contact,
+  :global(.is-inview) .c-footer__lg,
+  :global(.is-inview) .c-footer__sst,
+  :global(.is-inview) .c-footer__toggle {
     transform: none;
     opacity: 1;
   }
@@ -78,19 +96,21 @@
   }
 
   :global(.is-inview) .c-footer__contact:nth-child(2) {
-    transition-delay: 0.3s;
+    transition-delay: 0.25s;
   }
 
   :global(.is-inview) .c-footer__contact:nth-child(3) {
-    transition-delay: 0.6s;
+    transition-delay: 0.3s;
   }
 }
 </style>
 
 <footer data-scroll-section class="c-footer l-container">
-  <div>Lorenzo Girardi</div>
-  <div>Creative Developer</div>
-  <Spacer size="10" />
+  <div class="c-footer__me">  
+    <div>Lorenzo Girardi</div>
+    <div>Creative Technologist</div>
+    <Spacer size="10" />
+  </div>
   <ul class="c-footer__list" data-scroll data-scroll-repeat>
     <li class="c-footer__contact">
       <a class="h4" href="/">Email</a>
@@ -103,7 +123,7 @@
     </li>
   </ul>
   <Spacer size="10" />
-  <div class="l-grid">
+  <div class="l-grid" data-scroll data-scroll-repeat>
     <div class="c-footer__lg">LG{today} — ∞</div>
     <div class="c-footer__sst">(: — S)</div>
     <button class="c-footer__toggle" on:click={onToggleClick}>Dark Mode</button>

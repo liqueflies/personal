@@ -1,5 +1,6 @@
 <script>
-  export let size, only;
+  export let size;
+  export let only = null;
 </script>
 
 <style>
@@ -27,5 +28,5 @@
 
 <div
   style="--size:{size}"
-  class="o-spacer {only && ` o-spacer--only-${only}`}"
+  class="o-spacer{only ? ` o-spacer--only-${only}` : ''}"
 ></div>
