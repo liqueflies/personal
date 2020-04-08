@@ -2,7 +2,6 @@
   import { onDestroy } from 'svelte';
 
   import Marquee from '../components/Marquee.svelte';
-
   import emitter from '../emitter';
 
   let patchRef;
@@ -51,13 +50,7 @@
 }
 
 .c-hero__patch {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  background-color: #333;
+  display: none;
 }
 
 @media screen and (min-width: 40em) {
@@ -75,6 +68,18 @@
 
   .c-hero__caption {
     bottom: calc( var(--spacer) * 6 );
+  }
+
+  .c-hero__patch {
+    display: block;
+    
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: #333;
   }
 }
 </style>

@@ -13,24 +13,25 @@
   letter-spacing: var(--letter-spacing-headings);
 
   opacity: 0;
+
   transform-origin: center center;
   transform-style: preserve-3d;
-  transform: translateY(80px) scaleY(1.4) skewY(13deg);
-  transition: all 1.2s;
+  transform: translateY(30px) scaleY(1.4) skewY(7deg);
+
+  transition: all 0.8s;
   transition-property: opacity, transform;
 }
 
-.c-abstract__para:nth-child(1) {
-  transition-delay: 0.3s;
-}
 .c-abstract__para:nth-child(2) {
-transition-delay: 0.45s;
+  transition-delay: 0.15s;
 }
+
 .c-abstract__para:nth-child(3) {
-transition-delay: 0.65s;
+  transition-delay: 0.25s;
 }
+
 .c-abstract__para:nth-child(4) {
-transition-delay: 0.8s;
+  transition-delay: 0.45s;
 }
 
 :global(.is-inview).c-abstract__content .c-abstract__para {
@@ -41,17 +42,37 @@ transition-delay: 0.8s;
 @media screen and (min-width: 40em) {
   .c-abstract__para {
       font-size: 64px;
+      transform: translateY(80px) scaleY(1.4) skewY(13deg);
+      transition: all 1.2s;
+  }
+
+  .c-abstract__para:nth-child(1) {
+    transition-delay: .15s;
+  }
+
+  .c-abstract__para:nth-child(2) {
+    transition-delay: 0.3s;
+  }
+
+  .c-abstract__para:nth-child(3) {
+    transition-delay: 0.45s;
+  }
+
+  .c-abstract__para:nth-child(4) {
+    transition-delay: 0.65s;
   }
 }
 </style>
 
 <div data-scroll-section class="l-container l-container--small c-abstract">
-  <Spacer size="30" />
+  <Spacer size="10" only="mobile" />
+  <Spacer size="30" only="desktop" />
   <div class="c-abstract__content" data-scroll data-scroll-position="bottom" data-scroll-offset="200">
     <div class="c-abstract__para">Creative</div>
     <div class="c-abstract__para serif">Technologist</div>
     <div class="c-abstract__para">Music <span class="serif">&</span> Art</div>
     <div class="c-abstract__para serif">aficionado.</div>
   </div>
-  <Spacer size="30" />
+  <Spacer size="10" only="mobile" />
+  <Spacer size="30" only="desktop" />
 </div>

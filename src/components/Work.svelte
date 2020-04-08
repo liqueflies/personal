@@ -1,6 +1,5 @@
 <script context="module">
   import PrismicDOM from 'prismic-dom';
-
   import Spacer from '../components/Spacer.svelte';
 </script>
 
@@ -63,6 +62,7 @@
 .c-work__header {
   display: grid;
   justify-items: center;
+  text-align: center;
 }
 
 .c-work__release,
@@ -73,11 +73,6 @@
 
 .c-work__month {
   display: none;
-}
-
-.c-work__details {
-  display: flex;
-  justify-content: space-between;
 }
 
 .c-work__media {
@@ -113,18 +108,18 @@
 
 .c-work__release {
   transform-origin: top right;
-  transform: translateY(80px) scaleY(1.4) skewY(-8deg);
+  transform: translateY(30px) scaleY(1.2) skewY(-4deg);
 
   transition-delay: 0.25s;
 }
 
 .c-work__title {
   transform-origin: top left;
-  transform: translateY(80px) scaleY(1.8) skewY(8deg);
+  transform: translateY(30px) scaleY(1.4) skewY(4deg);
 }
 
 .c-work__detail {
-  transform: translateY(30px);
+  transform: translateY(15px);
 }
 
 .c-work__detail:nth-child(1) {
@@ -132,15 +127,19 @@
 }
 
 .c-work__detail:nth-child(2) {
+  grid-column-start: 6;
   transition-delay: 0.25s;
 }
 
 .c-work__detail:nth-child(3) {
+  grid-column-start: 12;
   transition-delay: 0.35s;
+
+  white-space: nowrap;
 }
 
 .c-work__media {
-  transform: translateY(30%) skewY(4deg);
+  transform: translateY(40px);
 }
 
 :global(.is-inview).c-work__header .c-work__title,
@@ -155,18 +154,26 @@
   .c-work__header {
     grid-template-columns: repeat(10, 1fr);
     align-items: end;
+
+    text-align: left;
   }
 
   .c-work__title {
     justify-self: start;
+
     grid-column-start: 1;
     grid-column-end: 4;
+
+    transform: translateY(80px) scaleY(1.8) skewY(8deg);
   }
 
   .c-work__release {
     justify-self: end;
+
     grid-column-start: 9;
     grid-column-end: 11;
+
+    transform: translateY(80px) scaleY(1.4) skewY(-8deg);
   }
 
   .c-work__month {
@@ -177,6 +184,8 @@
   .c-work__media {
     grid-column-start: 1;
     grid-column-end: 13;
+    
+    transform: translateY(30%) skewY(4deg);
   }
 
   .c-work__placeholder {
@@ -189,6 +198,14 @@
 
   .c-work__media video + .c-work__placeholder {
     display: none;
+  }
+
+  .c-work__detail:nth-child(2) {
+    grid-column-start: 4;
+  }
+
+  .c-work__detail:nth-child(3) {
+    grid-column-start: 10;
   }
 }
 </style>
@@ -217,7 +234,8 @@
       <div class="c-work__year">{year}</div>
     </h4>
   </header>
-  <Spacer size={10} />
+  <Spacer size={3} only="mobile" />
+  <Spacer size={10} only="desktop" />
   <div 
     class="l-grid c-work__content"
     data-scroll
@@ -246,7 +264,7 @@
   </div>
   <Spacer size={6} />
   <div 
-    class="c-work__details"
+    class="c-work__details l-grid"
     data-scroll
   >
     <span class="c-work__detail">{PrismicDOM.RichText.asText(data.type)}</span>

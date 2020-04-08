@@ -1,21 +1,31 @@
 <script>
-  export let size;
+  export let size, only;
 </script>
 
 <style>
   .o-spacer {
-    display: block;
-    height: calc( var( --spacer ) * ( var( --size ) / 2 ) );
+    height: calc( var( --spacer ) * ( var( --size ) ) );
     font-size: 0;
     margin: 0;
     padding: 0;
   }
 
+  .o-spacer--only-desktop {
+    display: none;
+  }
+
   @media screen and (min-width: 40em) {
-    .o-spacer {
-      height: calc( var( --spacer ) * var( --size ) );
+    .o-spacer--only-desktop {
+      display: block;
+    }
+
+    .o-spacer--only-mobile {
+      display: none;
     }
   }
 </style>
 
-<div style="--size:{size}" class="o-spacer"></div>
+<div
+  style="--size:{size}"
+  class="o-spacer {only && ` o-spacer--only-${only}`}"
+></div>
