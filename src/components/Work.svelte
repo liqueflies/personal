@@ -240,7 +240,7 @@
     </h4>
   </header>
   <Spacer size={3} only="mobile" />
-  <Spacer size={10} only="desktop" />
+  <Spacer size={8} only="desktop" />
   <div 
     class="l-grid c-work__content"
     data-scroll
@@ -274,7 +274,7 @@
   >
     <span class="c-work__detail">{PrismicDOM.RichText.asText(data.type)}</span>
     <span class="c-work__detail">{PrismicDOM.RichText.asText(data.role)}</span>
-    <span class="c-work__detail"><a href='{PrismicDOM.Link.url(data.link)}'>Visit Site</a></span>
+    <span class="c-work__detail"><a rel="noopener" target="_blank" href='{PrismicDOM.Link.url(data.link)}'>Visit Site</a></span>
   </div>
   <Spacer size={15} />
 </article>

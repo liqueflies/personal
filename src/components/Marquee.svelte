@@ -4,20 +4,25 @@
   import emitter from '../emitter';
 
   let transform = 0;
+  let isExited = false;
   const CALL_VALUE = 'marquee';
 
   function onScroll(instance) {
-    transform -= Math.min(Math.abs(instance.speed), 5);
-  }
-
-  function onCall({ value, way, obj }) {
-    if (value === CALL_VALUE && way === 'exit') {
+    if (isExited) {
       // avoid continuously set to 0.
       if (transform === 0) {
         return false;
       }
   
       transform = 0;
+    } else {
+      transform -= Math.min(Math.abs(instance.speed), 5);
+    }
+  }
+
+  function onCall({ value, way }) {
+    if (value === CALL_VALUE) {
+      isExited = way === 'exit';
     }
   }
 

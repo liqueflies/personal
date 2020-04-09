@@ -7,8 +7,12 @@
   text-align: center;
 }
 
+.c-abstract__content {
+  font-size: var(--font-size-h2);
+}
+
 .c-abstract__para {
-  font-size: 42px;
+  /* font-size: 42px; */
   line-height: 1;
   letter-spacing: var(--letter-spacing-headings);
 
@@ -41,9 +45,8 @@
 
 @media screen and (min-width: 40em) {
   .c-abstract__para {
-      font-size: 64px;
       transform: translateY(80px) scaleY(1.4) skewY(13deg);
-      transition: all 1.2s;
+      transition: all 1s;
   }
 
   .c-abstract__para:nth-child(1) {
@@ -55,11 +58,11 @@
   }
 
   .c-abstract__para:nth-child(3) {
-    transition-delay: 0.5s;
+    transition-delay: 0.45s;
   }
 
   .c-abstract__para:nth-child(4) {
-    transition-delay: 0.65s;
+    transition-delay: 0.55s;
   }
 }
 </style>

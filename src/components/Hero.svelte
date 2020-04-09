@@ -5,17 +5,31 @@
   import emitter from '../emitter';
 
   let patchRef;
+  let isExited = false;
+  const CALL_VALUE = 'hero';
+
+  function onCall({ value, way }) {
+    if (value === CALL_VALUE) {
+      isExited = way === 'exit';
+    }
+  }
   
   function onScroll(instance) {
+    if (isExited) {
+      return false;
+    }
+
     const progress = patchRef.offsetHeight * instance.scroll.y / instance.limit;
     patchRef.style.transform = `scaleX(${1 + progress * 0.01 })`;
   }
 
   function unsubscribe() {
     emitter.off('scroll', onScroll);
+    emitter.off('call', onCall);
   }
   
   emitter.on('scroll', onScroll);
+  emitter.on('call', onCall);
   onDestroy(unsubscribe);
 </script>
 
@@ -85,7 +99,7 @@
 </style>
 
 <div data-scroll-section class="l-container l-container--full">
-  <figure class="c-hero l-grid">
+  <figure class="c-hero l-grid" data-scroll data-scroll-repeat data-scroll-call={CALL_VALUE}>
     <div class="l-container l-container--small c-hero__frame">
       <picture>
         <source media="(max-width: 768px)"

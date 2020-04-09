@@ -2,10 +2,23 @@
   import Spacer from '../components/Spacer';
 
   const today = new Date().getFullYear();
+  let isThemeInPreview = false;
+  let isThemeDark = false;
+
+  function onToggleEnter() {
+    isThemeInPreview = true;
+    window.document.body.classList.toggle('t-dark');
+  } 
+
+  function onToggleLeave() {
+    if (isThemeInPreview) {
+      window.document.body.classList.toggle('t-dark');
+    }
+  }
 
   function onToggleClick(e) {
-    e.preventDefault();
-    window.document.body.classList.toggle('t-dark');
+    isThemeInPreview = false;
+    isThemeDark = !isThemeDark;
   }
 </script>
 
@@ -54,8 +67,21 @@
   }
 
   .c-footer__contact {
-    transform: translateY(80px);
-    transition: all .75s var(--ease-in-out);
+    transform-origin: top left;
+    transform: translateY(40px) scaleY(1.4) skewY(8deg);
+    transition: all 0.8s var(--ease-in-out);
+  }
+
+  .c-footer__contact:nth-child(1) {
+    transition-delay: 0.1s;
+  }
+
+  .c-footer__contact:nth-child(2) {
+    transition-delay: 0.3s;
+  }
+
+  .c-footer__contact:nth-child(3) {
+    transition-delay: 0.5s;
   }
 
   .c-footer__contact,
@@ -74,6 +100,10 @@
     transition: all 1s var(--ease-in-out);
   }
 
+  .c-footer__lg {
+    transition-delay: 0.15s;
+  }
+
   .c-footer__sst {
     grid-column-start: 4;
     transition-delay: 0.25s;
@@ -90,18 +120,6 @@
   :global(.is-inview) .c-footer__toggle {
     transform: none;
     opacity: 1;
-  }
-
-  :global(.is-inview) .c-footer__contact:nth-child(1) {
-    transition-delay: 0.15s;
-  }
-
-  :global(.is-inview) .c-footer__contact:nth-child(2) {
-    transition-delay: 0.25s;
-  }
-
-  :global(.is-inview) .c-footer__contact:nth-child(3) {
-    transition-delay: 0.3s;
   }
 }
 </style>
@@ -132,7 +150,14 @@
   <div class="l-grid" data-scroll data-scroll-repeat>
     <div class="c-footer__lg">LG{today} — ∞</div>
     <div class="c-footer__sst">(: — S)</div>
-    <button class="c-footer__toggle" on:click={onToggleClick}>Dark Mode</button>
+    <button
+      class="c-footer__toggle"
+      on:click={onToggleClick}
+      on:mouseenter={onToggleEnter}
+      on:mouseleave={onToggleLeave}
+    >
+      {isThemeDark ? "Light" : "Dark"} Mode
+    </button>
   </div>
   <Spacer size="10" />
 </footer>
