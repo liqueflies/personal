@@ -1,5 +1,54 @@
 <script>
   import Spacer from '../components/Spacer.svelte';
+  import { renderable } from '../context/canvas';
+  import { tweened } from 'svelte/motion';
+
+  const lerp = (a, b, n) => ((1 - n) * a) + (n * b);
+
+  let mX = 0;
+  let mY = 0;
+
+  let x = 0;
+  let y = 0;
+  let lerpX = 0;
+  let lerpY = 0;
+
+  let emoji = '';
+
+  function handleMouseMove(e) {
+    mX = e.clientX;
+    mY = e.clientY;
+    emoji = e.target.dataset.emoji;
+  }
+
+	renderable(props => {
+    const { context, width, height } = props;
+    
+    context.clearRect(0, 0, width, height);
+    context.font = '96px serif';
+
+    const { width: textWidth } = context.measureText(emoji);
+
+    lerpX = lerp(mX - textWidth * 0.5, x, 0.8);
+    lerpY = lerp(mY + 48, y, 0.8);
+
+    context.globalAlpha = 0.5;
+    context.fillText(emoji, lerpX, lerpY);
+
+    lerpX = lerp(mX - textWidth * 0.5, lerpX, 0.2);
+    lerpY = lerp(mY + 48, lerpY, 0.2);
+
+    context.globalAlpha = 1;
+    context.fillText(emoji, lerpX + 10, lerpY);
+
+    lerpX = lerp(mX - textWidth * 0.5, lerpX, 0.2);
+    lerpY = lerp(mY + 48, lerpY, 0.2);
+
+    context.fillText(emoji, lerpX + 20, lerpY);
+
+    x = lerpX;
+    y = lerpY;
+  });
 </script>
 
 <style>
@@ -77,7 +126,7 @@
   >
     <div class="c-abstract__para">Creative</div>
     <div class="c-abstract__para serif">Technologist</div>
-    <div class="c-abstract__para">Music <span class="serif">&</span> Art</div>
+    <div class="c-abstract__para"><span data-emoji="👂" on:mousemove={handleMouseMove}>Music</span> <span class="serif">&</span> <span  data-emoji="🎨" on:mousemove={handleMouseMove}>Art</span></div>
     <div class="c-abstract__para serif">aficionado.</div>
   </div>
   <Spacer size="10" only="mobile" />

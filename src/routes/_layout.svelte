@@ -3,6 +3,7 @@
 
 	import Header from '../components/Header.svelte';
 	import Footer from '../components/Footer.svelte';
+	import Canvas from '../components/Canvas.svelte';
 
   import emitter from '../emitter';
 
@@ -37,7 +38,9 @@
 </style>
 
 <main bind:this={rootRef} class="l-grid">
-  <Header />
-  <slot />
-  <Footer />
+  <Canvas>
+    <Header />
+    <slot></slot>
+    <Footer />
+  </Canvas>
 </main>

@@ -21,34 +21,45 @@
   let isActive = false;
   let vw, vh;
 
-  function onMouseMove(e) {
-    if (!isActive) {
-      return false;
-    }
+  import { renderable } from '../context/canvas';
 
-    $mX = e.clientX - (vw * 0.5);
-    $mY = e.clientY - (vh * 0.5);
-  }
+	// renderable(props => {
+  //   const { context, width, height } = props;
+	// 	context.clearRect(0, 0, width, height);
+  //   context.fillStyle = 'green';
+  //   context.fillRect(0, 0, width, height);
+  // });
+  
+  function onMouseMove() {}
 
-  function onCall({ value, way, obj }) {
-    if (value === CALL_VALUE) {
-      isActive = way === 'enter';
+  // function onMouseMove(e) {
+  //   if (!isActive) {
+  //     return false;
+  //   }
 
-      // avoid continuously set to 0.
-      if (!isActive && $mX !== 0 && !$mY !== 0) {
-        $mX = 0;
-        $mY = 0;
-      }
-    }
-  }
+  //   $mX = e.clientX - (vw * 0.5);
+  //   $mY = e.clientY - (vh * 0.5);
+  // }
 
-  function unsubscribe() {
-    emitter.off('call', onCall);
-  }
+  // function onCall({ value, way, obj }) {
+  //   if (value === CALL_VALUE) {
+  //     isActive = way === 'enter';
 
-  emitter.on('call', onCall);
+  //     // avoid continuously set to 0.
+  //     if (!isActive && $mX !== 0 && !$mY !== 0) {
+  //       $mX = 0;
+  //       $mY = 0;
+  //     }
+  //   }
+  // }
 
-  onDestroy(unsubscribe);
+  // function unsubscribe() {
+  //   emitter.off('call', onCall);
+  // }
+
+  // emitter.on('call', onCall);
+
+  // onDestroy(unsubscribe);
 
   const release = new Date(data.release);
   const year = release.getFullYear().toString().substr(2);
@@ -223,7 +234,6 @@
 <article 
   class="c-work"
   data-scroll-section
-  on:mousemove={onMouseMove}
 >
   <header 
     class="c-work__header"
@@ -248,10 +258,11 @@
     data-scroll-offset="100"
   >
     <div 
-      class="c-work__media"
       data-scroll
       data-scroll-call="{CALL_VALUE}"
       data-scroll-repeat
+      class="c-work__media"
+      on:mousemove={onMouseMove}
     >
       {#if data.video.url}
         <video
