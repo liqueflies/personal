@@ -70,7 +70,6 @@
   <div
     class="c-abstract__content"
     data-scroll
-    data-scroll-repeat
     data-scroll-position="bottom"
   >
     <div class="c-abstract__para">Creative</div>
