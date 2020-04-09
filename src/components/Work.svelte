@@ -142,7 +142,7 @@
 .c-work__media {
   transform: translateY(40px);
 
-  transition-delay: 0.35s;
+  transition-delay: .35s;
 }
 
 :global(.is-inview).c-work__header .c-work__title,
@@ -189,7 +189,7 @@
     grid-column-end: 13;
     
     /* transform: translateY(30%) skewY(4deg); */
-    transform: translateY(30%) scale(1.2);
+    transform: translateY(30%) scale(1.05);
     transition-delay: 0s;
   }
 
