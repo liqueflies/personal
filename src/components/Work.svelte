@@ -229,7 +229,7 @@
     class="c-work__header"
     data-scroll
     data-scroll-position="bottom"
-    data-scroll-offset="100"
+    data-scroll-offset="150"
   >
     <h2 class="c-work__title">
       {PrismicDOM.RichText.asText(data.title)}

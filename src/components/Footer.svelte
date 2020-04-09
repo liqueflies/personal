@@ -55,6 +55,7 @@
 
   .c-footer__contact {
     transform: translateY(80px);
+    transition: all .75s var(--ease-in-out);
   }
 
   .c-footer__contact,
@@ -63,7 +64,6 @@
   .c-footer__toggle {
     opacity: 0;
     transform-style: preserve-3d;
-    transition: all 1s var(--ease-in-out);
     transition-property: opacity, transform;
   }
 
@@ -71,6 +71,7 @@
   .c-footer__sst,
   .c-footer__toggle {
     transform: translateY(30px);
+    transition: all 1s var(--ease-in-out);
   }
 
   .c-footer__sst {
@@ -111,7 +112,12 @@
     <div>Creative Technologist</div>
     <Spacer size="10" />
   </div>
-  <ul class="c-footer__list" data-scroll data-scroll-repeat>
+  <ul class="c-footer__list"
+    data-scroll
+    data-scroll-repeat
+    data-scroll-position="bottom"
+    data-scroll-offset="100"
+  >
     <li class="c-footer__contact">
       <a class="h4" href="/">Email</a>
     </li>

@@ -51,11 +51,11 @@
   }
 
   .c-abstract__para:nth-child(2) {
-    transition-delay: 0.3s;
+    transition-delay: 0.35s;
   }
 
   .c-abstract__para:nth-child(3) {
-    transition-delay: 0.45s;
+    transition-delay: 0.5s;
   }
 
   .c-abstract__para:nth-child(4) {
@@ -67,7 +67,12 @@
 <div data-scroll-section class="l-container l-container--small c-abstract">
   <Spacer size="10" only="mobile" />
   <Spacer size="30" only="desktop" />
-  <div class="c-abstract__content" data-scroll data-scroll-position="bottom" data-scroll-offset="200">
+  <div
+    class="c-abstract__content"
+    data-scroll
+    data-scroll-repeat
+    data-scroll-position="bottom"
+  >
     <div class="c-abstract__para">Creative</div>
     <div class="c-abstract__para serif">Technologist</div>
     <div class="c-abstract__para">Music <span class="serif">&</span> Art</div>
