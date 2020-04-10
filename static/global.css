@@ -27,6 +27,7 @@
 	--font-size-default: 14px;
 
 	--letter-spacing-headings: -0.09em;
+	--letter-spacing-sans: -0.05em;
 	--spacer: 8px;
 
 	--ease-in-out: cubic-bezier(.61, .01, .08, .99);
@@ -212,6 +213,7 @@ a:hover::after {
 
 .serif {
 	font-family: var(--font-family-secondary);
+	letter-spacing: var(--letter-spacing-headings);
 }
 
 body.t-dark {

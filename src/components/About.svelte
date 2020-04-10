@@ -98,7 +98,7 @@
 
 .c-abstract__para {
   line-height: 1;
-  letter-spacing: var(--letter-spacing-headings);
+  letter-spacing: var(--letter-spacing-sans);
 
   opacity: 0;
 
