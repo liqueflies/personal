@@ -1,24 +1,112 @@
 <script>
   import Spacer from '../components/Spacer';
+  import { renderable, context } from '../context/canvas';
+  import { tweened } from 'svelte/motion';
+
+  import { lerp } from '../utils/math';
+  import { imageLoader } from '../utils/loader';
+
+  const frames = [];
+  const size = { x: 0, y: 0 };
+
+  let mX = 0;
+  let mY = 0;
+
+  let ctx = null;
+  let texture = null;
+
+  let alpha = tweened(0, {
+    duration: 200
+  });
+
+  function Image() {
+    this.x = 0;
+    this.y = 0;
+
+    this.draw = function(x, y) {
+      $context.drawImage(texture, x, y, size.x, size.y);
+      this.x = x;
+      this.y = y;
+    }
+  }
+
+  renderable({
+    setup: props => {
+      imageLoader('polaroid.png', img => {
+        texture = img;
+        size.x = img.width * 0.25;
+        size.y = img.height * 0.25;
+
+        for(let i = 0; i < 3; i++) {
+          const e = new Image();
+          frames.push(e);
+        }
+      });
+
+      alpha.subscribe(value => {
+        $context.globalAlpha = value;
+      });
+
+      $context.globalAlpha = 0;
+    },
+    render: props => {
+  
+      if ($alpha === 0) {
+        return false;
+      }
+
+      let x = mX;
+      let y = mY - size.y;
+
+      frames.forEach((e, i) => {
+        const next = frames[i + 1] || frames[0];
+
+        e.draw(x, y);
+
+        x = lerp(x, next.x, 0.8);
+        y = lerp(y, next.y, 0.8);
+      });
+    }
+  });
 
   const today = new Date().getFullYear();
   let isThemeInPreview = false;
   let isThemeDark = false;
 
-  function onToggleEnter() {
+  function handleToggleEnter() {
     isThemeInPreview = true;
     window.document.body.classList.toggle('t-dark');
   } 
 
-  function onToggleLeave() {
+  function handleToggleLeave() {
     if (isThemeInPreview) {
       window.document.body.classList.toggle('t-dark');
     }
   }
 
-  function onToggleClick(e) {
+  function handleToggleClick(e) {
     isThemeInPreview = false;
     isThemeDark = !isThemeDark;
+  }
+
+  function handleMouseMove(e) {
+    mX = e.clientX;
+    mY = e.clientY;
+  }
+
+  function handleMouseEnter(e) {
+    frames.forEach(e => {
+      e.x = mX;
+      e.y = mY;
+    });
+
+    $alpha = 1;
+  }
+
+  function handleMouseLeave(e) {
+    setTimeout(() => {
+      $alpha = 0;
+    }, 300);
   }
 </script>
 
@@ -147,17 +235,21 @@
     </li>
   </ul>
   <Spacer size="10" />
-  <div class="l-grid" data-scroll data-scroll-repeat>
+  <div class="l-grid" data-scroll data-scroll-repeat on:mouseleave={handleMouseLeave}>
     <div class="c-footer__lg">LG{today} — ∞</div>
-    <div class="c-footer__sst">(: — S)</div>
+    <div class="c-footer__sst" on:mouseenter={handleMouseEnter}>(: — S)</div>
     <button
       class="c-footer__toggle"
-      on:click={onToggleClick}
-      on:mouseenter={onToggleEnter}
-      on:mouseleave={onToggleLeave}
+      on:click={handleToggleClick}
+      on:mouseenter={handleToggleEnter}
+      on:mouseleave={handleToggleLeave}
     >
       {isThemeDark ? "Light" : "Dark"} Mode
     </button>
   </div>
   <Spacer size="10" />
 </footer>
+
+<svelte:body
+  on:mousemove={handleMouseMove}
+/>

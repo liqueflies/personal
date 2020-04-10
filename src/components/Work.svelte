@@ -264,7 +264,7 @@
       class="c-work__media"
       on:mousemove={onMouseMove}
     >
-      {#if data.video.url}
+      <!-- {#if data.video.url}
         <video
           muted
           loop
@@ -274,7 +274,7 @@
           style="transform: translate3d({$mX}px, {$mY}px, 0); transform-origin: 50% 50%;"
           src="{PrismicDOM.Link.url(data.video)}"
         />
-      {/if}
+      {/if} -->
       <div class="c-work__placeholder"></div>
     </div>
   </div>

@@ -55,6 +55,9 @@
   function render (dt) {
     context.save();
     context.scale($pixelRatio, $pixelRatio);
+
+    context.clearRect(0, 0, $width, $height);
+
     listeners.forEach(entity => {
       try {
         if (entity.mounted && entity.ready && entity.render) {

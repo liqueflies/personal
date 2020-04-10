@@ -1,6 +1,6 @@
 <script>
   import Spacer from '../components/Spacer.svelte';
-  import { renderable, context } from '../context/canvas';
+  import { renderable, context, height, width } from '../context/canvas';
   import { tweened } from 'svelte/motion';
 
   import { lerp } from '../utils/math';
@@ -33,20 +33,23 @@
     }
   }
 
-  for(let i = 0; i < 3; i++) {
-    const e = new Emoji();
-    emoticons.push(e);
-  }
-
-	renderable({
+  renderable({
     setup: props => {
+      for(let i = 0; i < 3; i++) {
+        const e = new Emoji();
+        emoticons.push(e);
+      }
+
       alpha.subscribe(value => {
         $context.globalAlpha = value;
       });
+
+      $context.globalAlpha = 0;
     },
     render: props => {
-      const { width, height } = props;
-      $context.clearRect(0, 0, width, height);
+      if ($alpha === 0) {
+        return false;
+      }
 
       let x = mX - size;
       let y = mY + size;
@@ -68,8 +71,13 @@
   }
 
   function handleMouseEnter(e) {
-    tile = e.target.dataset.emoji;
+    emoticons.forEach(e => {
+      e.x = mX;
+      e.y = mY;
+    });
+
     $alpha = 1;
+    tile = e.target.dataset.emoji;
   }
 
   function handleMouseLeave(e) {
