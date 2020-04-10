@@ -17,7 +17,7 @@
   let texture = null;
 
   let alpha = tweened(0, {
-    duration: 400,
+    duration: 300,
     easing: linear
   });
 
@@ -67,6 +67,8 @@
 
         x = lerp(x, next.x, 0.9);
         y = lerp(y, next.y, 0.9);
+
+        $context.globalCompositeOperation = 'destination-over';
       });
     }
   });
@@ -242,9 +244,13 @@
     </li>
   </ul>
   <Spacer size="10" only="mobile" />
-  <div class="l-grid c-footer__credits" data-scroll data-scroll-repeat on:mouseleave={handleMouseLeave}>
+  <div class="l-grid c-footer__credits" data-scroll data-scroll-repeat>
     <div class="c-footer__lg">LG{today} — ∞</div>
-    <div class="c-footer__sst" on:mouseenter={handleMouseEnter}>(: — S)</div>
+    <div
+      class="c-footer__sst"
+      on:mouseenter={handleMouseEnter}
+      on:mouseleave={handleMouseLeave}
+    >(: — S)</div>
     <button
       class="c-footer__toggle"
       on:click={handleToggleClick}
