@@ -114,6 +114,10 @@
   transition-property: opacity, transform;
 }
 
+.c-abstract__para.serif {
+	letter-spacing: var(--letter-spacing-headings);
+}
+
 .c-abstract__para:nth-child(2) {
   transition-delay: 0.15s;
 }

@@ -213,7 +213,6 @@ a:hover::after {
 
 .serif {
 	font-family: var(--font-family-secondary);
-	letter-spacing: var(--letter-spacing-headings);
 }
 
 body.t-dark {
