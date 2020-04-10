@@ -1,54 +1,82 @@
 <script>
   import Spacer from '../components/Spacer.svelte';
-  import { renderable } from '../context/canvas';
+  import { renderable, context } from '../context/canvas';
   import { tweened } from 'svelte/motion';
 
-  const lerp = (a, b, n) => ((1 - n) * a) + (n * b);
+  import { lerp } from '../utils/math';
+
+  const TILE_SIZE = 86;
+  
+  const emoticons = [];
+  const size = TILE_SIZE * 0.5;
 
   let mX = 0;
   let mY = 0;
 
-  let x = 0;
-  let y = 0;
-  let lerpX = 0;
-  let lerpY = 0;
+  let ctx = null;
+  let tile = '';
 
-  let emoji = '';
+  let alpha = tweened(0, {
+    duration: 200
+  });
+
+  function Emoji() {
+    this.x = 0;
+    this.y = 0;
+
+    this.draw = function(x, y) {
+      $context.font = `${TILE_SIZE}px serif`;
+      $context.fillText(tile, x, y);
+
+      this.x = x;
+      this.y = y;
+    }
+  }
+
+  for(let i = 0; i < 3; i++) {
+    const e = new Emoji();
+    emoticons.push(e);
+  }
+
+	renderable({
+    setup: props => {
+      alpha.subscribe(value => {
+        $context.globalAlpha = value;
+      });
+    },
+    render: props => {
+      const { width, height } = props;
+      $context.clearRect(0, 0, width, height);
+
+      let x = mX - size;
+      let y = mY + size;
+
+      emoticons.forEach((e, i) => {
+        const next = emoticons[i + 1] || emoticons[0];
+
+        e.draw(x, y);
+
+        x = lerp(x, next.x, 0.8);
+        y = lerp(y, next.y, 0.8);
+      });
+    }
+  });
 
   function handleMouseMove(e) {
     mX = e.clientX;
     mY = e.clientY;
-    emoji = e.target.dataset.emoji;
   }
 
-	renderable(props => {
-    const { context, width, height } = props;
-    
-    context.clearRect(0, 0, width, height);
-    context.font = '96px serif';
+  function handleMouseEnter(e) {
+    tile = e.target.dataset.emoji;
+    $alpha = 1;
+  }
 
-    const { width: textWidth } = context.measureText(emoji);
-
-    lerpX = lerp(mX - textWidth * 0.5, x, 0.8);
-    lerpY = lerp(mY + 48, y, 0.8);
-
-    context.globalAlpha = 0.5;
-    context.fillText(emoji, lerpX, lerpY);
-
-    lerpX = lerp(mX - textWidth * 0.5, lerpX, 0.2);
-    lerpY = lerp(mY + 48, lerpY, 0.2);
-
-    context.globalAlpha = 1;
-    context.fillText(emoji, lerpX + 10, lerpY);
-
-    lerpX = lerp(mX - textWidth * 0.5, lerpX, 0.2);
-    lerpY = lerp(mY + 48, lerpY, 0.2);
-
-    context.fillText(emoji, lerpX + 20, lerpY);
-
-    x = lerpX;
-    y = lerpY;
-  });
+  function handleMouseLeave(e) {
+    setTimeout(() => {
+      $alpha = 0;
+    }, 300);
+  }
 </script>
 
 <style>
@@ -61,7 +89,6 @@
 }
 
 .c-abstract__para {
-  /* font-size: 42px; */
   line-height: 1;
   letter-spacing: var(--letter-spacing-headings);
 
@@ -116,7 +143,10 @@
 }
 </style>
 
-<div data-scroll-section class="l-container l-container--small c-abstract">
+<div 
+  data-scroll-section 
+  class="l-container l-container--small c-abstract"
+>
   <Spacer size="10" only="mobile" />
   <Spacer size="30" only="desktop" />
   <div
@@ -124,11 +154,32 @@
     data-scroll
     data-scroll-position="bottom"
   >
-    <div class="c-abstract__para">Creative</div>
+    <div class="c-abstract__para" 
+      data-emoji="💡"
+      on:mouseenter={handleMouseEnter}
+      on:mouseleave={handleMouseLeave}
+    >
+      Creative
+    </div>
     <div class="c-abstract__para serif">Technologist</div>
-    <div class="c-abstract__para"><span data-emoji="👂" on:mousemove={handleMouseMove}>Music</span> <span class="serif">&</span> <span  data-emoji="🎨" on:mousemove={handleMouseMove}>Art</span></div>
+    <div class="c-abstract__para"
+      on:mouseleave={handleMouseLeave}
+    >
+      <span 
+        data-emoji="👂"
+        on:mouseenter={handleMouseEnter}
+      >Music</span> 
+      <span class="serif">&</span>
+      <span 
+        data-emoji="🎨"
+        on:mouseenter={handleMouseEnter}
+      >Art</span></div>
     <div class="c-abstract__para serif">aficionado.</div>
   </div>
   <Spacer size="10" only="mobile" />
   <Spacer size="30" only="desktop" />
 </div>
+
+<svelte:body
+  on:mousemove={handleMouseMove}
+/>
