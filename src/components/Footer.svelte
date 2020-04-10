@@ -160,13 +160,13 @@
     align-items: center;
   }
 
-  .c-footer__contact {
+  .c-footer__list {
     transform-origin: top left;
     transform: translateY(40px) scaleY(1.4) skewY(8deg);
     transition: all 0.8s var(--ease-in-out);
   }
 
-  .c-footer__contact:nth-child(1) {
+  /* .c-footer__contact:nth-child(1) {
     transition-delay: 0.1s;
   }
 
@@ -176,9 +176,9 @@
 
   .c-footer__contact:nth-child(3) {
     transition-delay: 0.5s;
-  }
+  } */
 
-  .c-footer__contact,
+  .c-footer__list,
   .c-footer__lg,
   .c-footer__sst,
   .c-footer__toggle {
@@ -200,8 +200,8 @@
   }
 
   .c-footer__sst {
-    grid-column-start: 2;
-    grid-column-end: 7;
+    grid-column-start: 3;
+    grid-column-end: 6;
     text-align: center;
     transition-delay: 0.25s;
   }
@@ -211,7 +211,7 @@
     transition-delay: 0.35s;
   }
 
-  :global(.is-inview) .c-footer__contact,
+  :global(.is-inview) .c-footer__list,
   :global(.is-inview) .c-footer__lg,
   :global(.is-inview) .c-footer__sst,
   :global(.is-inview) .c-footer__toggle {
@@ -227,22 +227,24 @@
     <div>Creative Technologist</div>
     <Spacer size="10" />
   </div>
-  <ul class="c-footer__list"
+  <div 
     data-scroll
     data-scroll-repeat
     data-scroll-position="bottom"
     data-scroll-offset="100"
   >
-    <li class="c-footer__contact">
-      <a class="h4" href="/">Email</a>
-    </li>
-    <li class="c-footer__contact">
-      <a class="h4" href="https://twitter.com/loregirardi" rel="noopener" target="_blank">Twitter</a>
-    </li>
-    <li class="c-footer__contact">
-      <a class="h4" href="https://www.linkedin.com/in/lorenzo-girardi-61241374/" rel="noopener" target="_blank">LinkedIn</a>
-    </li>
-  </ul>
+    <ul class="c-footer__list">
+      <li class="c-footer__contact">
+        <a class="h4" href="/">Email</a>
+      </li>
+      <li class="c-footer__contact">
+        <a class="h4" href="https://twitter.com/loregirardi" rel="noopener" target="_blank">Twitter</a>
+      </li>
+      <li class="c-footer__contact">
+        <a class="h4" href="https://www.linkedin.com/in/lorenzo-girardi-61241374/" rel="noopener" target="_blank">LinkedIn</a>
+      </li>
+    </ul>
+  </div>
   <Spacer size="10" only="mobile" />
   <div class="l-grid c-footer__credits" data-scroll data-scroll-repeat>
     <div class="c-footer__lg">LG{today} — ∞</div>
