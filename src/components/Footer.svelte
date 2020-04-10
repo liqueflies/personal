@@ -1,8 +1,9 @@
 <script>
-  import Spacer from '../components/Spacer';
   import { renderable, context } from '../context/canvas';
   import { tweened } from 'svelte/motion';
+  import { linear } from 'svelte/easing';
 
+  import Spacer from '../components/Spacer';
   import { lerp } from '../utils/math';
   import { imageLoader } from '../utils/loader';
 
@@ -16,7 +17,8 @@
   let texture = null;
 
   let alpha = tweened(0, {
-    duration: 200
+    duration: 400,
+    easing: linear
   });
 
   function Image() {
@@ -37,7 +39,7 @@
         size.x = img.width * 0.25;
         size.y = img.height * 0.25;
 
-        for(let i = 0; i < 3; i++) {
+        for(let i = 0; i < 4; i++) {
           const e = new Image();
           frames.push(e);
         }
@@ -63,8 +65,8 @@
 
         e.draw(x, y);
 
-        x = lerp(x, next.x, 0.8);
-        y = lerp(y, next.y, 0.8);
+        x = lerp(x, next.x, 0.9);
+        y = lerp(y, next.y, 0.9);
       });
     }
   });
@@ -104,9 +106,7 @@
   }
 
   function handleMouseLeave(e) {
-    setTimeout(() => {
-      $alpha = 0;
-    }, 300);
+    $alpha = 0;
   }
 </script>
 
@@ -154,6 +154,10 @@
     display: none;
   }
 
+  .c-footer__credits {
+    align-items: center;
+  }
+
   .c-footer__contact {
     transform-origin: top left;
     transform: translateY(40px) scaleY(1.4) skewY(8deg);
@@ -184,6 +188,7 @@
   .c-footer__lg,
   .c-footer__sst,
   .c-footer__toggle {
+    padding: 80px 0;
     transform: translateY(30px);
     transition: all 1s var(--ease-in-out);
   }
@@ -193,7 +198,9 @@
   }
 
   .c-footer__sst {
-    grid-column-start: 4;
+    grid-column-start: 2;
+    grid-column-end: 7;
+    text-align: center;
     transition-delay: 0.25s;
   }
 
@@ -234,8 +241,8 @@
       <a class="h4" href="https://www.linkedin.com/in/lorenzo-girardi-61241374/" rel="noopener" target="_blank">LinkedIn</a>
     </li>
   </ul>
-  <Spacer size="10" />
-  <div class="l-grid" data-scroll data-scroll-repeat on:mouseleave={handleMouseLeave}>
+  <Spacer size="10" only="mobile" />
+  <div class="l-grid c-footer__credits" data-scroll data-scroll-repeat on:mouseleave={handleMouseLeave}>
     <div class="c-footer__lg">LG{today} — ∞</div>
     <div class="c-footer__sst" on:mouseenter={handleMouseEnter}>(: — S)</div>
     <button
@@ -247,7 +254,7 @@
       {isThemeDark ? "Light" : "Dark"} Mode
     </button>
   </div>
-  <Spacer size="10" />
+  <Spacer size="10" only="mobile" />
 </footer>
 
 <svelte:body

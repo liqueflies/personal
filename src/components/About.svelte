@@ -1,14 +1,17 @@
 <script>
+  import throttle from 'just-throttle';
+  import { tweened } from 'svelte/motion';
+  import { linear } from 'svelte/easing';
+
   import Spacer from '../components/Spacer.svelte';
   import { renderable, context, height, width } from '../context/canvas';
-  import { tweened } from 'svelte/motion';
 
   import { lerp } from '../utils/math';
 
   const TILE_SIZE = 86;
-  
-  const emoticons = [];
   const size = TILE_SIZE * 0.5;
+  
+  const frames = [];
 
   let mX = 0;
   let mY = 0;
@@ -17,7 +20,8 @@
   let tile = '';
 
   let alpha = tweened(0, {
-    duration: 200
+    duration: 300,
+    easing: linear
   });
 
   function Emoji() {
@@ -35,9 +39,9 @@
 
   renderable({
     setup: props => {
-      for(let i = 0; i < 3; i++) {
+      for(let i = 0; i < 4; i++) {
         const e = new Emoji();
-        emoticons.push(e);
+        frames.push(e);
       }
 
       alpha.subscribe(value => {
@@ -53,14 +57,16 @@
 
       let x = mX - size;
       let y = mY + size;
-
-      emoticons.forEach((e, i) => {
-        const next = emoticons[i + 1] || emoticons[0];
+      
+      frames.forEach((e, i) => {
+        const next = frames[i + 1] || frames[0];
 
         e.draw(x, y);
 
-        x = lerp(x, next.x, 0.8);
+        x = lerp(x, next.x, 0.85);
         y = lerp(y, next.y, 0.8);
+
+        $context.globalCompositeOperation = 'destination-over';
       });
     }
   });
@@ -71,7 +77,7 @@
   }
 
   function handleMouseEnter(e) {
-    emoticons.forEach(e => {
+    frames.forEach(e => {
       e.x = mX;
       e.y = mY;
     });
@@ -81,9 +87,7 @@
   }
 
   function handleMouseLeave(e) {
-    setTimeout(() => {
-      $alpha = 0;
-    }, 300);
+    $alpha = 0;
   }
 </script>
 
@@ -170,16 +174,14 @@
       Creative
     </div>
     <div class="c-abstract__para serif">Technologist</div>
-    <div class="c-abstract__para"
-      on:mouseleave={handleMouseLeave}
-    >
+    <div class="c-abstract__para" on:mouseleave={handleMouseLeave}>
       <span 
         data-emoji="👂"
         on:mouseenter={handleMouseEnter}
       >Music</span> 
       <span class="serif">&</span>
       <span 
-        data-emoji="🎨"
+        data-emoji="🖍"
         on:mouseenter={handleMouseEnter}
       >Art</span></div>
     <div class="c-abstract__para serif">aficionado.</div>
