@@ -6,7 +6,7 @@
   import Spacer from '../components/Spacer.svelte';
   import WorkMedia from '../components/WorkMedia.svelte';
 
-  // export let uid;
+  export let uid;
   export let data;
 
   const release = new Date(data.release);
@@ -146,7 +146,7 @@
   <Spacer size={3} only="mobile" />
   <Spacer size={8} only="desktop" />
 
-  <WorkMedia {...data} />
+  <WorkMedia {...data} uid={uid} />
 
   <Spacer size={6} />
 

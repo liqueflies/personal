@@ -1,15 +1,19 @@
 <script>
+  import { onDestroy } from 'svelte';
   import { tweened } from 'svelte/motion';
   import { linear } from 'svelte/easing';
   import { renderable, context, height, width } from '../context/canvas';
   import { imageLoader, videoLoader } from '../utils/loader';
   import { lerp } from '../utils/math';
+  import emitter from '../emitter';
 
   export let image;
   export let video;
+  export let uid;
 
   const frames = [];
   const size = { x: 0, y: 0 };
+  const CALL_VALUE = `media_${uid}`;
 
   let mX = 0;
   let mY = 0;
@@ -21,6 +25,7 @@
   let videoElement;
   
   let isPlaying = false;
+  let isExited = true;
 
   function Video() {
     this.x = ( $width * 0.5 ) - ( size.x * 0.5 );
@@ -50,7 +55,7 @@
       });
     },
     render: props => {
-      if (!isPlaying) {
+      if (isExited) {
         return false;
       }
 
@@ -70,6 +75,18 @@
     }
   });
 
+  function handleScrollCall({ value, way }) {
+    if (value === CALL_VALUE) {
+      isExited = way === 'exit';
+    }
+  }
+
+  function handleScroll(instance) {
+    const {top, left} = videoElement.getBoundingClientRect();
+    mX = left;
+    mY = top;
+  }
+
   function handleMouseMove(e) {
     mX = e.clientX - size.x * 0.5;
     mY = e.clientY - size.y * 0.5;
@@ -86,10 +103,19 @@
     mX = left;
     mY = top;
 
-    setTimeout(() => {
-      isPlaying = false;
-    }, 400);
+    // setTimeout(() => {
+    //   isPlaying = false;
+    // }, 400);
   }
+
+  function unsubscribe() {
+    emitter.off('call', handleScrollCall);
+    emitter.off('scroll', handleScroll);
+  }
+
+  emitter.on('call', handleScrollCall);
+  emitter.on('scroll', handleScroll);
+  onDestroy(unsubscribe);
 </script>
 
 <style>
@@ -145,6 +171,8 @@
     display: inline-block;
     width: 65%;
     height: 65%;
+
+    visibility: hidden;
   }
   
   .c-work__media video.hidden {
@@ -174,7 +202,19 @@
         />
       {/if} -->
       {#if video.url}
-        <video autoplay muted loop playsinline poster={image.url} bind:this={videoElement} class:hidden={isPlaying} >
+        <video 
+          autoplay
+          muted
+          loop
+          playsinline
+          poster={image.url}
+          bind:this={videoElement}
+          class:hidden={isPlaying}
+          data-scroll
+          data-scroll-repeat
+          data-scroll-call={CALL_VALUE}
+          data-scroll-position="bottom"
+        >
           <source data-src={video.url} type="video/mp4">
         </video>
       {/if}
