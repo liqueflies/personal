@@ -13,6 +13,9 @@
   let mX = 0;
   let mY = 0;
 
+  let x = 0;
+  let y = 0;
+
   let ctx = null;
   let texture = null;
 
@@ -57,8 +60,8 @@
         return false;
       }
 
-      let x = mX;
-      let y = mY - size.y;
+      x = lerp(x, mX, 0.4);
+      y = lerp(y, mY, 0.4);
 
       frames.forEach((e, i) => {
         const next = frames[i + 1] || frames[0];
@@ -95,7 +98,7 @@
 
   function handleMouseMove(e) {
     mX = e.clientX;
-    mY = e.clientY;
+    mY = e.clientY - size.y;
   }
 
   function handleMouseEnter(e) {

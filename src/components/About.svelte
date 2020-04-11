@@ -14,6 +14,9 @@
   let mX = 0;
   let mY = 0;
 
+  let x = 0;
+  let y = 0;
+
   let ctx = null;
   let tile = '';
 
@@ -53,8 +56,8 @@
         return false;
       }
 
-      let x = mX - size;
-      let y = mY + size;
+      x = lerp(x, mX, 0.4);
+      y = lerp(y, mY, 0.4);
       
       frames.forEach((e, i) => {
         const next = frames[i + 1] || frames[0];
@@ -70,8 +73,8 @@
   });
 
   function handleMouseMove(e) {
-    mX = e.clientX;
-    mY = e.clientY;
+    mX = e.clientX - size;
+    mY = e.clientY + size;
   }
 
   function handleMouseEnter(e) {
