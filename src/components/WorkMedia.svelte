@@ -82,9 +82,11 @@
   }
 
   function handleScroll(instance) {
-    const {top, left} = videoElement.getBoundingClientRect();
-    mX = left;
-    mY = top;
+    if (videoElement) {
+      const {top, left} = videoElement.getBoundingClientRect();
+      mX = left;
+      mY = top;
+    }
   }
 
   function handleMouseMove(e) {
