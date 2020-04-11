@@ -1,11 +1,9 @@
 <script>
-  import throttle from 'just-throttle';
   import { tweened } from 'svelte/motion';
   import { linear } from 'svelte/easing';
 
   import Spacer from '../components/Spacer.svelte';
   import { renderable, context, height, width } from '../context/canvas';
-
   import { lerp } from '../utils/math';
 
   const TILE_SIZE = 86;
@@ -64,7 +62,7 @@
         e.draw(x, y);
 
         x = lerp(x, next.x, 0.85);
-        y = lerp(y, next.y, 0.8);
+        y = lerp(y, next.y, 0.7);
 
         $context.globalCompositeOperation = 'destination-over';
       });
@@ -115,6 +113,7 @@
 }
 
 .c-abstract__para.serif {
+  pointer-events: none;
 	letter-spacing: var(--letter-spacing-headings);
 }
 
