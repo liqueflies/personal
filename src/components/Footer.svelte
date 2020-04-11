@@ -1,14 +1,19 @@
 <script>
-  import { renderable, context } from '../context/canvas';
+  import { onDestroy } from 'svelte';
   import { tweened } from 'svelte/motion';
   import { linear } from 'svelte/easing';
 
   import Spacer from '../components/Spacer';
   import { lerp } from '../utils/math';
   import { imageLoader } from '../utils/loader';
+  import { renderable, context } from '../context/canvas';
+  import emitter from '../emitter';
+
+  const CALL_VALUE = 'footer';
 
   const frames = [];
   const size = { x: 0, y: 0 };
+  const today = new Date();
 
   let mX = 0;
   let mY = 0;
@@ -16,10 +21,12 @@
   let x = 0;
   let y = 0;
 
-  let ctx = null;
   let texture = null;
 
-  let alpha = tweened(0, {
+  let isExited = true;
+  let isDarkThemeActive = false;
+
+  let contextAlpha = tweened(0, {
     duration: 300,
     easing: linear
   });
@@ -48,17 +55,15 @@
         }
       });
 
-      alpha.subscribe(value => {
+      contextAlpha.subscribe(value => {
         $context.globalAlpha = value;
       });
-
-      $context.globalAlpha = 0;
     },
     render: props => {
-  
-      if ($alpha === 0) {
+      if (isExited) {
         return false;
       }
+      console.log('rendering footer', $context.globalAlpha)
 
       x = lerp(x, mX, 0.4);
       y = lerp(y, mY, 0.4);
@@ -76,24 +81,9 @@
     }
   });
 
-  const today = new Date().getFullYear();
-  let isThemeInPreview = false;
-  let isThemeDark = false;
-
-  function handleToggleEnter() {
-    isThemeInPreview = true;
-    window.document.body.classList.toggle('t-dark');
-  } 
-
-  function handleToggleLeave() {
-    if (isThemeInPreview) {
-      window.document.body.classList.toggle('t-dark');
-    }
-  }
-
-  function handleToggleClick(e) {
-    isThemeInPreview = false;
-    isThemeDark = !isThemeDark;
+  function handleToggleTheme(e) {
+    isDarkThemeActive = !isDarkThemeActive
+    document.body.classList[isDarkThemeActive ? 'add' : 'remove']('t-dark')
   }
 
   function handleMouseMove(e) {
@@ -107,12 +97,29 @@
       e.y = mY;
     });
 
-    $alpha = 1;
+    $contextAlpha = 1;
   }
 
   function handleMouseLeave(e) {
-    $alpha = 0;
+    $contextAlpha = 0;
   }
+
+  function handleScrollCall({ value, way }) {
+    if (value === CALL_VALUE) {
+      isExited = way === 'exit';
+      
+      if (way === 'enter') {
+        $context.globalAlpha = 0;
+      }
+    }
+  }
+
+  function unsubscribe() {
+    emitter.off('call', handleScrollCall);
+  }
+
+  emitter.on('call', handleScrollCall);
+  onDestroy(unsubscribe);
 </script>
 
 <style>
@@ -166,28 +173,7 @@
   .c-footer__list {
     transform-origin: top left;
     transform: translateY(40px) scaleY(1.4) skewY(8deg);
-    transition: all 0.8s var(--ease-in-out);
-  }
-
-  /* .c-footer__contact:nth-child(1) {
-    transition-delay: 0.1s;
-  }
-
-  .c-footer__contact:nth-child(2) {
-    transition-delay: 0.3s;
-  }
-
-  .c-footer__contact:nth-child(3) {
-    transition-delay: 0.5s;
-  } */
-
-  .c-footer__list,
-  .c-footer__lg,
-  .c-footer__sst,
-  .c-footer__toggle {
-    opacity: 0;
-    transform-style: preserve-3d;
-    transition-property: opacity, transform;
+    transition: all .8s var(--ease-in-out);
   }
 
   .c-footer__lg,
@@ -198,6 +184,24 @@
     transition: all 1s var(--ease-in-out);
   }
 
+  .c-footer__list,
+  .c-footer__lg,
+  .c-footer__sst,
+  .c-footer__toggle {
+    opacity: 0;
+    transform-style: preserve-3d;
+    transition-property: opacity, transform;
+  }
+
+  .c-footer__hoverable {
+    transition: color 0.15s;
+  }
+
+  .c-footer__toggle:hover .c-footer__hoverable,
+  .c-footer__sst:hover .c-footer__hoverable {
+    color: var(--color-text);
+  }
+
   .c-footer__lg {
     transition-delay: 0.15s;
   }
@@ -206,6 +210,7 @@
     grid-column-start: 3;
     grid-column-end: 6;
     text-align: center;
+
     transition-delay: 0.25s;
   }
 
@@ -235,6 +240,7 @@
     data-scroll-repeat
     data-scroll-position="bottom"
     data-scroll-offset="100"
+    data-scroll-call={CALL_VALUE}
   >
     <ul class="c-footer__list">
       <li class="c-footer__contact">
@@ -250,19 +256,17 @@
   </div>
   <Spacer size="10" only="mobile" />
   <div class="l-grid c-footer__credits" data-scroll data-scroll-repeat>
-    <div class="c-footer__lg">LG{today} — ∞</div>
+    <div class="c-footer__lg">LG{today.getFullYear()} — ∞</div>
     <div
       class="c-footer__sst"
       on:mouseenter={handleMouseEnter}
       on:mouseleave={handleMouseLeave}
-    >(: — S)</div>
+    ><span class="c-footer__hoverable">(: — S)</span></div>
     <button
       class="c-footer__toggle"
-      on:click={handleToggleClick}
-      on:mouseenter={handleToggleEnter}
-      on:mouseleave={handleToggleLeave}
+      on:click={handleToggleTheme}
     >
-      {isThemeDark ? "Light" : "Dark"} Mode
+      <span class="c-footer__hoverable">{isDarkThemeActive ? "Light" : "Dark"} Mode</span>
     </button>
   </div>
   <Spacer size="10" only="mobile" />

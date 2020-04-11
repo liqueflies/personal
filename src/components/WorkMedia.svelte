@@ -2,6 +2,7 @@
   import { onDestroy } from 'svelte';
   import { tweened } from 'svelte/motion';
   import { linear } from 'svelte/easing';
+
   import { renderable, context, height, width } from '../context/canvas';
   import { imageLoader, videoLoader } from '../utils/loader';
   import { lerp } from '../utils/math';
@@ -26,6 +27,11 @@
   
   let isPlaying = false;
   let isExited = true;
+
+  let contextAlpha = tweened(0, {
+    duration: 300,
+    easing: linear
+  });
 
   function Video() {
     this.x = ( $width * 0.5 ) - ( size.x * 0.5 );
@@ -59,6 +65,8 @@
         return false;
       }
 
+      console.log(`rendering ${uid}`, $context.globalAlpha)
+
       x = lerp(x, mX, 0.4);
       y = lerp(y, mY, 0.4);
 
@@ -75,26 +83,6 @@
     }
   });
 
-  function handleScrollCall({ value, way }) {
-    if (value === CALL_VALUE) {
-      isExited = way === 'exit';
-
-      if (isExited) {
-        videoElement.pause();
-      } else {
-        videoElement.play();
-      }
-    }
-  }
-
-  function handleScroll(instance) {
-    if (videoElement) {
-      const {top, left} = videoElement.getBoundingClientRect();
-      mX = left;
-      mY = top;
-    }
-  }
-
   function handleMouseMove(e) {
     mX = e.clientX - size.x * 0.5;
     mY = e.clientY - size.y * 0.5;
@@ -108,10 +96,35 @@
     const {top, left} = videoElement.getBoundingClientRect();
     mX = left;
     mY = top;
+  }
 
-    // setTimeout(() => {
-    //   isPlaying = false;
-    // }, 400);
+  function handleScrollCall({ value, way }) {
+    if (value === CALL_VALUE) {
+      contextAlpha.subscribe(value => {
+        console.log(`alpha ${uid}`, value);
+        $context.globalAlpha = value;
+      });
+
+      isExited = way === 'exit';
+
+      if (isExited) {
+        console.log(`exited ${uid}`)
+        videoElement.pause();
+        // $context.globalAlpha = 0;
+      } else {
+        console.log(`entered ${uid}`)
+        $contextAlpha = 1;
+        videoElement.play();
+      }
+    }
+  }
+
+  function handleScroll(instance) {
+    if (videoElement) {
+      const {top, left} = videoElement.getBoundingClientRect();
+      mX = left;
+      mY = top;
+    }
   }
 
   function unsubscribe() {
@@ -154,7 +167,9 @@
     grid-column-end: 13;
 
     height: 0;
-    padding-bottom: 56.566%;
+    padding-bottom: 56.556%;
+
+    border: solid 1px var(--color-grey);
 
     transform: translateY(30%) scale(1.05);
     transition-delay: 0s;
@@ -162,11 +177,15 @@
 
   .c-work__inner {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 8%;
+    left: 10%;
+    right: 10%;
+    bottom: 8%;
 
-    width: 100%;
-    height: 100%;
+    /* width: 100%;
+    height: 100%; */
+
+    /* background-color: red; */
 
     display: flex;
     align-items: center;
@@ -175,13 +194,10 @@
 
   .c-work__media video {
     display: inline-block;
-    width: 65%;
-    height: 65%;
 
-    visibility: hidden;
-  }
-  
-  .c-work__media video.hidden {
+    width: 56.556%;
+    height: 56.556%;
+
     visibility: hidden;
   }
 }
@@ -193,7 +209,13 @@
   data-scroll-offset="100"
   data-scroll-position="bottom"
 >
-  <div class="c-work__media">
+  <div
+    class="c-work__media"
+    data-scroll
+    data-scroll-repeat
+    data-scroll-call={CALL_VALUE}
+    data-scroll-position="bottom"
+  >
     <div
       class="c-work__inner"
       on:mousemove={handleMouseMove}
@@ -213,11 +235,6 @@
           muted
           loop
           playsinline
-          data-scroll
-          data-scroll-repeat
-          data-scroll-position="bottom"
-          data-scroll-call={CALL_VALUE}
-          poster={image.url}
           bind:this={videoElement}
         >
           <source data-src={video.url} type="video/mp4">

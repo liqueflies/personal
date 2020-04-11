@@ -3,6 +3,8 @@
 
   import emitter from '../emitter';
 
+  export let text;
+
   let transform = 0;
   let isExited = false;
   const CALL_VALUE = 'marquee';
@@ -34,8 +36,6 @@
   emitter.on('call', onCall);
   emitter.on('scroll', onScroll);
   onDestroy(unsubscribe);
-
-  export let text;
 </script>
 
 <style>

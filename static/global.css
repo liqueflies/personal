@@ -74,9 +74,9 @@ html.has-scroll-dragging {
   min-height: 100vh; 
 }
 
-.has-scroll-scrolling * {
+/* .has-scroll-scrolling * {
   pointer-events: none;
-}
+} */
 
 h1,
 h2,
