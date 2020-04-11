@@ -20,7 +20,7 @@
   <meta property="og:url"  content="https://loregirardi.netlify.com" />
   <meta property="og:title" content="Lorenzo Girardi - Creative Technologist" />
   <meta property="og:description" content="Lorenzo Girardi is Creative Technologist, music & art aficionado." />
-  <meta property="og:image" content="https://loregirardi.netlify.com/lollo.jpg" />
+  <meta property="og:image" content="https://loregirardi.netlify.com/social.jpg" />
 </svelte:head>
 
 <Hero />
