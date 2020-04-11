@@ -78,6 +78,12 @@
   function handleScrollCall({ value, way }) {
     if (value === CALL_VALUE) {
       isExited = way === 'exit';
+
+      if (isExited) {
+        videoElement.pause();
+      } else {
+        videoElement.play();
+      }
     }
   }
 
@@ -96,11 +102,9 @@
 
   function handleMouseEnter(e) {
     isPlaying = true;
-    videoElement.play();
   }
 
   function handleMouseLeave(e) {
-    videoElement.pause();
     const {top, left} = videoElement.getBoundingClientRect();
     mX = left;
     mY = top;
