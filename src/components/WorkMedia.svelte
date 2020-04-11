@@ -59,8 +59,8 @@
         return false;
       }
 
-      x = mX;
-      y = mY;
+      x = lerp(x, mX, 0.4);
+      y = lerp(y, mY, 0.4);
 
       frames.forEach((e, i) => {
         const next = frames[i + 1] || frames[0];
@@ -213,13 +213,12 @@
           muted
           loop
           playsinline
-          poster={image.url}
-          bind:this={videoElement}
-          class:hidden={isPlaying}
           data-scroll
           data-scroll-repeat
-          data-scroll-call={CALL_VALUE}
           data-scroll-position="bottom"
+          data-scroll-call={CALL_VALUE}
+          poster={image.url}
+          bind:this={videoElement}
         >
           <source data-src={video.url} type="video/mp4">
         </video>
