@@ -7,14 +7,15 @@
 
 @font-face {
   font-family: 'Sprat';
-  src: url('/fonts/sprat/SpratRegular.woff2') format('woff2'),
-        url('/fonts/sprat/SpratRegular.woff') format('woff');
+  src: url('/fonts/sprat/Sprat-Regular.woff2') format('woff2'),
+        url('/fonts/sprat/Sprat-Regular.woff') format('woff');
   font-weight: 400;
 }
 
 :root {
   --color-bg: #ffffff;
-  --color-text: #202124;
+  /* --color-text: #202124; */
+  --color-text: #333;
   --color-primary: #34a853;
   --color-grey: #dddddd;
 
@@ -77,6 +78,10 @@ html.has-scroll-dragging {
 /* .has-scroll-scrolling * {
   pointer-events: none;
 } */
+
+.is-scrolling * {
+  pointer-events: none;
+}
 
 h1,
 h2,
@@ -221,7 +226,7 @@ a:hover::after {
 
 body.t-dark {
   --color-primary: #fdd1d1;
-  --color-bg: #202124;
+  --color-bg: #333;
   --color-text: #fff;
 }
 

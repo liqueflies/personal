@@ -14,7 +14,13 @@
 </script>
 
 <svelte:head>
-	<title>Lorenzo Girardi</title>
+	<title>Lorenzo Girardi - Creative Technologist</title>
+	<meta name="description" content="Lorenzo Girardi is Creative Technologist, music & art aficionado.">
+	<meta property="og:type" content="website" />
+  <meta property="og:url"  content="https://loregirardi.netlify.com" />
+  <meta property="og:title" content="Lorenzo Girardi - Creative Technologist" />
+  <meta property="og:description" content="Lorenzo Girardi is Creative Technologist, music & art aficionado." />
+  <meta property="og:image" content="https://loregirardi.netlify.com/lollo.jpg" />
 </svelte:head>
 
 <Hero />

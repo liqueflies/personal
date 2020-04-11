@@ -1,5 +1,6 @@
 <script>
   import { onMount, onDestroy, setContext } from 'svelte';
+  import isMobile from 'is-mobile';
 
   import {
     key,
@@ -20,6 +21,10 @@
   let frame;
 
   onMount(() => {
+    if (isMobile({featureDetect: true, tablet: true})) {
+      return false;
+    }
+  
     handleResize();
     // prepare canvas stores
     context = canvas.getContext('2d');

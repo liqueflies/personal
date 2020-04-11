@@ -25,7 +25,6 @@
   let texture;
   let videoElement;
   
-  let isPlaying = false;
   let isExited = true;
 
   let contextAlpha = tweened(0, {
@@ -88,33 +87,34 @@
     mY = e.clientY - size.y * 0.5;
   }
 
-  function handleMouseEnter(e) {
-    isPlaying = true;
-  }
-
   function handleMouseLeave(e) {
-    const {top, left} = videoElement.getBoundingClientRect();
-    mX = left;
-    mY = top;
+    if (videoElement) {
+      const {top, left} = videoElement.getBoundingClientRect();
+      mX = left;
+      mY = top;
+    }
   }
 
   function handleScrollCall({ value, way }) {
     if (value === CALL_VALUE) {
-      contextAlpha.subscribe(value => {
-        console.log(`alpha ${uid}`, value);
-        $context.globalAlpha = value;
-      });
-
       isExited = way === 'exit';
 
+      contextAlpha.subscribe(value => {
+        console.log(`alpha ${uid}`, value);
+  
+        if ($context) {
+          $context.globalAlpha = value;
+        }
+      });
+      
       if (isExited) {
         console.log(`exited ${uid}`)
-        videoElement.pause();
-        // $context.globalAlpha = 0;
+        videoElement && videoElement.pause();
+        // $contextAlpha = 0;
       } else {
         console.log(`entered ${uid}`)
         $contextAlpha = 1;
-        videoElement.play();
+        videoElement && videoElement.play();
       }
     }
   }
@@ -155,6 +155,18 @@
   transition-delay: .35s;
 }
 
+.c-work__media img {
+  display: inline-block;
+  width: 100%;
+  min-height: 350px;
+  
+  background: var(--color-primary);
+}
+
+.c-work__media video {
+  display: none;
+}
+
 :global(.is-inview).c-work__content .c-work__media {
   transform: none;
   opacity: 1;
@@ -181,15 +193,14 @@
     left: 10%;
     right: 10%;
     bottom: 8%;
-
-    /* width: 100%;
-    height: 100%; */
-
-    /* background-color: red; */
-
+  
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .c-work__media img {
+    display: none;
   }
 
   .c-work__media video {
@@ -211,24 +222,18 @@
 >
   <div
     class="c-work__media"
-    data-scroll
-    data-scroll-repeat
-    data-scroll-call={CALL_VALUE}
-    data-scroll-position="bottom"
   >
     <div
       class="c-work__inner"
       on:mousemove={handleMouseMove}
-      on:mouseenter={handleMouseEnter}
       on:mouseleave={handleMouseLeave}
     >      
-      <!-- {#if image.mobile.url}
+      {#if image.mobile.url}
         <img
-          data-src="{image.url}"
+          data-src="{image.mobile.url}"
           alt="{image.alt}"
-          bind:this={imageElement}
         />
-      {/if} -->
+      {/if}
       {#if video.url}
         <video 
           autoplay
@@ -236,6 +241,10 @@
           loop
           playsinline
           bind:this={videoElement}
+              data-scroll
+    data-scroll-repeat
+    data-scroll-call={CALL_VALUE}
+    data-scroll-position="bottom"
         >
           <source data-src={video.url} type="video/mp4">
         </video>

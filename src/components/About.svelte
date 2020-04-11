@@ -20,8 +20,6 @@
   let x = 0;
   let y = 0;
 
-  let thenElements;
-
   let ctx = null;
   let tile = '';
 
@@ -55,14 +53,11 @@
       contextAlpha.subscribe(value => {
         $context.globalAlpha = value;
       });
-
-      console.log(thenElements);
     },
     render: props => {
       if (isExited) {
         return false;
       }
-      console.log('rendering about', $context.globalAlpha);
 
       x = lerp(x, mX, 0.4);
       y = lerp(y, mY, 0.4);
@@ -103,7 +98,7 @@
     if (value === CALL_VALUE) {
       isExited = way === 'exit';
 
-      if (way === 'enter') {
+      if (way === 'enter' && $context) {
         $context.globalAlpha = 0;
       }
     }
@@ -134,16 +129,20 @@
   letter-spacing: var(--letter-spacing-sans);
 
   transform: translateY(30px) scaleY(1.4) skewY(7deg);
-  transition: all .8s;
+  transition: all .5s;
 }
 
-/* .c-abstract__first:nth-child(2) {
+.c-abstract__first.creative {
   transition-delay: .15s;
 }
 
-.c-abstract__first:nth-child(3) {
+.c-abstract__first.music {
   transition-delay: .25s;
-} */
+}
+
+.c-abstract__first.art {
+  transition-delay: .35s;
+}
 
 .c-abstract__then,
 .c-abstract__last {
@@ -170,11 +169,11 @@
 
 .c-abstract__then span,
 .c-abstract__last {
-  transform: translateY(-15px) scaleY(1.4);
+  transform: translateY(-20px) scaleY(1.4);
   transition: all .8s var(--ease-in-out);
 
   --then-delay: 0.04s;
-  --then-delay-start: 0.25s;
+  --then-delay-start: 0.4s;
 }
 
 .c-abstract__then span:nth-child(1) {
@@ -215,7 +214,7 @@
 }
 
 .c-abstract__last {
-  transition-delay: calc( var(--then-delay-start) + var(--then-delay) * 14 );
+  transition-delay: calc( var(--then-delay-start) + var(--then-delay) * 0.2 );
 }
 
 :global(.is-inview).c-abstract__content .c-abstract__first,
@@ -228,19 +227,25 @@
 @media screen and (min-width: 40em) {
   .c-abstract__first {
       transform: translateY(120px) scaleY(1.4) skewY(13deg);
-      /* transition: all 1s; */
+      transition: all .65s;
   }
 
   .c-abstract__first.creative {
-    transition-delay: .05s;
-  }
-
-  .c-abstract__first.music {
     transition-delay: .15s;
   }
 
+  .c-abstract__first.music {
+    transition-delay: .3s;
+  }
+
   .c-abstract__first.art {
-    transition-delay: .2s;
+    transition-delay: .45s;
+  }
+
+  .c-abstract__then span,
+  .c-abstract__last {
+    transform: translateY(-40px) scaleY(1.4);
+    --then-delay-start: .5s;
   }
 }
 </style>
@@ -279,7 +284,7 @@
           class="c-abstract__first art"
           on:mouseenter={handleMouseEnter}
         >Art</span></div>
-      <div class="c-abstract__para c-abstract__then" bind:this={thenElements}><span>a</span><span>f</span><span>i</span><span>c</span><span>i</span><span>o</span><span>n</span><span>a</span><span>d</span><span>o</span><span>.</span>
+      <div class="c-abstract__para c-abstract__then"><span>a</span><span>f</span><span>i</span><span>c</span><span>i</span><span>o</span><span>n</span><span>a</span><span>d</span><span>o</span><span>.</span>
       </div>
     </div>
   </div>

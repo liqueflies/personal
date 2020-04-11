@@ -108,7 +108,7 @@
     if (value === CALL_VALUE) {
       isExited = way === 'exit';
       
-      if (way === 'enter') {
+      if (way === 'enter' && $context) {
         $context.globalAlpha = 0;
       }
     }

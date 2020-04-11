@@ -1,6 +1,6 @@
 {
-  "name": "svelte-test",
-  "description": "svelte-test",
+  "name": "personal",
+  "description": "Personal Website",
   "version": "0.0.1",
   "scripts": {
     "dev": "sapper dev",
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "compression": "^1.7.1",
+    "is-mobile": "^2.2.1",
     "just-throttle": "^1.1.0",
     "locomotive-scroll": "^3.3.11",
     "polka": "next",

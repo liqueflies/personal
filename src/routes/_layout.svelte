@@ -23,6 +23,8 @@
 
     scroll.on('scroll', instance => {
       emitter.emit('scroll', instance);
+      const isScrolling = instance.speed !== 0;
+      document.documentElement.classList[isScrolling ? 'add' : 'remove']('is-scrolling');
     });
 
     scroll.on('call', (value, way, obj) => {
