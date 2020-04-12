@@ -1,8 +1,8 @@
-import Prismic from 'prismic-javascript';
+import {Predicates} from 'prismic-javascript';
 
 export async function get(req, res) {
   const { results } = await req.prismic.api.query(
-    Prismic.Predicates.at('document.type', 'work')
+    Predicates.at('document.type', 'work')
   );
 
   res.writeHead(200, {
