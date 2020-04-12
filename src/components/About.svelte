@@ -144,8 +144,7 @@
   transition-delay: .35s;
 }
 
-.c-abstract__then,
-.c-abstract__last {
+.c-abstract__then {
   font-family: var(--font-family-secondary);
   letter-spacing: var(--letter-spacing-headings);
   white-space: pre;
@@ -153,8 +152,7 @@
 }
 
 .c-abstract__first,
-.c-abstract__last,
-.c-abstract__then span {
+.c-abstract__then {
   display: inline-block;
 
   line-height: 1;
@@ -167,59 +165,28 @@
   transition-property: opacity, transform;
 }
 
-.c-abstract__then span,
-.c-abstract__last {
-  transform: translateY(-20px) scaleY(1.4);
-  transition: all .8s var(--ease-in-out);
+.c-abstract__then {
+  transform: translateY(30px) scaleY(1.4);
+  transition: all .65s var(--ease-in-out);
 
-  --then-delay: 0.04s;
-  --then-delay-start: 0.4s;
-}
-
-.c-abstract__then span:nth-child(1) {
-  transition-delay: calc( var(--then-delay-start) + var(--then-delay) * 1 );
-}
-.c-abstract__then span:nth-child(2) {
-  transition-delay: calc( var(--then-delay-start) + var(--then-delay) * 2 );
-}
-.c-abstract__then span:nth-child(3) {
-  transition-delay: calc( var(--then-delay-start) + var(--then-delay) * 3 );
-}
-.c-abstract__then span:nth-child(4) {
-  transition-delay: calc( var(--then-delay-start) + var(--then-delay) * 4 );
-}
-.c-abstract__then span:nth-child(5) {
-  transition-delay: calc( var(--then-delay-start) + var(--then-delay) * 5 );
-}
-.c-abstract__then span:nth-child(6) {
-  transition-delay: calc( var(--then-delay-start) + var(--then-delay) * 6 );
-}
-.c-abstract__then span:nth-child(7) {
-  transition-delay: calc( var(--then-delay-start) + var(--then-delay) * 7 );
-}
-.c-abstract__then span:nth-child(8) {
-  transition-delay: calc( var(--then-delay-start) + var(--then-delay) * 8 );
-}
-.c-abstract__then span:nth-child(9) {
-  transition-delay: calc( var(--then-delay-start) + var(--then-delay) * 9 );
-}
-.c-abstract__then span:nth-child(10) {
-  transition-delay: calc( var(--then-delay-start) + var(--then-delay) * 10 );
-}
-.c-abstract__then span:nth-child(11) {
-  transition-delay: calc( var(--then-delay-start) + var(--then-delay) * 11 );
-}
-.c-abstract__then span:nth-child(12) {
-  transition-delay: calc( var(--then-delay-start) + var(--then-delay) * 12 );
+  --then-delay: 0.1s;
+  --then-delay-start: 0.05s;
 }
 
-.c-abstract__last {
-  transition-delay: calc( var(--then-delay-start) + var(--then-delay) * 0.2 );
+.c-abstract__then.technologist {
+  transition-delay: calc( var(--then-delay-start) + ( var(--then-delay) * 2 ) );
+}
+
+.c-abstract__then.aficionado {
+  transition-delay: calc( var(--then-delay-start) + ( var(--then-delay) * 4 ) );
+}
+
+.c-abstract__then.and {
+  transition-delay: calc( var(--then-delay-start) + ( var(--then-delay) * 3 ) );
 }
 
 :global(.is-inview).c-abstract__content .c-abstract__first,
-:global(.is-inview).c-abstract__content .c-abstract__last,
-:global(.is-inview).c-abstract__content .c-abstract__then span {
+:global(.is-inview).c-abstract__content .c-abstract__then {
   transform: none;
   opacity: 1;
 }
@@ -242,10 +209,11 @@
     transition-delay: .45s;
   }
 
-  .c-abstract__then span,
-  .c-abstract__last {
-    transform: translateY(-40px) scaleY(1.4);
-    --then-delay-start: .5s;
+  .c-abstract__then {
+    transition: all .65s var(--ease-in-out);
+
+    --then-delay: 0.15s;
+    --then-delay-start: 0.15s;
   }
 }
 </style>
@@ -271,21 +239,20 @@
         on:mouseenter={handleMouseEnter}
         on:mouseleave={handleMouseLeave}
       >Creative</div>
-      <div class="c-abstract__para c-abstract__then"><span>T</span><span>e</span><span>c</span><span>h</span><span>n</span><span>o</span><span>l</span><span>o</span><span>g</span><span>i</span><span>s</span><span>t</span></div>
+      <div class="c-abstract__para c-abstract__then technologist">Technologist</div>
       <div class="c-abstract__para" on:mouseleave={handleMouseLeave}>
         <span 
           data-emoji="🎙"
           class="c-abstract__first music"
           on:mouseenter={handleMouseEnter}
         >Music</span> 
-        <span class="c-abstract__last">&</span>
+        <span class="c-abstract__then and">&</span>
         <span 
           data-emoji="🖍"
           class="c-abstract__first art"
           on:mouseenter={handleMouseEnter}
         >Art</span></div>
-      <div class="c-abstract__para c-abstract__then"><span>a</span><span>f</span><span>i</span><span>c</span><span>i</span><span>o</span><span>n</span><span>a</span><span>d</span><span>o</span><span>.</span>
-      </div>
+      <div class="c-abstract__para c-abstract__then aficionado">aficionado.</div>
     </div>
   </div>
   <Spacer size="10" only="mobile" />
