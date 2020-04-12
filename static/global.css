@@ -14,8 +14,7 @@
 
 :root {
   --color-bg: #ffffff;
-  /* --color-text: #202124; */
-  --color-text: #333;
+  --color-text: #202124;
   --color-primary: #34a853;
   --color-grey: #dddddd;
 
@@ -226,7 +225,7 @@ a:hover::after {
 
 body.t-dark {
   --color-primary: #fdd1d1;
-  --color-bg: #333;
+  --color-bg: #202124;
   --color-text: #fff;
 }
 

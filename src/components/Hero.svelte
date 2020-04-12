@@ -4,9 +4,11 @@
   import Marquee from '../components/Marquee.svelte';
   import emitter from '../emitter';
 
-  let patchRef;
-  let isExited = false;
   const CALL_VALUE = 'hero';
+
+  let vw;
+  let patchElement;
+  let isExited = false;
 
   function onCall({ value, way }) {
     if (value === CALL_VALUE) {
@@ -18,9 +20,8 @@
     if (isExited) {
       return false;
     }
-
-    const progress = patchRef.offsetHeight * instance.scroll.y / instance.limit;
-    patchRef.style.transform = `scaleX(${1 + progress * 0.01 })`;
+    const progress = patchElement.offsetHeight * instance.scroll.y / instance.limit;
+    patchElement.style.transform = `scaleX(${(vw / patchElement.offsetWidth) - 1 + progress * 0.01 })`;
   }
 
   function unsubscribe() {
@@ -98,6 +99,10 @@
 }
 </style>
 
+<svelte:window
+  bind:innerWidth={vw}
+/>
+
 <div data-scroll-section class="l-container l-container--full">
   <figure class="c-hero l-grid" data-scroll data-scroll-repeat data-scroll-call={CALL_VALUE}>
     <div class="l-container l-container--small c-hero__frame">
@@ -112,7 +117,7 @@
           alt="Lorenzo Girardi - Creative Technologist"
         />
       </picture>
-      <div class="c-hero__patch" bind:this={patchRef}></div>
+      <div class="c-hero__patch" bind:this={patchElement}></div>
     </div>
     <figcaption class="l-container l-container--full c-hero__caption">
       <Marquee text="Lorenzo Girardi" />

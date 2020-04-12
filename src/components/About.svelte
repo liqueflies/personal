@@ -267,14 +267,14 @@
       data-scroll-position="bottom"
     >
       <div class="c-abstract__para c-abstract__first creative" 
-        data-emoji="💡"
+        data-emoji="👨🏻‍💻"
         on:mouseenter={handleMouseEnter}
         on:mouseleave={handleMouseLeave}
       >Creative</div>
       <div class="c-abstract__para c-abstract__then"><span>T</span><span>e</span><span>c</span><span>h</span><span>n</span><span>o</span><span>l</span><span>o</span><span>g</span><span>i</span><span>s</span><span>t</span></div>
       <div class="c-abstract__para" on:mouseleave={handleMouseLeave}>
         <span 
-          data-emoji="👂"
+          data-emoji="🎙"
           class="c-abstract__first music"
           on:mouseenter={handleMouseEnter}
         >Music</span> 
