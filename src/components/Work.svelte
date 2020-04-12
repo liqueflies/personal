@@ -1,5 +1,5 @@
 <script context="module">
-  import PrismicDOM from 'prismic-dom';
+  import {RichText, Link} from 'prismic-dom';
 </script>
 
 <script>
@@ -139,7 +139,7 @@
     data-scroll-offset="150"
   >
     <h2 class="c-work__title">
-      {PrismicDOM.RichText.asText(data.title)}
+      {RichText.asText(data.title)}
     </h2>
     <h4 class="c-work__release">
       <div class="c-work__month">{month}</div>
@@ -158,9 +158,9 @@
     class="c-work__details l-grid"
     data-scroll
   >
-    <span class="c-work__detail">{PrismicDOM.RichText.asText(data.type)}</span>
-    <span class="c-work__detail">{PrismicDOM.RichText.asText(data.role)}</span>
-    <span class="c-work__detail"><a rel="noopener" target="_blank" href='{PrismicDOM.Link.url(data.link)}'>Visit Site</a></span>
+    <span class="c-work__detail">{RichText.asText(data.type)}</span>
+    <span class="c-work__detail">{RichText.asText(data.role)}</span>
+    <span class="c-work__detail"><a rel="noopener" target="_blank" href='{Link.url(data.link)}'>Visit Site</a></span>
   </div>
   
   <Spacer size={20} />

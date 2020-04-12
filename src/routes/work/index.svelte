@@ -1,5 +1,5 @@
 <script context="module">
-	import PrismicDOM from 'prismic-dom';
+	import { RichText } from 'prismic-dom';
 
   export async function preload({ params, query }) {
 		const { results } = await this.fetch(`work.json`).then(r => r.json());
@@ -30,6 +30,6 @@
 				tell Sapper to load the data for the page as soon as
 				the user hovers over the link or taps it, instead of
 				waiting for the 'click' event -->
-		<li><a rel='prefetch' href='work/{post.uid}'>{PrismicDOM.RichText.asText(post.data.title)}</a></li>
+		<li><a rel='prefetch' href='work/{post.uid}'>{RichText.asText(post.data.title)}</a></li>
 	{/each}
 </ul>

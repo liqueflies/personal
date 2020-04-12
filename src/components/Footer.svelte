@@ -63,7 +63,6 @@
       if (isExited) {
         return false;
       }
-      console.log('rendering footer', $context.globalAlpha)
 
       x = lerp(x, mX, 0.4);
       y = lerp(y, mY, 0.4);

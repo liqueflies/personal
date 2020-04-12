@@ -64,8 +64,6 @@
         return false;
       }
 
-      console.log(`rendering ${uid}`, $context.globalAlpha)
-
       x = lerp(x, mX, 0.4);
       y = lerp(y, mY, 0.4);
 
@@ -100,19 +98,15 @@
       isExited = way === 'exit';
 
       contextAlpha.subscribe(value => {
-        console.log(`alpha ${uid}`, value);
-  
         if ($context) {
           $context.globalAlpha = value;
         }
       });
       
       if (isExited) {
-        console.log(`exited ${uid}`)
         videoElement && videoElement.pause();
         // $contextAlpha = 0;
       } else {
-        console.log(`entered ${uid}`)
         $contextAlpha = 1;
         videoElement && videoElement.play();
       }

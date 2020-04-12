@@ -1,5 +1,5 @@
 <script context="module">
-	import PrismicDOM from 'prismic-dom';
+	import {RichText} from 'prismic-dom';
 
 	export async function preload({ params, query }) {
 		// the `slug` parameter is available because
@@ -56,14 +56,14 @@
 </style>
 
 <svelte:head>
-	<title>{PrismicDOM.RichText.asText(post.title)}</title>
+	<title>{RichText.asText(post.title)}</title>
 </svelte:head>
 
 
-{@html PrismicDOM.RichText.asHtml(post.title)}
+{@html RichText.asHtml(post.title)}
 
 <img src={post.image.url} alt={post.image.alt} />
 
 <div class='content'>
-	{@html PrismicDOM.RichText.asHtml(post.description)}
+	{@html RichText.asHtml(post.description)}
 </div>
