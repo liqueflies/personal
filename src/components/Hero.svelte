@@ -47,7 +47,7 @@
 
 <style>
 :root {
-  --loading-reveal-delay: 1.45s;
+  --loading-reveal-delay: 1.6s;
   --loading-stroke-time: 2.6s;
   --loading-reveal-time: 1.6s;
 }

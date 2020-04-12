@@ -222,7 +222,7 @@
   data-scroll-section
   class="l-container l-container--small c-abstract"
 >
-  <Spacer size="10" only="mobile" />
+  <Spacer size="20" only="mobile" />
   <Spacer size="30" only="desktop" />
   <div
     data-scroll
@@ -233,6 +233,7 @@
       class="c-abstract__content"
       data-scroll
       data-scroll-position="bottom"
+      data-scroll-offset="200"
     >
       <div class="c-abstract__para c-abstract__first creative" 
         data-emoji="👨🏻‍💻"
@@ -255,7 +256,7 @@
       <div class="c-abstract__para c-abstract__then aficionado">aficionado.</div>
     </div>
   </div>
-  <Spacer size="10" only="mobile" />
+  <Spacer size="20" only="mobile" />
   <Spacer size="30" only="desktop" />
 </div>
 
