@@ -3,6 +3,7 @@
   src: url('/fonts/apfelGrotezk/ApfelGrotezk-Regular.woff2') format('woff2'),
         url('/fonts/apfelGrotezk/ApfelGrotezk-Regular.woff') format('woff');
   font-weight: 400;
+  font-display: swap;
 }
 
 @font-face {
@@ -10,6 +11,7 @@
   src: url('/fonts/sprat/Sprat-Regular.woff2') format('woff2'),
         url('/fonts/sprat/Sprat-Regular.woff') format('woff');
   font-weight: 400;
+  font-display: swap;
 }
 
 :root {
