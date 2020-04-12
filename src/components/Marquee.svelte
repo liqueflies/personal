@@ -48,6 +48,10 @@
   }
 }
 
+:root {
+  --loading-marquee-delay: .1s;
+}
+
 .o-marquee {
   position: relative;
   width: 100%;
@@ -68,7 +72,22 @@
 
   white-space: nowrap;
   will-change: transform;
+}
+
+.o-marquee__wrapper {
+  transform: translateX(100%);
+  transition: transform var(--loading-reveal-time) var(--ease-in-out);
+  transition-delay: calc( var(--loading-reveal-delay) + var(--loading-marquee-delay) );
+}
+
+:global(.has-loaded-content) .o-marquee__wrapper {
+  transform: translateX(0%);
+}
+
+:global(.has-loaded-content) .o-marquee__label::after,
+:global(.has-loaded-content) .o-marquee__label::before {
   animation: marquee 20s linear infinite;
+  animation-delay: calc( var(--loading-reveal-delay) + var(--loading-marquee-delay) );
 }
 
 @media screen and (min-width: 40em) {
@@ -80,14 +99,16 @@
 </style>
 
 <div class="o-marquee">
-  <h1
-    data-text="{text}"
-    data-scroll
-    data-scroll-call="{CALL_VALUE}"
-    data-scroll-repeat
-    class="o-marquee__label"
-    style="transform: translate3d({transform}px, 0, 0);"
-  >
-    <span class="visually-hidden">{text}</span>
-  </h1>
+  <div class="o-marquee__wrapper">
+    <h1
+      data-text="{text}"
+      data-scroll
+      data-scroll-call="{CALL_VALUE}"
+      data-scroll-repeat
+      class="o-marquee__label"
+      style="transform: translate3d({transform}px, 0, 0);"
+    >
+        <span class="visually-hidden">{text}</span>
+    </h1>
+  </div>
 </div>

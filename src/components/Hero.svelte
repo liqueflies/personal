@@ -1,14 +1,25 @@
 <script>
-  import { onDestroy } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
 
   import Marquee from '../components/Marquee.svelte';
+  import { pictureLoader } from '../utils/loader';
   import emitter from '../emitter';
 
   const CALL_VALUE = 'hero';
 
   let vw;
   let patchElement;
+  let pictureElement;
+
   let isExited = false;
+
+  onMount(() => {
+    pictureLoader(pictureElement, () => {
+      setTimeout(() => {
+        document.documentElement.classList.add('has-loaded-content');
+      }, 10);
+    })
+  });
 
   function onCall({ value, way }) {
     if (value === CALL_VALUE) {
@@ -35,6 +46,12 @@
 </script>
 
 <style>
+:root {
+  --loading-reveal-delay: 1.45s;
+  --loading-stroke-time: 2.6s;
+  --loading-reveal-time: 1.6s;
+}
+
 .c-hero {
   position: relative;
 
@@ -64,8 +81,84 @@
   position: relative;
 }
 
+.c-hero__patch,
+.c-hero__loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 .c-hero__patch {
   display: none;
+  background-color: #333;
+}
+
+.c-hero__loading {
+  display: flex;
+  justify-content: space-between;
+
+  z-index: 2;
+}
+
+.c-hero__loading-left,
+.c-hero__loading-right {
+  width: calc( 50% - 1px );
+}
+
+.c-hero__loading-stroke,
+.c-hero__loading-left,
+.c-hero__loading-right {
+  height: 100%;
+  background-color: var(--color-bg);
+}
+
+.c-hero__loading-stroke {
+  width: 2px;
+}
+
+.c-hero__loading-left,
+.c-hero__loading-right {
+  transition: transform var(--loading-reveal-time) var(--ease-in-out);
+}
+
+.c-hero__loading-left {
+  transform-origin: 0 0;
+}
+
+.c-hero__loading-right {
+  transform-origin: 100% 0;
+}
+
+.c-hero__loading-stroke {
+  transform-origin: 50% 100%;
+  transition: transform var(--loading-stroke-time) var(--ease-in-out);
+}
+
+.c-hero__image {
+  transform: scale(0.85);
+  transition: transform var(--loading-reveal-time) var(--ease-in-out);
+}
+
+.c-hero__image,
+.c-hero__loading-left,
+.c-hero__loading-right {
+  transition-delay: var(--loading-reveal-delay);
+}
+
+:global(.has-loaded-content) .c-hero__image {
+  transform: scale(1);
+}
+
+
+:global(.has-loaded-content) .c-hero__loading-stroke {
+  transform: scaleY(0);
+}
+
+:global(.has-loaded-content) .c-hero__loading-left,
+:global(.has-loaded-content) .c-hero__loading-right {
+  transform: scaleX(0);
 }
 
 @media screen and (min-width: 40em) {
@@ -87,14 +180,6 @@
 
   .c-hero__patch {
     display: block;
-    
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    background-color: #333;
   }
 }
 </style>
@@ -106,27 +191,32 @@
 <div data-scroll-section class="l-container l-container--full">
   <figure class="c-hero l-grid" data-scroll data-scroll-repeat data-scroll-call={CALL_VALUE}>
     <div class="l-container l-container--small c-hero__frame">
-      <picture>
+      <picture bind:this={pictureElement}>
         <source
           media="(max-width: 768px)"
-          srcset="lollo@mobile.webp"
+          data-srcset="lollo@mobile.webp"
           type="image/webp"
         />
         <source 
           media="(max-width: 768px)"
-          srcset="lollo@mobile.jpg"
+          data-srcset="lollo@mobile.jpg"
           type="image/jpeg"
         />
         <source
-          srcset="lollo.webp"
+          data-srcset="lollo.webp"
           type="image/webp"
         />
         <img
           class="c-hero__image"
-          src="lollo.jpg"
+          data-src="lollo.jpg"
           alt="Lorenzo Girardi - Creative Technologist"
         />
       </picture>
+      <div class="c-hero__loading">
+        <span class="c-hero__loading-left"></span>
+        <span class="c-hero__loading-stroke"></span>
+        <span class="c-hero__loading-right"></span>
+      </div>
       <div class="c-hero__patch" bind:this={patchElement}></div>
     </div>
     <figcaption class="l-container l-container--full c-hero__caption">
