@@ -107,9 +107,19 @@
   <figure class="c-hero l-grid" data-scroll data-scroll-repeat data-scroll-call={CALL_VALUE}>
     <div class="l-container l-container--small c-hero__frame">
       <picture>
-        <source media="(max-width: 768px)"
+        <source
+          media="(max-width: 768px)"
+          srcset="lollo@mobile.webp"
+          type="image/webp"
+        />
+        <source 
+          media="(max-width: 768px)"
           srcset="lollo@mobile.jpg"
           type="image/jpeg"
+        />
+        <source
+          srcset="lollo.webp"
+          type="image/webp"
         />
         <img
           class="c-hero__image"

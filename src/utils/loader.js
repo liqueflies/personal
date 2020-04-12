@@ -1,8 +1,11 @@
-export const imageLoader = (src, cb) => {
+export const imageLoader = ({src, format = 'jpg'}, cb) => {
   const img = new Image();
   img.src = src;
   img.onload = function () {
     cb(img);
+  }
+  img.onerror = function () {
+    img.src = `${src}.${format}`;
   }
 }
 

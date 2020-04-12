@@ -44,7 +44,7 @@
 
   renderable({
     setup: props => {
-      imageLoader('polaroid.png', img => {
+      imageLoader({ src: 'polaroid.webp' }, img => {
         texture = img;
         size.x = img.width * 0.25;
         size.y = img.height * 0.25;
