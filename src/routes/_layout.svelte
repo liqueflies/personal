@@ -24,7 +24,7 @@
     scroll.on('scroll', instance => {
       emitter.emit('scroll', instance);
       const isScrolling = instance.speed >= 1;
-      document.documentElement.classList[isScrolling ? 'add' : 'remove']('has-scroll-scrolling');
+      document.documentElement.classList[isScrolling ? 'add' : 'remove']('has-no-pointer');
     });
 
     scroll.on('call', (value, way, obj) => {
