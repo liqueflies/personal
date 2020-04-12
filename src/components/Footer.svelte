@@ -140,6 +140,9 @@
 
 .c-footer__contact a {
   color: var(--color-text);
+  font-size: var(--font-size-h2);
+  font-family: var(--font-family-secondary);
+  letter-spacing: var(--letter-spacing-headings);
 }
 
 .c-footer__lg,
@@ -162,12 +165,12 @@
     text-align: left;
   }
 
-  .c-footer__me {
-    display: none;
-  }
-
   .c-footer__credits {
     align-items: center;
+  }
+
+  .c-footer__contact a {
+    font-size: var(--font-size-h4);
   }
 
   .c-footer__list {
@@ -208,8 +211,8 @@
 
   .c-footer__sst {
     grid-column-start: 3;
-    grid-column-end: 6;
-    text-align: center;
+    grid-column-end: 5;
+    /* text-align: center; */
 
     transition-delay: 0.25s;
   }
@@ -230,11 +233,6 @@
 </style>
 
 <footer data-scroll-section class="c-footer l-container">
-  <div class="c-footer__me">  
-    <div>Lorenzo Girardi</div>
-    <div>Creative Technologist</div>
-    <Spacer size="10" />
-  </div>
   <div 
     data-scroll
     data-scroll-repeat
@@ -244,13 +242,13 @@
   >
     <ul class="c-footer__list">
       <li class="c-footer__contact">
-        <a class="h4" href="/">Email</a>
+        <a href="/">Email</a>
       </li>
       <li class="c-footer__contact">
-        <a class="h4" href="https://twitter.com/loregirardi" rel="noopener" target="_blank">Twitter</a>
+        <a href="https://twitter.com/loregirardi" rel="noopener" target="_blank">Twitter</a>
       </li>
       <li class="c-footer__contact">
-        <a class="h4" href="https://www.linkedin.com/in/lorenzo-girardi-61241374/" rel="noopener" target="_blank">LinkedIn</a>
+        <a href="https://www.linkedin.com/in/lorenzo-girardi-61241374/" rel="noopener" target="_blank">LinkedIn</a>
       </li>
     </ul>
   </div>

@@ -228,12 +228,13 @@
       on:mousemove={handleMouseMove}
       on:mouseleave={handleMouseLeave}
     >      
-      {#if image.mobile.url}
-        <img
-          data-src="{image.mobile.url}"
-          alt="{image.alt}"
-        />
-      {/if}
+      <!-- {#if image.mobile.url} -->
+      <img
+        alt="{image.alt}"
+        data-src="{image.mobile.url}"
+        src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+      />
+      <!-- {/if} -->
       {#if video.url}
         <video 
           autoplay
@@ -241,10 +242,10 @@
           loop
           playsinline
           bind:this={videoElement}
-              data-scroll
-    data-scroll-repeat
-    data-scroll-call={CALL_VALUE}
-    data-scroll-position="bottom"
+          data-scroll
+          data-scroll-repeat
+          data-scroll-call={CALL_VALUE}
+          data-scroll-position="bottom"
         >
           <source data-src={video.url} type="video/mp4">
         </video>

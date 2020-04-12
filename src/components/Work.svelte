@@ -65,7 +65,9 @@
 }
 
 .c-work__detail:nth-child(2) {
-  grid-column-start: 6;
+  grid-column-start: 4;
+  grid-column-end: 10;
+  text-align: center;
   transition-delay: 0.25s;
 }
 
@@ -115,7 +117,9 @@
   }
 
   .c-work__detail:nth-child(2) {
-    grid-column-start: 4;
+    grid-column-start: 3;
+    grid-column-end: auto;
+    text-align: left;
   }
 
   .c-work__detail:nth-child(3) {
@@ -143,12 +147,12 @@
     </h4>
   </header>
 
-  <Spacer size={3} only="mobile" />
+  <Spacer size={4} only="mobile" />
   <Spacer size={8} only="desktop" />
 
   <WorkMedia {...data} uid={uid} />
 
-  <Spacer size={6} />
+  <Spacer size={8} />
 
   <div 
     class="c-work__details l-grid"
@@ -159,5 +163,5 @@
     <span class="c-work__detail"><a rel="noopener" target="_blank" href='{PrismicDOM.Link.url(data.link)}'>Visit Site</a></span>
   </div>
   
-  <Spacer size={15} />
+  <Spacer size={20} />
 </article>

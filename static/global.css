@@ -78,7 +78,7 @@ html.has-scroll-dragging {
   pointer-events: none;
 } */
 
-.is-scrolling * {
+.has-scroll-scrolling * {
   pointer-events: none;
 }
 
