@@ -131,8 +131,15 @@
 }
 
 .c-hero__image {
-  transform: scale(0.75);
+  transform: scale3d(0.75, 0.75, 0.75) perspective(1px);
   transition: transform var(--loading-reveal-time) var(--ease-in-out);
+}
+
+.c-hero__image,
+.c-hero__loading-stroke,
+.c-hero__loading-left,
+.c-hero__loading-right {
+  transform-style: preserve-3d;
 }
 
 .c-hero__image,
@@ -142,17 +149,17 @@
 }
 
 :global(.has-loaded-content) .c-hero__image {
-  transform: scale(1);
+  transform: scale3d(1, 1, 1) perspective(1px);
 }
 
 
 :global(.has-loaded-content) .c-hero__loading-stroke {
-  transform: scaleY(0);
+  transform: scale3d(1, 0, 1) perspective(1px);
 }
 
 :global(.has-loaded-content) .c-hero__loading-left,
 :global(.has-loaded-content) .c-hero__loading-right {
-  transform: scaleX(0);
+  transform: scale3d(0, 1, 1) perspective(1px);
 }
 
 @media screen and (min-width: 40em) {

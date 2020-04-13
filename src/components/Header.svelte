@@ -28,12 +28,12 @@
   .c-header {
     opacity: 0;
     
-    transform: translateY(40px) scaleY(1.2);
+    transform: translateY(20px) scaleY(1.2);
     transform-style: preserve-3d;
 
     transition: all 1s var(--ease-in-out);
     transition-property: opacity, transform;
-    transition-delay: calc( var(--loading-reveal-delay) + var(--loading-reveal-time) );
+    transition-delay: calc( var(--loading-reveal-delay) + var(--loading-marquee-delay) );
   }
 
   :global(.has-loaded-content) .c-header {
@@ -50,6 +50,8 @@
       right: calc( var(--spacer) * 4 );
 
       justify-content: space-between;
+
+      transform: translateY(40px) scaleY(1.2);
     }
 
     .c-header__location {
