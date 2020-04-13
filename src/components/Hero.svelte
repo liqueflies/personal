@@ -46,12 +46,6 @@
 </script>
 
 <style>
-:root {
-  --loading-reveal-delay: 1.6s;
-  --loading-stroke-time: 2.6s;
-  --loading-reveal-time: 1.6s;
-}
-
 .c-hero {
   position: relative;
 
@@ -137,7 +131,7 @@
 }
 
 .c-hero__image {
-  transform: scale(0.85);
+  transform: scale(0.75);
   transition: transform var(--loading-reveal-time) var(--ease-in-out);
 }
 

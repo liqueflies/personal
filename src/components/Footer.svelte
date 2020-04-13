@@ -1,4 +1,4 @@
-<script>
+<script context="module">
   import { onDestroy } from 'svelte';
   import { tweened } from 'svelte/motion';
   import { linear } from 'svelte/easing';
@@ -8,7 +8,9 @@
   import { imageLoader } from '../utils/loader';
   import { renderable, context } from '../context/canvas';
   import emitter from '../emitter';
+</script>
 
+<script>
   const CALL_VALUE = 'footer';
 
   const frames = [];

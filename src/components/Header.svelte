@@ -25,6 +25,22 @@
     text-align: right;
   }
 
+  .c-header {
+    opacity: 0;
+    
+    transform: translateY(40px) scaleY(1.2);
+    transform-style: preserve-3d;
+
+    transition: all 1s var(--ease-in-out);
+    transition-property: opacity, transform;
+    transition-delay: calc( var(--loading-reveal-delay) + var(--loading-reveal-time) );
+  }
+
+  :global(.has-loaded-content) .c-header {
+    opacity: 1;
+    transform: none;
+  }
+
   @media screen and (min-width: 40em) {
     .c-header {
       position: fixed;

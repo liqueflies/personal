@@ -1,4 +1,4 @@
-<script>
+<script context="module">
   import { onDestroy } from 'svelte';
   import { tweened } from 'svelte/motion';
   import { linear } from 'svelte/easing';
@@ -7,7 +7,9 @@
   import { renderable, context, height, width } from '../context/canvas';
   import { lerp } from '../utils/math';
   import emitter from '../emitter';
+</script>
 
+<script>
   const TILE_SIZE = 86;
   const CALL_VALUE = 'about';
   const size = TILE_SIZE * 0.5;

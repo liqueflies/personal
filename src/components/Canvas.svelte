@@ -1,4 +1,4 @@
-<script>
+<script context="module">
   import { onMount, onDestroy, setContext } from 'svelte';
   import isMobile from 'is-mobile';
 
@@ -12,7 +12,9 @@
     props,
     time
   } from '../context/canvas';
+</script>
 
+<script>
   export let killLoopOnError = true;
 
   let listeners = []; 

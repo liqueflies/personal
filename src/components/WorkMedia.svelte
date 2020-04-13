@@ -1,4 +1,4 @@
-<script>
+<script context="module">
   import { onDestroy } from 'svelte';
   import { tweened } from 'svelte/motion';
   import { linear } from 'svelte/easing';
@@ -7,7 +7,9 @@
   import { imageLoader, videoLoader } from '../utils/loader';
   import { lerp } from '../utils/math';
   import emitter from '../emitter';
+</script>
 
+<script>
   export let image;
   export let video;
   export let uid;

@@ -1,8 +1,10 @@
-<script>
+<script context="module">
   import { onDestroy } from 'svelte';
 
   import emitter from '../emitter';
+</script>
 
+<script>
   export let text;
 
   let transform = 0;
@@ -46,10 +48,6 @@
   100% {
     transform: translate(-100%, 0);
   }
-}
-
-:root {
-  --loading-marquee-delay: .1s;
 }
 
 .o-marquee {

@@ -1,11 +1,10 @@
 <script context="module">
   import {RichText, Link} from 'prismic-dom';
+  import Spacer from '../components/Spacer.svelte';
+  import WorkMedia from '../components/WorkMedia.svelte';
 </script>
 
 <script>
-  import Spacer from '../components/Spacer.svelte';
-  import WorkMedia from '../components/WorkMedia.svelte';
-
   export let uid;
   export let data;
 
