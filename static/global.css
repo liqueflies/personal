@@ -35,7 +35,7 @@
   --ease-in-out: cubic-bezier(.61, .01, .08, .99);
   --ease-out-quad: cubic-bezier(.5, 1, .89, 1);
 
-  --loading-reveal-delay: 0.8s;
+  --loading-reveal-delay: 1.2s;
   --loading-stroke-time: 1.2s;
   --loading-reveal-time: 1.6s;
   --loading-marquee-delay: 0s;
@@ -62,8 +62,9 @@ body {
   transition: background-color 0.25s, color 0.25s;
 }
 
-html.has-scroll-smooth {
-  overflow: hidden; 
+html,
+body {
+  overflow: hidden;
 }
 
 html.has-scroll-dragging {
@@ -73,17 +74,14 @@ html.has-scroll-dragging {
   user-select: none; 
 }
 
-.has-scroll-smooth body {
-  overflow: hidden; 
+.has-scroll-init:not(.has-scroll-smooth),
+.has-scroll-init:not(.has-scroll-smooth) body {
+  overflow: auto; 
 }
 
 .has-scroll-smooth [data-scroll-container] {
   min-height: 100vh; 
 }
-
-/* .has-scroll-scrolling * {
-  pointer-events: none;
-} */
 
 .has-no-pointer * {
   pointer-events: none;
@@ -138,20 +136,16 @@ button {
 
   cursor: pointer;
   text-align: inherit;
-  /* inherit font & color from ancestor */
 
   color: inherit;
   border: none;
   background: transparent;
-  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
 
   font-size: inherit;
   line-height: normal;
-  /* Corrects font smoothing for webkit */
 
   -webkit-font-smoothing: inherit;
   -moz-osx-font-smoothing: inherit;
-  /* Corrects inability to style clickable `input` types in iOS */
   -webkit-appearance: none;
   
   outline: none;

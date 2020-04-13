@@ -4,16 +4,16 @@
   import { linear } from 'svelte/easing';
 
   import Spacer from '../components/Spacer.svelte';
+  import { scrollable } from '../context/scroll';
   import { renderable, context, height, width } from '../context/canvas';
   import { lerp } from '../utils/math';
-  import emitter from '../emitter';
+
+  const scrollValue = 'about';
+  const emojiSize = 86;
+  const size = emojiSize * 0.5;
 </script>
 
-<script>
-  const TILE_SIZE = 86;
-  const CALL_VALUE = 'about';
-  const size = TILE_SIZE * 0.5;
-  
+<script>  
   const frames = [];
 
   let mX = 0;
@@ -22,10 +22,8 @@
   let x = 0;
   let y = 0;
 
-  let ctx = null;
-  let tile = '';
-
-  let isExited = true;
+  let emojiText = '';
+  let visible = false;
 
   let contextAlpha = tweened(0, {
     duration: 300,
@@ -37,8 +35,8 @@
     this.y = 0;
 
     this.draw = function(x, y) {
-      $context.font = `${TILE_SIZE}px serif`;
-      $context.fillText(tile, x, y);
+      $context.font = `${emojiSize}px serif`;
+      $context.fillText(emojiText, x, y);
 
       this.x = x;
       this.y = y;
@@ -57,23 +55,34 @@
       });
     },
     render: props => {
-      if (isExited) {
-        return false;
+      if (visible) {
+        x = lerp(x, mX, 0.4);
+        y = lerp(y, mY, 0.4);
+        
+        frames.forEach((e, i) => {
+          const next = frames[i + 1] || frames[0];
+
+          e.draw(x, y);
+
+          x = lerp(x, next.x, 0.85);
+          y = lerp(y, next.y, 0.7);
+
+          $context.globalCompositeOperation = 'destination-over';
+        });
       }
+    }
+  });
 
-      x = lerp(x, mX, 0.4);
-      y = lerp(y, mY, 0.4);
-      
-      frames.forEach((e, i) => {
-        const next = frames[i + 1] || frames[0];
-
-        e.draw(x, y);
-
-        x = lerp(x, next.x, 0.85);
-        y = lerp(y, next.y, 0.7);
-
-        $context.globalCompositeOperation = 'destination-over';
-      });
+  scrollable({
+    value: scrollValue,
+    enter: () => {
+      visible = true;
+      if ($context) {
+        $context.globalAlpha = 0;
+      }
+    },
+    exit: () => {
+      visible = false;
     }
   });
 
@@ -89,29 +98,12 @@
     });
 
     $contextAlpha = 1;
-    tile = e.target.dataset.emoji;
+    emojiText = e.target.dataset.emoji;
   }
 
   function handleMouseLeave(e) {
     $contextAlpha = 0;
   }
-
-  function handleScrollCall({ value, way }) {
-    if (value === CALL_VALUE) {
-      isExited = way === 'exit';
-
-      if (way === 'enter' && $context) {
-        $context.globalAlpha = 0;
-      }
-    }
-  }
-
-  function unsubscribe() {
-    emitter.off('call', handleScrollCall);
-  }
-
-  emitter.on('call', handleScrollCall);
-  onDestroy(unsubscribe);
 </script>
 
 <style>
@@ -121,10 +113,6 @@
 
 .c-abstract__content {
   font-size: var(--font-size-h2);
-}
-
-.c-abstract__para {
-  line-height: 1;
 }
 
 .c-abstract__first {
@@ -167,6 +155,13 @@
   transition-property: opacity, transform;
 }
 
+.c-abstract__para {
+  display: block;
+  line-height: 1;
+
+  cursor: default;
+}
+
 .c-abstract__then {
   transform: translateY(30px) scaleY(1.4);
   transition: all .65s var(--ease-in-out);
@@ -195,7 +190,7 @@
 
 @media screen and (min-width: 40em) {
   .c-abstract__first {
-      transform: translateY(120px) scaleY(1.4) skewY(13deg);
+      transform: translateY(120px) scaleY(1.4) skewY(8deg);
       transition: all .65s;
   }
 
@@ -229,7 +224,7 @@
   <div
     data-scroll
     data-scroll-repeat
-    data-scroll-call={CALL_VALUE}
+    data-scroll-call={scrollValue}
   >
     <div
       class="c-abstract__content"

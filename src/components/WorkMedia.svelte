@@ -1,12 +1,13 @@
 <script context="module">
-  import { onDestroy } from 'svelte';
+  import {RichText} from 'prismic-dom';
+  import { onMount, onDestroy } from 'svelte';
   import { tweened } from 'svelte/motion';
-  import { linear } from 'svelte/easing';
+  import isMobile from 'is-mobile';
 
+  import { scrollable } from '../context/scroll';
   import { renderable, context, height, width } from '../context/canvas';
   import { imageLoader, videoLoader } from '../utils/loader';
   import { lerp } from '../utils/math';
-  import emitter from '../emitter';
 </script>
 
 <script>
@@ -17,7 +18,6 @@
 
   const frames = [];
   const size = { x: 0, y: 0 };
-  const CALL_VALUE = `media_${uid}`;
 
   let mX = 0;
   let mY = 0;
@@ -27,24 +27,31 @@
 
   let texture;
   let videoElement;
-  
-  let isExited = true;
+  let imageElement;
+  let visible;
+  let scrolling;
+  let trigger;
 
-  let contextAlpha = tweened(0, {
-    duration: 300,
-    easing: linear
-  });
+  let contextAlpha = tweened(0);
 
-  function Video() {
-    this.x = ( $width * 0.5 ) - ( size.x * 0.5 );
-    this.y = ( $height * 0.5 ) - ( size.y * 0.5 );
+  onMount(() => {
+    function Video() {
+      const {top, left} = getVideoPosition();
+      this.x = left;
+      this.y = top;
 
-    this.draw = function(x, y) {
-      $context.drawImage(texture, x, y, size.x, size.y);
-      this.x = x;
-      this.y = y;
+      this.draw = function(x, y) {
+        $context.drawImage(texture, x, y, size.x, size.y);
+        this.x = x;
+        this.y = y;
+      }
     }
-  }
+
+    for(let i = 0; i < 4; i++) {
+      const e = new Video();
+      frames.push(e);
+    }
+  });
 
   renderable({
     setup: props => {
@@ -55,31 +62,66 @@
 
         videoElement.pause();
         videoElement.currentTime = 0;
-
-        for(let i = 0; i < 4; i++) {
-          const e = new Video();
-          frames.push(e);
-        }
       });
     },
     render: props => {
-      if (isExited) {
-        return false;
+      if (visible && texture) {
+        let intensity = scrolling ? 0.8 : 0.6;
+        let delay = scrolling ? 0.4 : 0.8;
+
+        x = lerp(x, mX, intensity);
+        y = lerp(y, mY, intensity);
+
+        frames.forEach((e, i) => {
+          const next = frames[i + 1] || frames[0];
+
+          e.draw(x, y);
+
+          x = lerp(x, next.x, delay);
+          y = lerp(y, next.y, delay);
+
+          $context.globalCompositeOperation = 'destination-over';
+        });
       }
+    }
+  });
 
-      x = lerp(x, mX, 0.4);
-      y = lerp(y, mY, 0.4);
+  scrollable({
+    value: uid,
+    scroll: ({ speed, direction }) => {
+      const {top, left} = getVideoPosition();
+      mX = left;
+      mY = top;
+      scrolling = Math.abs(speed) >= 1;
 
-      frames.forEach((e, i) => {
-        const next = frames[i + 1] || frames[0];
-
-        e.draw(x, y);
-
-        x = lerp(x, next.x, 0.85);
-        y = lerp(y, next.y, 0.8);
-
-        $context.globalCompositeOperation = 'destination-over';
-      });
+      if (direction) {
+        trigger = direction === 'down' ? 'bottom' : 'top'
+      }
+    },
+    enter: () => {
+      if (isMobile({featureDetect: true, tablet: true})) {
+        const source = imageElement.dataset.src;
+        if (source && source.length) {
+          imageLoader({ src: source }, image => {
+            imageElement.classList.add('lazyloaded');
+            imageElement.src = image.src;
+            imageElement.removeAttribute('data-src');
+          });
+        }
+      } else {
+        const unsubscribe = contextAlpha.subscribe(value => {
+          if ($context) {
+            $context.globalAlpha = value;
+          }
+        });
+        $contextAlpha = 1;
+        visible = true;
+        videoElement && videoElement.play();
+      }
+    },
+    exit: () => {
+      videoElement && videoElement.pause();
+      visible = false;
     }
   });
 
@@ -89,49 +131,18 @@
   }
 
   function handleMouseLeave(e) {
+    const {top, left} = getVideoPosition();
+    mX = left;
+    mY = top;
+  }
+
+  function getVideoPosition() {
     if (videoElement) {
-      const {top, left} = videoElement.getBoundingClientRect();
-      mX = left;
-      mY = top;
+      return videoElement.getBoundingClientRect();
+    } else {
+      return {top: 0, left: 0};
     }
   }
-
-  function handleScrollCall({ value, way }) {
-    if (value === CALL_VALUE) {
-      isExited = way === 'exit';
-
-      contextAlpha.subscribe(value => {
-        if ($context) {
-          $context.globalAlpha = value;
-        }
-      });
-      
-      if (isExited) {
-        videoElement && videoElement.pause();
-        // $contextAlpha = 0;
-      } else {
-        $contextAlpha = 1;
-        videoElement && videoElement.play();
-      }
-    }
-  }
-
-  function handleScroll(instance) {
-    if (videoElement) {
-      const {top, left} = videoElement.getBoundingClientRect();
-      mX = left;
-      mY = top;
-    }
-  }
-
-  function unsubscribe() {
-    emitter.off('call', handleScrollCall);
-    emitter.off('scroll', handleScroll);
-  }
-
-  emitter.on('call', handleScrollCall);
-  emitter.on('scroll', handleScroll);
-  onDestroy(unsubscribe);
 </script>
 
 <style>
@@ -149,18 +160,25 @@
   transition-property: opacity, transform;
   transform: translateY(40px);
 
+  background: var(--color-primary);
+
   transition-delay: .35s;
 }
 
-.c-work__media img {
+img {
   display: inline-block;
   width: 100%;
   min-height: 350px;
-  
-  background: var(--color-primary);
+
+  opacity: 0;
+  transition: opacity .35s;
 }
 
-.c-work__media video {
+:global(.lazyloaded) {
+  opacity: 1 !important;
+}
+
+video {
   display: none;
 }
 
@@ -179,6 +197,7 @@
     padding-bottom: 56.556%;
 
     border: solid 1px var(--color-grey);
+    background-color: transparent;
 
     transform: translateY(30%) scale(1.05);
     transition-delay: 0s;
@@ -196,11 +215,11 @@
     justify-content: center;
   }
 
-  .c-work__media img {
+  img {
     display: none;
   }
 
-  .c-work__media video {
+  video {
     display: inline-block;
 
     width: 56.556%;
@@ -217,18 +236,22 @@
   data-scroll-offset="100"
   data-scroll-position="bottom"
 >
-  <div
-    class="c-work__media"
-  >
+  <div class="c-work__media">
     <div
       class="c-work__inner"
+      data-scroll
+      data-scroll-call={uid}
+      data-scroll-repeat
+      data-scroll-position={trigger || 'bottom'}
+      data-scroll-offset="10%"
       on:mousemove={handleMouseMove}
       on:mouseleave={handleMouseLeave}
     >      
       <img
-        data-src="{image.mobile.url}"
-        alt="{title}"
+        alt="{RichText.asText(title)}"
+        data-src="{image.url}"
         src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+        bind:this={imageElement}
       />
       {#if video.url}
         <video 
@@ -237,10 +260,6 @@
           loop
           playsinline
           bind:this={videoElement}
-          data-scroll
-          data-scroll-repeat
-          data-scroll-call={CALL_VALUE}
-          data-scroll-position="bottom"
         >
           <source data-src={video.url} type="video/mp4">
         </video>

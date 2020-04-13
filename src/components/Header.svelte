@@ -1,5 +1,16 @@
 <script context="module">
   import Spacer from '../components/Spacer.svelte';
+  import { scrollable } from '../context/scroll';
+</script>
+
+<script>
+  let scrolled;
+
+  scrollable({
+    scroll: ({ scroll }) => {
+      scrolled = scroll.y >= 80;
+    }
+  })
 </script>
 
 <style>
@@ -36,6 +47,17 @@
     transition-delay: calc( var(--loading-reveal-delay) + var(--loading-marquee-delay) );
   }
 
+  /* .c-header.is-scrolled {
+    transform: translateY(-20px) scaleY(1.2);
+    transition: all .8s var(--ease-in-out);
+    transition-delay: 0s;
+  } */
+
+  /* :global(.has-loaded-content) .c-header:not(.is-scrolled) {
+    opacity: 1;
+    transform: none;
+  } */
+
   :global(.has-loaded-content) .c-header {
     opacity: 1;
     transform: none;
@@ -64,7 +86,7 @@
   }
 </style>
 
-<header class="c-header l-container">
+<header class="c-header l-container{scrolled ? ' is-scrolled' : ''}">
   <div class="c-header__location c-header__location-left">
     <div>ITALY</div>
     <div>1993</div>

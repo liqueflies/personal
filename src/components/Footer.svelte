@@ -4,18 +4,18 @@
   import { linear } from 'svelte/easing';
 
   import Spacer from '../components/Spacer';
+  import { scrollable } from '../context/scroll';
+  import { renderable, context } from '../context/canvas';
   import { lerp } from '../utils/math';
   import { imageLoader } from '../utils/loader';
-  import { renderable, context } from '../context/canvas';
-  import emitter from '../emitter';
+
+  const scrollValue = 'footer';
+  const today = new Date();
 </script>
 
 <script>
-  const CALL_VALUE = 'footer';
-
   const frames = [];
   const size = { x: 0, y: 0 };
-  const today = new Date();
 
   let mX = 0;
   let mY = 0;
@@ -23,10 +23,9 @@
   let x = 0;
   let y = 0;
 
+  let dark = false;
+  let visible = false;
   let texture = null;
-
-  let isExited = true;
-  let isDarkThemeActive = false;
 
   let contextAlpha = tweened(0, {
     duration: 300,
@@ -62,29 +61,40 @@
       });
     },
     render: props => {
-      if (isExited) {
-        return false;
+      if (visible) {
+        x = lerp(x, mX, 0.4);
+        y = lerp(y, mY, 0.4);
+
+        frames.forEach((e, i) => {
+          const next = frames[i + 1] || frames[0];
+
+          e.draw(x, y);
+
+          x = lerp(x, next.x, 0.9);
+          y = lerp(y, next.y, 0.9);
+
+          $context.globalCompositeOperation = 'destination-over';
+        });
       }
-
-      x = lerp(x, mX, 0.4);
-      y = lerp(y, mY, 0.4);
-
-      frames.forEach((e, i) => {
-        const next = frames[i + 1] || frames[0];
-
-        e.draw(x, y);
-
-        x = lerp(x, next.x, 0.9);
-        y = lerp(y, next.y, 0.9);
-
-        $context.globalCompositeOperation = 'destination-over';
-      });
     }
   });
 
+  scrollable({
+    value: scrollValue,
+    enter: () => {
+      visible = true;
+      if ($context) {
+        $context.globalAlpha = 0;
+      }
+    },
+    exit: () => {
+      visible = false;
+    }
+  })
+
   function handleToggleTheme(e) {
-    isDarkThemeActive = !isDarkThemeActive
-    document.body.classList[isDarkThemeActive ? 'add' : 'remove']('t-dark')
+    dark = !dark
+    document.body.classList[dark ? 'add' : 'remove']('t-dark')
   }
 
   function handleMouseMove(e) {
@@ -104,23 +114,6 @@
   function handleMouseLeave(e) {
     $contextAlpha = 0;
   }
-
-  function handleScrollCall({ value, way }) {
-    if (value === CALL_VALUE) {
-      isExited = way === 'exit';
-      
-      if (way === 'enter' && $context) {
-        $context.globalAlpha = 0;
-      }
-    }
-  }
-
-  function unsubscribe() {
-    emitter.off('call', handleScrollCall);
-  }
-
-  emitter.on('call', handleScrollCall);
-  onDestroy(unsubscribe);
 </script>
 
 <style>
@@ -239,7 +232,7 @@
     data-scroll-repeat
     data-scroll-position="bottom"
     data-scroll-offset="100"
-    data-scroll-call={CALL_VALUE}
+    data-scroll-call={scrollValue}
   >
     <ul class="c-footer__list">
       <li class="c-footer__contact">
@@ -265,7 +258,7 @@
       class="c-footer__toggle"
       on:click={handleToggleTheme}
     >
-      <span class="c-footer__hoverable">{isDarkThemeActive ? "Light" : "Dark"} Mode</span>
+      <span class="c-footer__hoverable">{dark ? "Light" : "Dark"} Mode</span>
     </button>
   </div>
   <Spacer size="10" only="mobile" />

@@ -1,48 +1,40 @@
-<script>
+<script context="module">
   import { onMount, onDestroy } from 'svelte';
 
   import Marquee from '../components/Marquee.svelte';
+  import { scrollable } from '../context/scroll';
+  import { hasTransitionEnd } from '../store/loader';
   import { pictureLoader } from '../utils/loader';
-  import emitter from '../emitter';
 
-  const CALL_VALUE = 'hero';
+  const scrollValue = 'hero';
+</script>
 
-  let vw;
+<script>
   let patchElement;
   let pictureElement;
+  let progress;
 
-  let isExited = false;
+  scrollable({
+    value: scrollValue,
+    scroll: (instance) => {
+      if (instance.visible) {
+        progress = instance.scroll.y / (patchElement.offsetHeight);
+        patchElement.style.transform = `scale3d(${1 + progress}, 1, 1) perspective(1px)`;
+      }
+    }
+  });
 
   onMount(() => {
     pictureLoader(pictureElement, () => {
       setTimeout(() => {
         document.documentElement.classList.add('has-loaded-content');
       }, 10);
-    })
+    });
   });
 
-  function onCall({ value, way }) {
-    if (value === CALL_VALUE) {
-      isExited = way === 'exit';
-    }
+  function handleTransitionEnd() {
+    $hasTransitionEnd = true;
   }
-  
-  function onScroll(instance) {
-    if (isExited) {
-      return false;
-    }
-    const progress = patchElement.offsetHeight * instance.scroll.y / instance.limit;
-    patchElement.style.transform = `scaleX(${(vw / patchElement.offsetWidth) - 1 + progress * 0.01 })`;
-  }
-
-  function unsubscribe() {
-    emitter.off('scroll', onScroll);
-    emitter.off('call', onCall);
-  }
-  
-  emitter.on('scroll', onScroll);
-  emitter.on('call', onCall);
-  onDestroy(unsubscribe);
 </script>
 
 <style>
@@ -138,7 +130,8 @@
 .c-hero__image,
 .c-hero__loading-stroke,
 .c-hero__loading-left,
-.c-hero__loading-right {
+.c-hero__loading-right,
+.c-hero__patch {
   transform-style: preserve-3d;
 }
 
@@ -165,12 +158,11 @@
 @media screen and (min-width: 40em) {
   .c-hero {
     padding-bottom: 0;
-    height: 100vh;
   }
 
   .c-hero__image {
     width: 100%;
-    height: 100%;
+    height: 100vh;
 
     object-fit: cover;
   }
@@ -185,12 +177,13 @@
 }
 </style>
 
-<svelte:window
-  bind:innerWidth={vw}
-/>
-
 <div data-scroll-section class="l-container l-container--full">
-  <figure class="c-hero l-grid" data-scroll data-scroll-repeat data-scroll-call={CALL_VALUE}>
+  <figure 
+    class="c-hero l-grid"
+    data-scroll
+    data-scroll-repeat
+    data-scroll-call={scrollValue}
+  >
     <div class="l-container l-container--small c-hero__frame">
       <picture bind:this={pictureElement}>
         <source
@@ -211,6 +204,7 @@
           class="c-hero__image"
           data-src="lollo.jpg"
           alt="Lorenzo Girardi - Creative Technologist"
+          on:transitionend={handleTransitionEnd}
         />
       </picture>
       <div class="c-hero__loading">

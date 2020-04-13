@@ -1,43 +1,28 @@
 <script context="module">
   import { onDestroy } from 'svelte';
-
-  import emitter from '../emitter';
+  import { scrollable } from '../context/scroll';
 </script>
 
 <script>
   export let text;
 
   let transform = 0;
-  let isExited = false;
-  const CALL_VALUE = 'marquee';
+  const scrollValue = 'marquee';
 
-  function onScroll(instance) {
-    if (isExited) {
-      // avoid continuously set to 0.
-      if (transform === 0) {
-        return false;
+  scrollable({
+    value: scrollValue,
+    scroll: ({ speed, visible }) => {
+      if (visible) {
+        transform -= Math.min(Math.abs(speed), 5);
+      } else {
+        // avoid continuously set to 0.
+        if (transform === 0) {
+          return false;
+        }
+        transform = 0;
       }
-  
-      transform = 0;
-    } else {
-      transform -= Math.min(Math.abs(instance.speed), 5);
     }
-  }
-
-  function onCall({ value, way }) {
-    if (value === CALL_VALUE) {
-      isExited = way === 'exit';
-    }
-  }
-
-  function unsubscribe() {
-    emitter.off('call', onCall);
-    emitter.off('scroll', onScroll);
-  }
-
-  emitter.on('call', onCall);
-  emitter.on('scroll', onScroll);
-  onDestroy(unsubscribe);
+  });
 </script>
 
 <style>
@@ -101,7 +86,7 @@
     <h1
       data-text="{text}"
       data-scroll
-      data-scroll-call="{CALL_VALUE}"
+      data-scroll-call="{scrollValue}"
       data-scroll-repeat
       class="o-marquee__label"
       style="transform: translate3d({transform}px, 0, 0);"
