@@ -10,9 +10,10 @@
 </script>
 
 <script>
+  export let uid;
+  export let title;
   export let image;
   export let video;
-  export let uid;
 
   const frames = [];
   const size = { x: 0, y: 0 };
@@ -224,13 +225,11 @@
       on:mousemove={handleMouseMove}
       on:mouseleave={handleMouseLeave}
     >      
-      <!-- {#if image.mobile.url} -->
       <img
-        alt="{image.alt}"
         data-src="{image.mobile.url}"
+        alt="{title}"
         src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
       />
-      <!-- {/if} -->
       {#if video.url}
         <video 
           autoplay
