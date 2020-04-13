@@ -38,7 +38,7 @@
   --loading-reveal-delay: 0.8s;
   --loading-stroke-time: 1.2s;
   --loading-reveal-time: 1.6s;
-  --loading-marquee-delay: .2s;
+  --loading-marquee-delay: 0s;
 }
 
 *, :after, :before {
