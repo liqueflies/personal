@@ -162,5 +162,6 @@
     <span class="c-work__detail"><a rel="noopener" target="_blank" href='{Link.url(data.link)}'>Visit Site</a></span>
   </div>
   
-  <Spacer size={20} />
+  <Spacer size={20} only="mobile" />
+  <Spacer size={35} only="desktop" />
 </article>

@@ -47,8 +47,8 @@
     setup: props => {
       imageLoader({ src: 'polaroid.webp' }, img => {
         texture = img;
-        size.x = img.width * 0.25;
-        size.y = img.height * 0.25;
+        size.x = img.width * 0.5;
+        size.y = img.height * 0.5;
 
         for(let i = 0; i < 4; i++) {
           const e = new Image();

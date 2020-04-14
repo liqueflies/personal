@@ -10,7 +10,8 @@
     context as contextStore,
     pixelRatio,
     props,
-    time
+    time,
+    // alpha
   } from '../context/canvas';
 </script>
 
@@ -40,6 +41,11 @@
       }
       entity.ready = true;
     });
+
+    // alpha.subscribe(value => {
+    //   console.log(value);
+    //   context.globalAlpha = value;
+    // });
   
     // start game loop
     return createLoop((elapsed, dt) => {

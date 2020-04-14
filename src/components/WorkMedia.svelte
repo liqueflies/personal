@@ -1,11 +1,11 @@
 <script context="module">
-  import {RichText} from 'prismic-dom';
+  import { RichText } from 'prismic-dom';
   import { onMount, onDestroy } from 'svelte';
   import { tweened } from 'svelte/motion';
   import isMobile from 'is-mobile';
 
   import { scrollable } from '../context/scroll';
-  import { renderable, context, height, width } from '../context/canvas';
+  import { renderable, context, height, width, alpha } from '../context/canvas';
   import { imageLoader, videoLoader } from '../utils/loader';
   import { lerp } from '../utils/math';
 </script>
@@ -67,7 +67,7 @@
     render: props => {
       if (visible && texture) {
         let intensity = scrolling ? 0.8 : 0.6;
-        let delay = scrolling ? 0.4 : 0.8;
+        let delay = scrolling ? 0.5 : 0.8;
 
         x = lerp(x, mX, intensity);
         y = lerp(y, mY, intensity);
@@ -114,14 +114,17 @@
             $context.globalAlpha = value;
           }
         });
-        $contextAlpha = 1;
         visible = true;
+        // $alpha = 1;
+        $contextAlpha = 1;
         videoElement && videoElement.play();
       }
     },
     exit: () => {
-      videoElement && videoElement.pause();
+      // $contextAlpha = 0;
+      // $alpha = 0;
       visible = false;
+      videoElement && videoElement.pause();
     }
   });
 

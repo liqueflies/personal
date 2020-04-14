@@ -220,7 +220,7 @@
   class="l-container l-container--small c-abstract"
 >
   <Spacer size="20" only="mobile" />
-  <Spacer size="30" only="desktop" />
+  <Spacer size="35" only="desktop" />
   <div
     data-scroll
     data-scroll-repeat
@@ -254,7 +254,7 @@
     </div>
   </div>
   <Spacer size="20" only="mobile" />
-  <Spacer size="30" only="desktop" />
+  <Spacer size="35" only="desktop" />
 </div>
 
 <svelte:body
