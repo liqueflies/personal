@@ -38,7 +38,10 @@
     this.y = 0;
 
     this.draw = function(x, y) {
-      $context.drawImage(texture, x, y, size.x, size.y);
+      if (texture) {
+        $context.drawImage(texture, x, y, size.x, size.y);
+      }
+
       this.x = x;
       this.y = y;
     }
@@ -66,7 +69,7 @@
       });
     },
     render: props => {
-      if (visible && texture) {
+      if (visible) {
         x = lerp(x, mX, 0.4);
         y = lerp(y, mY, 0.4);
 

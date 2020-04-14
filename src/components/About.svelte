@@ -81,9 +81,6 @@
     value: scrollValue,
     enter: () => {
       visible = true;
-      // if ($context) {
-      //   $context.globalAlpha = 0;
-      // }
     },
     exit: () => {
       visible = false;
