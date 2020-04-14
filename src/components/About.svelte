@@ -52,6 +52,10 @@
 
       contextAlpha.subscribe(value => {
         $context.globalAlpha = value;
+
+        if (value === 0) {
+          emojiText = '';
+        }
       });
     },
     render: props => {
@@ -77,9 +81,9 @@
     value: scrollValue,
     enter: () => {
       visible = true;
-      if ($context) {
-        $context.globalAlpha = 0;
-      }
+      // if ($context) {
+      //   $context.globalAlpha = 0;
+      // }
     },
     exit: () => {
       visible = false;
@@ -232,11 +236,14 @@
       data-scroll-position="bottom"
       data-scroll-offset="200"
     >
-      <div class="c-abstract__para c-abstract__first creative" 
-        data-emoji="👨🏻‍💻"
-        on:mouseenter={handleMouseEnter}
-        on:mouseleave={handleMouseLeave}
-      >Creative</div>
+      <div class="c-abstract__para">
+        <span
+          class=" c-abstract__first creative"
+          data-emoji="👨🏻‍💻"
+          on:mouseenter={handleMouseEnter}
+          on:mouseleave={handleMouseLeave}
+        >Creative</span>
+      </div>
       <div class="c-abstract__para c-abstract__then technologist">Technologist</div>
       <div class="c-abstract__para" on:mouseleave={handleMouseLeave}>
         <span 

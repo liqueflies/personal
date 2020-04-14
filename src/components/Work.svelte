@@ -98,6 +98,8 @@
     grid-column-start: 1;
     grid-column-end: 4;
 
+    word-spacing: 99999px;
+
     transform: translateY(80px) scaleY(1.8) skewY(8deg);
   }
 
@@ -163,5 +165,5 @@
   </div>
   
   <Spacer size={20} only="mobile" />
-  <Spacer size={35} only="desktop" />
+  <Spacer size={30} only="desktop" />
 </article>

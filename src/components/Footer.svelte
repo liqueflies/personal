@@ -25,6 +25,7 @@
 
   let dark = false;
   let visible = false;
+  let image = null;
   let texture = null;
 
   let contextAlpha = tweened(0, {
@@ -46,9 +47,9 @@
   renderable({
     setup: props => {
       imageLoader({ src: 'polaroid.webp' }, img => {
-        texture = img;
-        size.x = img.width * 0.5;
-        size.y = img.height * 0.5;
+        image = img;
+        size.x = img.width * 0.45;
+        size.y = img.height * 0.45;
 
         for(let i = 0; i < 4; i++) {
           const e = new Image();
@@ -58,10 +59,14 @@
 
       contextAlpha.subscribe(value => {
         $context.globalAlpha = value;
+
+        if (value === 0) {
+          texture = null;
+        }
       });
     },
     render: props => {
-      if (visible) {
+      if (visible && texture) {
         x = lerp(x, mX, 0.4);
         y = lerp(y, mY, 0.4);
 
@@ -83,9 +88,6 @@
     value: scrollValue,
     enter: () => {
       visible = true;
-      if ($context) {
-        $context.globalAlpha = 0;
-      }
     },
     exit: () => {
       visible = false;
@@ -108,6 +110,7 @@
       e.y = mY;
     });
 
+    texture = image;
     $contextAlpha = 1;
   }
 
@@ -148,6 +151,8 @@
 
 .c-footer__sst {
   grid-column-start: 6;
+
+  cursor: default;
 }
 
 .c-footer__toggle {
@@ -192,6 +197,10 @@
 
   .c-footer__hoverable {
     transition: color 0.15s;
+  }
+
+  .c-footer__sst .c-footer__hoverable {
+    cursor: default;
   }
 
   .c-footer__toggle:hover .c-footer__hoverable,

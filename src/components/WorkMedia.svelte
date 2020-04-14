@@ -31,6 +31,7 @@
   let visible;
   let scrolling;
   let trigger;
+  let offset = 0;
 
   let contextAlpha = tweened(0);
 
@@ -66,7 +67,7 @@
     },
     render: props => {
       if (visible && texture) {
-        let intensity = scrolling ? 0.8 : 0.6;
+        let intensity = scrolling ? 0.8 : 0.35;
         let delay = scrolling ? 0.5 : 0.8;
 
         x = lerp(x, mX, intensity);
@@ -88,14 +89,20 @@
 
   scrollable({
     value: uid,
-    scroll: ({ speed, direction }) => {
+    scroll: ({ speed, direction, instance }) => {
       const {top, left} = getVideoPosition();
       mX = left;
       mY = top;
-      scrolling = Math.abs(speed) >= 1;
+
+      scrolling = Math.abs(speed) > 0;
+      // offset = speed <= 0 ? '' : '-';
 
       if (direction) {
-        trigger = direction === 'down' ? 'bottom' : 'top'
+        const prevTrigger = trigger;
+        trigger = direction === 'down' ? 'bottom' : 'top';
+        if (prevTrigger !== trigger) {
+          instance.update();
+        }
       }
     },
     enter: () => {

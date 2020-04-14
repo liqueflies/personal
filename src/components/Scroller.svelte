@@ -28,11 +28,12 @@
         });
 
         scroll.on('scroll', instance => {
-          const scrolling = Math.abs(instance.speed) >= 1;
+          const scrolling = Math.abs(instance.speed) > 0;
+
           document.documentElement.classList[scrolling ? 'add' : 'remove']('has-no-pointer');
           listeners.forEach(entity => {
             if (entity.mounted && entity.ready && entity.scroll) {
-              entity.scroll({ ...instance, visible: entity.visible });
+              entity.scroll({ ...instance, visible: entity.visible, instance: scroll });
             }
           });
         });
