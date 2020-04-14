@@ -1,5 +1,4 @@
 import { getContext, onMount } from 'svelte';
-import { tweened } from 'svelte/motion';
 import { writable, derived } from 'svelte/store';
 
 export const width = writable(0);
@@ -8,7 +7,6 @@ export const pixelRatio = writable(1);
 export const context = writable();
 export const canvas = writable();
 export const time = writable(0);
-// export const alpha = tweened(0);
 
 export const props = deriveObject({
   context,

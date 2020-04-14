@@ -5,7 +5,7 @@
   import isMobile from 'is-mobile';
 
   import { scrollable } from '../context/scroll';
-  import { renderable, context, height, width, alpha } from '../context/canvas';
+  import { renderable, context, height, width } from '../context/canvas';
   import { imageLoader, videoLoader } from '../utils/loader';
   import { lerp } from '../utils/math';
 </script>
@@ -31,7 +31,6 @@
   let visible;
   let scrolling;
   let trigger;
-  let offset = 0;
 
   let contextAlpha = tweened(0);
 
@@ -95,11 +94,11 @@
       mY = top;
 
       scrolling = Math.abs(speed) > 0;
-      // offset = speed <= 0 ? '' : '-';
 
       if (direction) {
         const prevTrigger = trigger;
         trigger = direction === 'down' ? 'bottom' : 'top';
+
         if (prevTrigger !== trigger) {
           instance.update();
         }
@@ -122,14 +121,11 @@
           }
         });
         visible = true;
-        // $alpha = 1;
         $contextAlpha = 1;
         videoElement && videoElement.play();
       }
     },
     exit: () => {
-      // $contextAlpha = 0;
-      // $alpha = 0;
       visible = false;
       videoElement && videoElement.pause();
     }
