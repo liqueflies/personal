@@ -90,7 +90,7 @@
   function handleResize () {
     width.set(window.innerWidth);
     height.set(window.innerHeight);
-    pixelRatio.set(Math.min(1.5, window.devicePixelRatio || 1));
+    pixelRatio.set(Math.min(1, window.devicePixelRatio || 1));
   }
 
   function createLoop (fn) {
