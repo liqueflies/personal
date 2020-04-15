@@ -80,7 +80,7 @@
           x = lerp(x, next.x, delay);
           y = lerp(y, next.y, delay);
 
-          $context.globalCompositeOperation = 'destination-over';
+          // $context.globalCompositeOperation = 'destination-over';
         });
       }
     }

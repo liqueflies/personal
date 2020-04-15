@@ -81,7 +81,7 @@
           x = lerp(x, next.x, 0.9);
           y = lerp(y, next.y, 0.9);
 
-          $context.globalCompositeOperation = 'destination-over';
+          // $context.globalCompositeOperation = 'destination-over';
         });
       }
     }

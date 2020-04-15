@@ -13,7 +13,7 @@
     value: scrollValue,
     scroll: ({ speed, visible }) => {
       if (visible) {
-        transform -= Math.min(Math.abs(speed), 5);
+        transform -= Math.min(Math.abs(speed), 2);
       } else {
         // avoid continuously set to 0.
         if (transform === 0) {
