@@ -31,6 +31,7 @@
   let visible;
   let scrolling;
   let trigger;
+  // let renderToggle = false;
 
   let contextAlpha = tweened(0);
 
@@ -63,9 +64,15 @@
         videoElement.pause();
         videoElement.currentTime = 0;
       });
+
+      $context.imageSmoothingEnabled = false;
     },
     render: props => {
       if (visible && texture) {
+        // draw at 30 fps
+        // renderToggle = !renderToggle
+        // if (!renderToggle) return false;
+    
         let intensity = scrolling ? 0.8 : 0.35;
         let delay = scrolling ? 0.5 : 0.8;
 
@@ -80,7 +87,7 @@
           x = lerp(x, next.x, delay);
           y = lerp(y, next.y, delay);
 
-          // $context.globalCompositeOperation = 'destination-over';
+          $context.globalCompositeOperation = 'destination-over';
         });
       }
     }

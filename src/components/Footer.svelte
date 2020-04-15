@@ -39,7 +39,7 @@
 
     this.draw = function(x, y) {
       if (texture) {
-        $context.drawImage(texture, x, y, size.x, size.y);
+        $context.drawImage(texture, x, y, size.x * 0.5, size.y * 0.5, 0, 0, size.x, size.y);
       }
 
       this.x = x;
@@ -81,7 +81,7 @@
           x = lerp(x, next.x, 0.9);
           y = lerp(y, next.y, 0.9);
 
-          // $context.globalCompositeOperation = 'destination-over';
+          $context.globalCompositeOperation = 'destination-over';
         });
       }
     }

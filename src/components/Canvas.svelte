@@ -11,7 +11,6 @@
     pixelRatio,
     props,
     time,
-    // alpha
   } from '../context/canvas';
 </script>
 
@@ -19,6 +18,7 @@
   export let killLoopOnError = true;
 
   let listeners = []; 
+
   let canvas;
   let context;
   let frame;
@@ -41,11 +41,6 @@
       }
       entity.ready = true;
     });
-
-    // alpha.subscribe(value => {
-    //   console.log(value);
-    //   context.globalAlpha = value;
-    // });
   
     // start game loop
     return createLoop((elapsed, dt) => {
