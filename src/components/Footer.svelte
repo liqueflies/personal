@@ -7,7 +7,7 @@
   import { scrollable } from '../context/scroll';
   import { renderable, context } from '../context/canvas';
   import { lerp } from '../utils/math';
-  import { imageLoader } from '../utils/loader';
+  // import { imageLoader } from '../utils/loader';
 
   const scrollValue = 'footer';
   const today = new Date();
@@ -49,16 +49,16 @@
 
   renderable({
     setup: props => {
-      imageLoader({ src: 'polaroid.webp' }, img => {
-        image = img;
-        size.x = img.width * 0.45;
-        size.y = img.height * 0.45;
+      // imageLoader({ src: 'polaroid.webp' }, img => {
+      //   image = img;
+      //   size.x = img.width * 0.45;
+      //   size.y = img.height * 0.45;
 
-        for(let i = 0; i < 4; i++) {
-          const e = new Image();
-          frames.push(e);
-        }
-      });
+      //   for(let i = 0; i < 4; i++) {
+      //     const e = new Image();
+      //     frames.push(e);
+      //   }
+      // });
 
       contextAlpha.subscribe(value => {
         $context.globalAlpha = value;

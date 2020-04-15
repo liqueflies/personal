@@ -1,6 +1,8 @@
 <script context="module">
   import { onDestroy } from 'svelte';
+
   import { scrollable } from '../context/scroll';
+  import { lerp } from '../utils/math';
 </script>
 
 <script>
@@ -13,7 +15,8 @@
     value: scrollValue,
     scroll: ({ speed, visible }) => {
       if (visible) {
-        transform -= Math.min(Math.abs(speed), 2);
+        const movement = Math.min(Math.abs(speed), 10) * 0.2;
+        transform -= movement;
       } else {
         // avoid continuously set to 0.
         if (transform === 0) {

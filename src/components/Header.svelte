@@ -47,17 +47,6 @@
     transition-delay: calc( var(--loading-reveal-delay) + var(--loading-marquee-delay) );
   }
 
-  /* .c-header.is-scrolled {
-    transform: translateY(-20px) scaleY(1.2);
-    transition: all .8s var(--ease-in-out);
-    transition-delay: 0s;
-  } */
-
-  /* :global(.has-loaded-content) .c-header:not(.is-scrolled) {
-    opacity: 1;
-    transform: none;
-  } */
-
   :global(.has-loaded-content) .c-header {
     opacity: 1;
     transform: none;
@@ -76,6 +65,22 @@
       transform: translateY(40px) scaleY(1.2);
     }
 
+    .c-header__location-left,
+    .c-header__location-right {
+      transition: all .65s var(--ease-in-out);
+      transition-property: opacity, transform;
+    }
+
+    .c-header.scrolled .c-header__location-left {
+      transform: translateX(-40px);
+      opacity: 0;
+    }
+
+    .c-header.scrolled .c-header__location-right {
+      transform: translateX(40px);
+      opacity: 0;
+    }
+
     .c-header__location {
       display: inline-block;
     }
@@ -86,7 +91,7 @@
   }
 </style>
 
-<header class="c-header l-container{scrolled ? ' is-scrolled' : ''}">
+<header class="c-header l-container" class:scrolled={scrolled}>
   <div class="c-header__location c-header__location-left">
     <div>ITALY</div>
     <div>1993</div>

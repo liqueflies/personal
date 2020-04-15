@@ -4,7 +4,7 @@
   import Marquee from '../components/Marquee.svelte';
   import { scrollable } from '../context/scroll';
   import { hasTransitionEnd } from '../store/loader';
-  import { pictureLoader } from '../utils/loader';
+  import { lazyPicture } from '../utils/lazy';
 
   const scrollValue = 'hero';
 </script>
@@ -24,12 +24,14 @@
     }
   });
 
-  onMount(() => {
-    pictureLoader(pictureElement, () => {
-      setTimeout(() => {
-        document.documentElement.classList.add('has-loaded-content');
-      }, 10);
-    });
+  onMount(async () => {
+    const src = await lazyPicture(pictureElement);
+    console.log('asmr', src);
+    document.documentElement.classList.add('has-loaded-content');
+      // setTimeout(() => {
+      //   document.documentElement.classList.add('has-loaded-content');
+      // }, 10);
+    // });
   });
 
   function handleTransitionEnd() {

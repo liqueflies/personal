@@ -6,7 +6,7 @@
 
   import { scrollable } from '../context/scroll';
   import { renderable, context, height, width } from '../context/canvas';
-  import { imageLoader, videoLoader } from '../utils/loader';
+  import { lazyImage, videoLoader } from '../utils/lazy';
   import { lerp } from '../utils/math';
 </script>
 
@@ -31,7 +31,6 @@
   let visible;
   let scrolling;
   let trigger;
-  // let renderToggle = false;
 
   let contextAlpha = tweened(0);
 
@@ -69,10 +68,6 @@
     },
     render: props => {
       if (visible && texture) {
-        // draw at 30 fps
-        // renderToggle = !renderToggle
-        // if (!renderToggle) return false;
-    
         let intensity = scrolling ? 0.8 : 0.35;
         let delay = scrolling ? 0.5 : 0.8;
 
@@ -111,15 +106,12 @@
         }
       }
     },
-    enter: () => {
+    enter: async () => {
       if (isMobile({featureDetect: true, tablet: true})) {
-        const source = imageElement.dataset.src;
-        if (source && source.length) {
-          imageLoader({ src: source }, image => {
-            imageElement.classList.add('lazyloaded');
-            imageElement.src = image.src;
-            imageElement.removeAttribute('data-src');
-          });
+        if (imageElement) {
+          await lazyImage(imageElement);
+          imageElement.classList.add('lazyloaded');
+          imageElement.removeAttribute('data-src');
         }
       } else {
         const unsubscribe = contextAlpha.subscribe(value => {
