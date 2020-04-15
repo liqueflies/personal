@@ -34,6 +34,10 @@
   display: none;
 }
 
+:global(.c-work__detail p) {
+  margin: 0;
+}
+
 .c-work__title,
 .c-work__release,
 .c-work__detail {
@@ -160,7 +164,7 @@
     data-scroll
   >
     <span class="c-work__detail">{RichText.asText(data.type)}</span>
-    <span class="c-work__detail">{RichText.asText(data.role)}</span>
+    <span class="c-work__detail">{@html RichText.asHtml(data.role)}</span>
     <span class="c-work__detail"><a rel="noopener" target="_blank" href='{Link.url(data.link)}'>Visit Site</a></span>
   </div>
   

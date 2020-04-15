@@ -119,8 +119,8 @@
 .c-abstract__first {
   letter-spacing: var(--letter-spacing-sans);
 
+  transition: opacity .5s, transform .5s;
   transform: translateY(30px) scaleY(1.4) skewY(7deg);
-  transition: all .5s;
 }
 
 .c-abstract__first.creative {
@@ -152,8 +152,6 @@
   transform-style: preserve-3d;
 
   opacity: 0;
-
-  transition-property: opacity, transform;
 }
 
 .c-abstract__para {
@@ -165,7 +163,8 @@
 
 .c-abstract__then {
   transform: translateY(30px) scaleY(1.4);
-  transition: all .65s var(--ease-in-out);
+  
+  transition: opacity .65s var(--ease-in-out), transition .65s var(--ease-in-out);
 
   --then-delay: 0.1s;
   --then-delay-start: 0.05s;
@@ -192,7 +191,7 @@
 @media screen and (min-width: 40em) {
   .c-abstract__first {
       transform: translateY(120px) scaleY(1.4) skewY(8deg);
-      transition: all .65s;
+      transition: opacity .65s, transform .65s;
   }
 
   .c-abstract__first.creative {
@@ -208,7 +207,7 @@
   }
 
   .c-abstract__then {
-    transition: all .65s var(--ease-in-out);
+    transition: opacity .65s var(--ease-in-out), transform .65s var(--ease-in-out);
 
     --then-delay: 0.15s;
     --then-delay-start: 0.15s;

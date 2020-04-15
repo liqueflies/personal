@@ -217,8 +217,6 @@
 
   .c-footer__sst {
     grid-column-start: 3;
-    grid-column-end: 5;
-    /* text-align: center; */
 
     transition-delay: 0.25s;
   }
