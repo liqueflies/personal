@@ -31,10 +31,10 @@
 <style>
 @keyframes marquee {
   0% {
-    transform: translate(0, 0);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translate(-100%, 0);
+    transform: translate3d(-100%, 0, 0);
   }
 }
 
@@ -42,6 +42,8 @@
   position: relative;
   width: 100%;
   overflow: hidden;
+
+  z-index: 1;
 }
 
 .o-marquee__label {
@@ -58,16 +60,20 @@
 
   white-space: nowrap;
   will-change: transform;
+  transform-style: preserve-3d;
 }
 
 .o-marquee__wrapper {
-  transform: translateX(100%);
+  transform: translate3d(100%, 0, 0);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+
   transition: transform var(--loading-reveal-time) var(--ease-in-out);
   transition-delay: calc( var(--loading-reveal-delay) + var(--loading-marquee-delay) );
 }
 
 :global(.has-loaded-content) .o-marquee__wrapper {
-  transform: translateX(0%);
+  transform: translate3d(0, 0, 0);
 }
 
 :global(.has-loaded-content) .o-marquee__label::after,
@@ -79,22 +85,24 @@
 @media screen and (min-width: 40em) {
   .o-marquee__label::after,
   .o-marquee__label::before {
-    padding: 0 calc( var( --spacer ) * 8 );
+    padding: 0 calc( var(--spacer) * 8 );
   }
 }
 </style>
 
-<div class="o-marquee">
+<div 
+  class="o-marquee"
+  data-scroll
+  data-scroll-repeat
+  data-scroll-call="{scrollValue}"
+>
   <div class="o-marquee__wrapper">
     <h1
       data-text="{text}"
-      data-scroll
-      data-scroll-call="{scrollValue}"
-      data-scroll-repeat
       class="o-marquee__label"
       style="transform: translate3d({transform}px, 0, 0);"
     >
-        <span class="visually-hidden">{text}</span>
+      <span class="visually-hidden">{text}</span>
     </h1>
   </div>
 </div>

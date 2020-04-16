@@ -21,18 +21,13 @@ export const lazyPicture = pictureEl => {
     sources.forEach(source => {
       if (typeof source.tagName === "string" && source.tagName === "SOURCE") {
         source.srcset = source.dataset.srcset;
-        source.onload = function () {
-          // resolve(source.dataset.srcset);
-        }
       } else if (typeof source.tagName === "string" && source.tagName === "IMG") {
         source.src = source.dataset.src;
         source.onload = function () {
-          resolve(source.dataset.src);
+          resolve(this);
         }
       }
     });
-
-    // resolve(null);
   });
 }
 

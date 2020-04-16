@@ -224,6 +224,20 @@ a:hover::after {
   font-family: var(--font-family-secondary);
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary: #fdd1d1;
+    --color-bg: #202124;
+    --color-text: #fff;
+  }
+
+  body.t-light {
+    --color-bg: #ffffff;
+    --color-text: #202124;
+    --color-primary: #34a853;
+  }
+}
+
 body.t-dark {
   --color-primary: #fdd1d1;
   --color-bg: #202124;

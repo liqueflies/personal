@@ -108,7 +108,7 @@
     },
     enter: async () => {
       if (isMobile({featureDetect: true, tablet: true})) {
-        if (imageElement) {
+        if (imageElement && imageElement.dataset.src) {
           await lazyImage(imageElement);
           imageElement.classList.add('lazyloaded');
           imageElement.removeAttribute('data-src');
@@ -161,7 +161,7 @@
   opacity: 0;
 
   transform-style: preserve-3d;
-  transition: all 1s var(--ease-in-out);
+  transition: all .85s var(--ease-in-out);
   transition-property: opacity, transform;
   transform: translateY(40px);
 
@@ -204,8 +204,9 @@ video {
     border: solid 1px var(--color-grey);
     background-color: transparent;
 
-    transform: translateY(30%) scale(1.05);
-    transition-delay: 0s;
+    transform: translate3d(0, 20%, 0);
+    transform-origin: 50% 50%;
+    /* transition-delay: .15s; */
   }
 
   .c-work__inner {

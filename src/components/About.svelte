@@ -111,106 +111,85 @@
 .c-abstract {
   text-align: center;
 }
-
 .c-abstract__content {
   font-size: var(--font-size-h2);
 }
-
-.c-abstract__first {
-  letter-spacing: var(--letter-spacing-sans);
-
-  transition: opacity .5s, transform .5s;
-  transform: translateY(30px) scaleY(1.4) skewY(7deg);
-}
-
-.c-abstract__first.creative {
-  transition-delay: .15s;
-}
-
-.c-abstract__first.music {
-  transition-delay: .25s;
-}
-
-.c-abstract__first.art {
-  transition-delay: .35s;
-}
-
-.c-abstract__then {
-  font-family: var(--font-family-secondary);
-  letter-spacing: var(--letter-spacing-headings);
-  white-space: pre;
-  pointer-events: none;
-}
-
-.c-abstract__first,
-.c-abstract__then {
-  display: inline-block;
-
-  line-height: 1;
-
-  transform-origin: center center;
-  transform-style: preserve-3d;
-
-  opacity: 0;
-}
-
 .c-abstract__para {
   display: block;
   line-height: 1;
 
   cursor: default;
 }
-
+.c-abstract__first {
+  letter-spacing: var(--letter-spacing-sans);
+  transform: translateY(30px) scaleY(1.4) skewY(7deg);
+  transition: all .5s;
+}
+.c-abstract__first.creative {
+  transition-delay: .15s;
+}
+.c-abstract__first.music {
+  transition-delay: .25s;
+}
+.c-abstract__first.art {
+  transition-delay: .35s;
+}
 .c-abstract__then {
-  transform: translateY(30px) scaleY(1.4);
-  
-  transition: opacity .65s var(--ease-in-out), transition .65s var(--ease-in-out);
-
+  font-family: var(--font-family-secondary);
+  letter-spacing: var(--letter-spacing-headings);
+  white-space: pre;
+  pointer-events: none;
+}
+.c-abstract__first,
+.c-abstract__then {
+  display: inline-block;
+  line-height: 1;
+  transform-origin: center center;
+  transform-style: preserve-3d;
+  opacity: 0;
+  transition-property: opacity, transform;
+}
+.c-abstract__then {
   --then-delay: 0.1s;
   --then-delay-start: 0.05s;
-}
 
+  transform: translateY(30px) scaleY(1.4);
+  transition: all .5s;
+}
 .c-abstract__then.technologist {
   transition-delay: calc( var(--then-delay-start) + ( var(--then-delay) * 2 ) );
 }
-
 .c-abstract__then.aficionado {
   transition-delay: calc( var(--then-delay-start) + ( var(--then-delay) * 4 ) );
 }
-
 .c-abstract__then.and {
   transition-delay: calc( var(--then-delay-start) + ( var(--then-delay) * 3 ) );
 }
-
 :global(.is-inview).c-abstract__content .c-abstract__first,
 :global(.is-inview).c-abstract__content .c-abstract__then {
   transform: none;
   opacity: 1;
 }
-
 @media screen and (min-width: 40em) {
   .c-abstract__first {
       transform: translateY(120px) scaleY(1.4) skewY(8deg);
-      transition: opacity .65s, transform .65s;
+      transition: all .5s;
   }
-
   .c-abstract__first.creative {
     transition-delay: .15s;
   }
-
   .c-abstract__first.music {
     transition-delay: .3s;
   }
-
   .c-abstract__first.art {
     transition-delay: .45s;
   }
-
   .c-abstract__then {
-    transition: opacity .65s var(--ease-in-out), transform .65s var(--ease-in-out);
-
     --then-delay: 0.15s;
-    --then-delay-start: 0.15s;
+    --then-delay-start: 0.1s;
+
+    transform: translateY(40px) scaleY(1.4);
+    transition: all .5s;
   }
 }
 </style>

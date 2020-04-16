@@ -26,12 +26,7 @@
 
   onMount(async () => {
     const src = await lazyPicture(pictureElement);
-    console.log('asmr', src);
     document.documentElement.classList.add('has-loaded-content');
-      // setTimeout(() => {
-      //   document.documentElement.classList.add('has-loaded-content');
-      // }, 10);
-    // });
   });
 
   function handleTransitionEnd() {
@@ -190,21 +185,21 @@
       <picture bind:this={pictureElement}>
         <source
           media="(max-width: 768px)"
-          data-srcset="lollo@mobile.webp"
+          data-srcset="lorenzo-girardi@mobile.webp"
           type="image/webp"
         />
         <source 
           media="(max-width: 768px)"
-          data-srcset="lollo@mobile.jpg"
+          data-srcset="lorenzo-girardi@mobile.jpg"
           type="image/jpeg"
         />
         <source
-          data-srcset="lollo.webp"
+          data-srcset="lorenzo-girardi.webp"
           type="image/webp"
         />
         <img
           class="c-hero__image"
-          data-src="lollo.jpg"
+          data-src="lorenzo-girardi.jpg"
           alt="Lorenzo Girardi - Creative Technologist"
           on:transitionend={handleTransitionEnd}
         />

@@ -7,7 +7,7 @@
   import { scrollable } from '../context/scroll';
   import { renderable, context } from '../context/canvas';
   import { lerp } from '../utils/math';
-  // import { imageLoader } from '../utils/loader';
+  import { lazyPicture } from '../utils/lazy';
 
   const scrollValue = 'footer';
   const today = new Date();
@@ -27,19 +27,20 @@
   let visible = false;
   let image = null;
   let texture = null;
+  let pictureElement;
 
   let contextAlpha = tweened(0, {
     duration: 300,
     easing: linear
   });
 
-  function Image() {
+  function CanvasImage() {
     this.x = 0;
     this.y = 0;
 
     this.draw = function(x, y) {
       if (texture) {
-        $context.drawImage(texture, x, y, size.x * 0.5, size.y * 0.5, 0, 0, size.x, size.y);
+        $context.drawImage(texture, x, y, size.x, size.y);
       }
 
       this.x = x;
@@ -48,17 +49,15 @@
   }
 
   renderable({
-    setup: props => {
-      // imageLoader({ src: 'polaroid.webp' }, img => {
-      //   image = img;
-      //   size.x = img.width * 0.45;
-      //   size.y = img.height * 0.45;
-
-      //   for(let i = 0; i < 4; i++) {
-      //     const e = new Image();
-      //     frames.push(e);
-      //   }
-      // });
+    setup: async props => {
+      image = await lazyPicture(pictureElement);
+      size.x = image.naturalWidth * 0.45;
+      size.y = image.naturalHeight * 0.45;
+    
+      for(let i = 0; i < 4; i++) {
+        const e = new CanvasImage();
+        frames.push(e);
+      }
 
       contextAlpha.subscribe(value => {
         $context.globalAlpha = value;
@@ -78,8 +77,8 @@
 
           e.draw(x, y);
 
-          x = lerp(x, next.x, 0.9);
-          y = lerp(y, next.y, 0.9);
+          x = lerp(x, next.x, 0.85);
+          y = lerp(y, next.y, 0.7);
 
           $context.globalCompositeOperation = 'destination-over';
         });
@@ -146,8 +145,8 @@
 }
 
 .c-footer__lg,
-.c-footer__sst,
-.c-footer__toggle {
+.c-footer__sst {
+/* .c-footer__toggle { */
   color: var(--color-grey);
   white-space: nowrap;
 }
@@ -158,9 +157,14 @@
   cursor: default;
 }
 
-.c-footer__toggle {
-  grid-column-start: 12;
+.c-footer__sst picture {
+  position: absolute;
+  visibility: hidden;
 }
+
+/* .c-footer__toggle {
+  grid-column-start: 12;
+} */
 
 @media screen and (min-width: 40em) {
   .c-footer {
@@ -182,8 +186,8 @@
   }
 
   .c-footer__lg,
-  .c-footer__sst,
-  .c-footer__toggle {
+  .c-footer__sst {
+  /* .c-footer__toggle { */
     padding: 80px 0;
     transform: translateY(30px);
     transition: all 1s var(--ease-in-out);
@@ -191,8 +195,8 @@
 
   .c-footer__list,
   .c-footer__lg,
-  .c-footer__sst,
-  .c-footer__toggle {
+  .c-footer__sst {
+  /* .c-footer__toggle { */
     opacity: 0;
     transform-style: preserve-3d;
     transition-property: opacity, transform;
@@ -206,7 +210,7 @@
     cursor: default;
   }
 
-  .c-footer__toggle:hover .c-footer__hoverable,
+  /* .c-footer__toggle:hover .c-footer__hoverable, */
   .c-footer__sst:hover .c-footer__hoverable {
     color: var(--color-text);
   }
@@ -221,15 +225,15 @@
     transition-delay: 0.25s;
   }
 
-  .c-footer__toggle {
+  /* .c-footer__toggle {
     grid-column-start: 10;
     transition-delay: 0.35s;
-  }
+  } */
 
   :global(.is-inview) .c-footer__list,
   :global(.is-inview) .c-footer__lg,
-  :global(.is-inview) .c-footer__sst,
-  :global(.is-inview) .c-footer__toggle {
+  :global(.is-inview) .c-footer__sst {
+  /* :global(.is-inview) .c-footer__toggle { */
     transform: none;
     opacity: 1;
   }
@@ -263,13 +267,27 @@
       class="c-footer__sst"
       on:mouseenter={handleMouseEnter}
       on:mouseleave={handleMouseLeave}
-    ><span class="c-footer__hoverable">(: — S)</span></div>
-    <button
+    >
+      <span class="c-footer__hoverable">(: — S)</span>
+      <picture
+        bind:this={pictureElement}
+      >
+        <source
+          data-srcset="amsterdam-nsdm.webp"
+          type="image/webp"
+        />
+        <img
+          data-src="amsterdam-nsdm.png"
+          alt="Amsterdam NSDM - 2018"
+        />
+      </picture>
+    </div>
+    <!-- <button
       class="c-footer__toggle"
       on:click={handleToggleTheme}
     >
       <span class="c-footer__hoverable">{dark ? "Light" : "Dark"} Mode</span>
-    </button>
+    </button> -->
   </div>
   <Spacer size="10" only="mobile" />
 </footer>
