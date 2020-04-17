@@ -188,7 +188,6 @@
   .c-footer__lg,
   .c-footer__sst {
   /* .c-footer__toggle { */
-    padding: 80px 0;
     transform: translateY(30px);
     transition: all 1s var(--ease-in-out);
   }
@@ -207,7 +206,11 @@
   }
 
   .c-footer__sst .c-footer__hoverable {
+    display: inline-block;
+
     cursor: default;
+    
+    padding: 80px 0;
   }
 
   /* .c-footer__toggle:hover .c-footer__hoverable, */
@@ -264,11 +267,11 @@
   <div class="l-grid c-footer__credits" data-scroll data-scroll-repeat>
     <div class="c-footer__lg">LG{today.getFullYear()} — ∞</div>
     <div
-      class="c-footer__sst"
+      class="c-footer__sst">
+      <span class="c-footer__hoverable"
       on:mouseenter={handleMouseEnter}
       on:mouseleave={handleMouseLeave}
-    >
-      <span class="c-footer__hoverable">(: — S)</span>
+      >(: — S)</span>
       <picture
         bind:this={pictureElement}
       >

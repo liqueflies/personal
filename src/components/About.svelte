@@ -220,17 +220,19 @@
         >Creative</span>
       </div>
       <div class="c-abstract__para c-abstract__then technologist">Technologist</div>
-      <div class="c-abstract__para" on:mouseleave={handleMouseLeave}>
+      <div class="c-abstract__para">
         <span 
           data-emoji="🎙"
           class="c-abstract__first music"
           on:mouseenter={handleMouseEnter}
+          on:mouseleave={handleMouseLeave}
         >Music</span> 
         <span class="c-abstract__then and">&</span>
         <span 
           data-emoji="🖍"
           class="c-abstract__first art"
           on:mouseenter={handleMouseEnter}
+          on:mouseleave={handleMouseLeave}
         >Art</span></div>
       <div class="c-abstract__para c-abstract__then aficionado">aficionado.</div>
     </div>

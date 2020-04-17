@@ -1,7 +1,9 @@
 <script context="module">
   import {RichText, Link} from 'prismic-dom';
+
   import Spacer from '../components/Spacer.svelte';
-  import WorkMedia from '../components/WorkMedia.svelte';
+  import DraggableVideo from '../components/DraggableVideo.svelte';
+  import Carousel from '../components/Carousel.svelte';
 </script>
 
 <script>
@@ -81,8 +83,8 @@
   white-space: nowrap;
 }
 
-:global(.is-inview).c-work__header .c-work__title,
-:global(.is-inview).c-work__header .c-work__release,
+:global(.is-inview) .c-work__title,
+:global(.is-inview) .c-work__release,
 :global(.is-inview).c-work__details .c-work__detail {
   transform: none;
   opacity: 1;
@@ -133,41 +135,37 @@
 }
 </style>
 
-<article 
-  class="c-work"
-  data-scroll-section
->
-  <header 
-    class="c-work__header"
-    data-scroll
-    data-scroll-position="bottom"
-    data-scroll-offset="150"
-  >
-    <h2 class="c-work__title">
-      {RichText.asText(data.title)}
-    </h2>
-    <h4 class="c-work__release">
-      <div class="c-work__month">{month}</div>
-      <div class="c-work__year">{year}</div>
-    </h4>
-  </header>
+<article class="c-work" data-scroll-section>
+  <div data-scroll data-scroll-position="bottom" data-scroll-offset="150">
+    <header class="c-work__header">
+      <h2 class="c-work__title">
+        {RichText.asText(data.title)}
+      </h2>
+      <h4 class="c-work__release">
+        <div class="c-work__month">{month}</div>
+        <div class="c-work__year">{year}</div>
+      </h4>
+    </header>
 
-  <Spacer size={4} only="mobile" />
-  <Spacer size={8} only="desktop" />
+    <Spacer size={4} only="mobile" />
+    <Spacer size={8} only="desktop" />
 
-  <WorkMedia {...data} uid={uid} />
+    <DraggableVideo {...data} uid={uid} />
 
-  <Spacer size={8} />
+    <!-- <Carousel /> -->
 
-  <div 
-    class="c-work__details l-grid"
-    data-scroll
-  >
-    <span class="c-work__detail">{RichText.asText(data.type)}</span>
-    <span class="c-work__detail">{@html RichText.asHtml(data.role)}</span>
-    <span class="c-work__detail"><a rel="noopener" target="_blank" href='{Link.url(data.link)}'>Visit Site</a></span>
+    <Spacer size={8} />
+
+    <div 
+      class="c-work__details l-grid"
+      data-scroll
+    >
+      <span class="c-work__detail">{RichText.asText(data.type)}</span>
+      <span class="c-work__detail">{@html RichText.asHtml(data.role)}</span>
+      <span class="c-work__detail"><a rel="noopener" target="_blank" href='{Link.url(data.link)}'>Visit Site</a></span>
+    </div>
+    
+    <Spacer size={20} only="mobile" />
+    <Spacer size={30} only="desktop" />  
   </div>
-  
-  <Spacer size={20} only="mobile" />
-  <Spacer size={30} only="desktop" />
 </article>

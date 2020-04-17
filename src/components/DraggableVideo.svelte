@@ -1,19 +1,15 @@
 <script context="module">
-  import { RichText } from 'prismic-dom';
   import { onMount, onDestroy } from 'svelte';
   import { tweened } from 'svelte/motion';
-  import isMobile from 'is-mobile';
 
   import { scrollable } from '../context/scroll';
   import { renderable, context, height, width } from '../context/canvas';
-  import { lazyImage, videoLoader } from '../utils/lazy';
+  import { videoLoader } from '../utils/lazy';
   import { lerp } from '../utils/math';
 </script>
 
 <script>
   export let uid;
-  export let title;
-  export let image;
   export let video;
 
   const frames = [];
@@ -27,7 +23,6 @@
 
   let texture;
   let videoElement;
-  let imageElement;
   let visible;
   let scrolling;
   let trigger;
@@ -107,22 +102,14 @@
       }
     },
     enter: async () => {
-      if (isMobile({featureDetect: true, tablet: true})) {
-        if (imageElement && imageElement.dataset.src) {
-          await lazyImage(imageElement);
-          imageElement.classList.add('lazyloaded');
-          imageElement.removeAttribute('data-src');
+      contextAlpha.subscribe(value => {
+        if ($context) {
+          $context.globalAlpha = value;
         }
-      } else {
-        const unsubscribe = contextAlpha.subscribe(value => {
-          if ($context) {
-            $context.globalAlpha = value;
-          }
-        });
-        visible = true;
-        $contextAlpha = 1;
-        videoElement && videoElement.play();
-      }
+      });
+      visible = true;
+      $contextAlpha = 1;
+      videoElement && videoElement.play();
     },
     exit: () => {
       visible = false;
@@ -151,121 +138,80 @@
 </script>
 
 <style>
+.c-video {
+  position: relative;
 
-.c-work__media {
-  grid-column-start: 3;
-  grid-column-end: 11;
+  grid-column-start: 1;
+  grid-column-end: 13;
 
-  width: 100%;
+  height: 0;
+  padding-bottom: 56.556%;
 
-  opacity: 0;
+  display: none;
 
+  border: solid 1px var(--color-grey);
+  background-color: transparent;
+
+  transform: translate3d(0, 20%, 0);
+  transform-origin: 50% 50%;
   transform-style: preserve-3d;
-  transition: all .85s var(--ease-in-out);
-  transition-property: opacity, transform;
-  transform: translateY(40px);
-
-  background: var(--color-primary);
-
-  transition-delay: .35s;
-}
-
-img {
-  display: inline-block;
-  width: 100%;
-  min-height: 350px;
 
   opacity: 0;
-  transition: opacity .35s;
+  
+  transition: all 1.25s var(--ease-in-out);
+  transition-property: opacity, transform;
 }
 
-:global(.lazyloaded) {
-  opacity: 1 !important;
+.c-video__container {
+  position: absolute;
+  top: 12%;
+  left: 15%;
+  right: 15%;
+  bottom: 12%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 video {
-  display: none;
+  display: inline-block;
+
+  width: 70%;
+  height: 70%;
+
+  visibility: hidden;
 }
 
-:global(.is-inview) .c-work__media {
+:global(.is-inview) .c-video {
   transform: none;
   opacity: 1;
 }
 
 @media screen and (min-width: 40em) {
-  .c-work__media {
-    position: relative;
-    grid-column-start: 1;
-    grid-column-end: 13;
-
-    height: 0;
-    padding-bottom: 56.556%;
-
-    border: solid 1px var(--color-grey);
-    background-color: transparent;
-
-    transform: translate3d(0, 20%, 0);
-    transform-origin: 50% 50%;
-
-    transition-delay: 0s;
-  }
-
-  .c-work__inner {
-    position: absolute;
-    top: 8%;
-    left: 10%;
-    right: 10%;
-    bottom: 8%;
-  
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  img {
-    display: none;
-  }
-
-  video {
-    display: inline-block;
-
-    width: 56.556%;
-    height: 56.556%;
-
-    visibility: hidden;
+  .c-video {
+    display: block;
   }
 }
 </style>
 
 <div class="l-grid">
-  <div class="c-work__media">
+  <div 
+    class="c-video"
+    data-scroll
+    data-scroll-repeat
+    data-scroll-call={uid}
+    data-scroll-offset="10%"
+    data-scroll-position={trigger || 'bottom'}
+  >
     <div
-      class="c-work__inner"
-      data-scroll
-      data-scroll-call={uid}
-      data-scroll-repeat
-      data-scroll-position={trigger || 'bottom'}
-      data-scroll-offset="10%"
+      class="c-video__container"
       on:mousemove={handleMouseMove}
       on:mouseleave={handleMouseLeave}
-    >      
-      <img
-        alt="{RichText.asText(title)}"
-        data-src="{image.url}"
-        src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-        bind:this={imageElement}
-      />
-      {#if video.url}
-        <video 
-          autoplay
-          muted
-          loop
-          playsinline
-          bind:this={videoElement}
-        >
-          <source data-src={video.url} type="video/mp4">
-        </video>
-      {/if}
+    >
+      <video autoplay muted loop playsinline bind:this={videoElement}>
+        <source data-src={video.url} type="video/mp4">
+      </video>
     </div>
   </div>
 </div>
