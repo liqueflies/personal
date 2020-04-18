@@ -98,14 +98,14 @@
 
   onMount(() => {
     setDefaultTheme();
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
       document.body.className = '';
       setDefaultTheme();
     });
   });
 
   function setDefaultTheme() {
-    const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   
     if (dark) {
       themes = ['dark', 'light'];
