@@ -14,6 +14,10 @@
 
   let slidesElement;
 
+  let a;
+  let b;
+  let g;
+
   scrollable({
     value: uid,
     enter: () => {
@@ -25,31 +29,20 @@
           gap: 24,
           focusAt: "center",
           perView: 1.5,
+          duration: 250
         }).mount();
       });
     }
   });
+
+  function handleDeviceOrientation(event) {
+    a = event.alpha;
+    b = event.beta * 0.15;
+    g = Math.min(event.gamma, 15);
+  }
 </script>
 
 <style>
-  .c-carousel {
-    transform: translate3d(0, 20%, 0);
-    transform-origin: 50% 50%;
-    transform-style: preserve-3d;
-
-    min-height: 350px;
-
-    opacity: 0;
-    
-    transition: all 1.25s var(--ease-in-out);
-    transition-property: opacity, transform;
-  }
-
-  :global(.is-inview) .c-carousel {
-    transform: none;
-    opacity: 1;
-  }
-
   .glide {
     position: relative;
     width: 100%;
@@ -113,14 +106,98 @@
   .glide--rtl {
     direction: rtl;
   }
+
+  .c-carousel {
+    --carousel-offset: calc( var(--gutter) * 0.5 );
+
+    position: relative;
+    
+    width: 100%;
+    height: 0;
+    
+    padding-bottom: calc( 115% + var(--gutter) * 2 );
+
+    transform: translate3d(0, 20%, 0);
+    transform-origin: 50% 50%;
+    transform-style: preserve-3d;
+
+    opacity: 0;
+    
+    transition: all 1.25s var(--ease-in-out);
+    transition-property: opacity, transform;
+  }
+
+  .c-carousel__el {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .c-carousel__track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .c-carousel__slide {
+    position: relative;
+  }
+
+  .c-carousel__shadow {
+    position: absolute;
+    top: var(--carousel-offset);
+    left: var(--carousel-offset);
+    width: 100%;
+    height: 100%;
+
+    transform: scaleY(0);
+    transform-origin: 50% 100%;
+    transform-style: preserve-3d;
+
+    transition: transform .35s cubic-bezier(0.165, 0.84, 0.44, 1) 0s;
+  }
+
+  .c-carousel__bg {
+    width: 100%;
+    height: 100%;
+
+    background-color: var(--color-primary);
+  }
+
+  .c-carousel__slide.glide__slide--active .c-carousel__shadow {
+    transform: none;
+  }
+
+  .c-carousel__slides {
+    height: 100%;
+  }
+
+  img {
+    position: relative;
+    z-index: 1;
+  }
+
+  :global(.is-inview) .c-carousel {
+    transform: none;
+    opacity: 1;
+  }
 </style>
 
-<div class="c-carousel" data-scroll data-scroll-offset="-50%" data-scroll-call={uid}>
-  <div class="glide {uid}">
-    <div class="glide__track" data-glide-el="track">
-      <div class="glide__slides" bind:this={slidesElement}>
+<svelte:window
+  on:deviceorientation={handleDeviceOrientation}
+/>
+
+<div class="c-carousel" data-scroll data-scroll-offset="-80%" data-scroll-call={uid}>
+  <div class="glide {uid} c-carousel__el">
+    <div class="glide__track c-carousel__track" data-glide-el="track">
+      <div class="glide__slides c-carousel__slides" bind:this={slidesElement}>
         {#each carousel as item, i}
-          <div class="glide__slide">
+          <div class="glide__slide c-carousel__slide">
+            <div class="c-carousel__shadow">
+              <div class="c-carousel__bg" style="transform: translate3d({g}px, {b}px, 0)"></div>
+            </div>
             <img data-src={item.image.url} alt={RichText.asText(title)} />
           </div>
         {/each}
