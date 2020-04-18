@@ -98,7 +98,7 @@
 
   onMount(() => {
     setDefaultTheme();
-    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addListener(function() {
       document.body.className = '';
       setDefaultTheme();
     });
