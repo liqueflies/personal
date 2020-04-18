@@ -184,21 +184,25 @@ video {
 }
 </style>
 
-<div 
-  class="c-video"
-  data-scroll
-  data-scroll-repeat
-  data-scroll-call={uid}
-  data-scroll-offset="10%"
-  data-scroll-position={trigger || 'bottom'}
->
-  <div
-    class="c-video__container"
-    on:mousemove={handleMouseMove}
-    on:mouseleave={handleMouseLeave}
-  >
-    <video autoplay muted loop playsinline bind:this={videoElement}>
-      <source data-src={video.url} type="video/mp4">
-    </video>
+<div class="l-grid">
+  <div class="l-container">
+    <div 
+      class="c-video"
+      data-scroll
+      data-scroll-repeat
+      data-scroll-call={uid}
+      data-scroll-offset="10%"
+      data-scroll-position={trigger || 'bottom'}
+    >
+      <div
+        class="c-video__container"
+        on:mousemove={handleMouseMove}
+        on:mouseleave={handleMouseLeave}
+      >
+        <video autoplay muted loop playsinline bind:this={videoElement}>
+          <source data-src={video.url} type="video/mp4">
+        </video>
+      </div>
+    </div>
   </div>
 </div>

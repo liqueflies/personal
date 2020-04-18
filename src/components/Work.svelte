@@ -158,15 +158,11 @@
     <Spacer size={4} only="mobile" />
     <Spacer size={8} only="desktop" />
 
-    <div class="l-grid">
-      <div class="l-container">
-        {#if mobile }
-          <Carousel {...data} uid={uid} />
-        {:else}
-          <DraggableVideo {...data} uid={uid} />
-        {/if}
-      </div>
-    </div>
+    {#if mobile }
+      <Carousel {...data} uid={uid} />
+    {:else}
+      <DraggableVideo {...data} uid={uid} />
+    {/if}
 
     <Spacer size={8} />
 
