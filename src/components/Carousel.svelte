@@ -2,20 +2,30 @@
   import { onMount } from "svelte";
   import Glide from "@glidejs/glide";
 
-  import CarouselSlide from '../components/CarouselSlide';
+  import { scrollable } from '../context/scroll';
+  import { lazyImage } from '../utils/lazy';
 </script>
 
 <script>
   export let carousel;
   export let uid;
 
-  onMount(() => {
-    const glide = new Glide(`.${uid}`, {
-      type: "carousel",
-      gap: 24,
-      focusAt: "center",
-      perView: 1.5,
-    }).mount();
+  let slidesElement;
+
+  scrollable({
+    value: uid,
+    enter: () => {
+      const images = Array.from(slidesElement.querySelectorAll('img'));
+      const lazyPromises = images.map(i => lazyImage(i));
+      Promise.all(lazyPromises).then(sources => {
+        const glide = new Glide(`.${uid}`, {
+          type: "carousel",
+          gap: 24,
+          focusAt: "center",
+          perView: 1.5,
+        }).mount();
+      });
+    }
   });
 </script>
 
@@ -24,6 +34,8 @@
     transform: translate3d(0, 20%, 0);
     transform-origin: 50% 50%;
     transform-style: preserve-3d;
+
+    min-height: 350px;
 
     opacity: 0;
     
@@ -101,12 +113,14 @@
   }
 </style>
 
-<div class="c-carousel">
+<div class="c-carousel" data-scroll data-scroll-offset="-50%" data-scroll-call={uid}>
   <div class="glide {uid}">
     <div class="glide__track" data-glide-el="track">
-      <div class="glide__slides">
+      <div class="glide__slides" bind:this={slidesElement}>
         {#each carousel as item, i}
-          <CarouselSlide uid={uid} image={item.image} />
+          <div class="glide__slide">
+            <img data-src={item.image.url} alt={item.image.alt} />
+          </div>
         {/each}
       </div>
     </div>
