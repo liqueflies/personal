@@ -14,9 +14,9 @@
 
   let slidesElement;
 
-  let a;
-  let b;
-  let g;
+  let a = 0;
+  let b = 0;
+  let g = 0;
 
   scrollable({
     value: uid,
@@ -35,7 +35,16 @@
     }
   });
 
-  function handleDeviceOrientation(event) {
+  onMount(async () => {
+    if (DeviceOrientationEvent && DeviceOrientationEvent.requestPermission) {
+      const response = await DeviceOrientationEvent.requestPermission();
+      if (response === 'granted') {
+        window.addEventListener('deviceorientation', handleOrientation);
+      }
+    }
+  });
+
+  function handleOrientation(event) {
     a = event.alpha;
     b = event.beta * 0.15;
     g = Math.min(event.gamma, 15);
@@ -108,14 +117,14 @@
   }
 
   .c-carousel {
-    --carousel-offset: calc( var(--gutter) * 0.5 );
+    --carousel-offset: calc( var(--gutter) );
 
     position: relative;
     
     width: 100%;
     height: 0;
     
-    padding-bottom: calc( 115% + var(--gutter) * 2 );
+    padding-bottom: calc( 115% + var(--carousel-offset) );
 
     transform: translate3d(0, 20%, 0);
     transform-origin: 50% 50%;
@@ -148,15 +157,12 @@
   .c-carousel__shadow {
     position: absolute;
     top: var(--carousel-offset);
-    left: var(--carousel-offset);
-    width: 100%;
+    left: calc(50% + var(--carousel-offset));
+    width: calc(80% - var(--gutter) * 6);
     height: 100%;
+    transform: translateX(-50%);
 
-    transform: scaleY(0);
-    transform-origin: 50% 100%;
-    transform-style: preserve-3d;
-
-    transition: transform .35s cubic-bezier(0.165, 0.84, 0.44, 1) 0s;
+    z-index: -1;
   }
 
   .c-carousel__bg {
@@ -185,23 +191,19 @@
   }
 </style>
 
-<svelte:window
-  on:deviceorientation={handleDeviceOrientation}
-/>
-
 <div class="c-carousel" data-scroll data-scroll-offset="-80%" data-scroll-call={uid}>
   <div class="glide {uid} c-carousel__el">
     <div class="glide__track c-carousel__track" data-glide-el="track">
       <div class="glide__slides c-carousel__slides" bind:this={slidesElement}>
         {#each carousel as item, i}
           <div class="glide__slide c-carousel__slide">
-            <div class="c-carousel__shadow">
-              <div class="c-carousel__bg" style="transform: translate3d({g}px, {b}px, 0)"></div>
-            </div>
             <img data-src={item.image.url} alt={RichText.asText(title)} />
           </div>
         {/each}
       </div>
     </div>
+  </div>
+  <div class="c-carousel__shadow">
+    <div class="c-carousel__bg" style="transform: translate3d({g}px, {b}px, 0)"></div>
   </div>
 </div>
