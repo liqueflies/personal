@@ -202,12 +202,12 @@ a:hover::after {
 
 .l-container {
   grid-column-start: 2;
-  grid-column-end: 12;
+  grid-column-end: -2;
 }
 
 .l-container--full {
   grid-column-start: 1;
-  grid-column-end: 13;
+  grid-column-end: -1;
 }
 
 .visually-hidden {

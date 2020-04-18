@@ -141,9 +141,6 @@
 .c-video {
   position: relative;
 
-  grid-column-start: 1;
-  grid-column-end: 13;
-
   height: 0;
   padding-bottom: 56.556%;
 
@@ -187,23 +184,21 @@ video {
 }
 </style>
 
-<div class="l-grid">
-  <div 
-    class="c-video"
-    data-scroll
-    data-scroll-repeat
-    data-scroll-call={uid}
-    data-scroll-offset="10%"
-    data-scroll-position={trigger || 'bottom'}
+<div 
+  class="c-video"
+  data-scroll
+  data-scroll-repeat
+  data-scroll-call={uid}
+  data-scroll-offset="10%"
+  data-scroll-position={trigger || 'bottom'}
+>
+  <div
+    class="c-video__container"
+    on:mousemove={handleMouseMove}
+    on:mouseleave={handleMouseLeave}
   >
-    <div
-      class="c-video__container"
-      on:mousemove={handleMouseMove}
-      on:mouseleave={handleMouseLeave}
-    >
-      <video autoplay muted loop playsinline bind:this={videoElement}>
-        <source data-src={video.url} type="video/mp4">
-      </video>
-    </div>
+    <video autoplay muted loop playsinline bind:this={videoElement}>
+      <source data-src={video.url} type="video/mp4">
+    </video>
   </div>
 </div>

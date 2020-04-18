@@ -60,6 +60,7 @@
 }
 
 .c-work__title {
+  word-spacing: 99999px;
   transform-origin: top left;
   transform: translateY(30px) scaleY(1.4) skewY(4deg);
 }
@@ -107,8 +108,6 @@
     grid-column-start: 1;
     grid-column-end: 4;
 
-    word-spacing: 99999px;
-
     transform: translateY(80px) scaleY(1.8) skewY(8deg);
   }
 
@@ -147,6 +146,7 @@
           <h2 class="c-work__title">
             {RichText.asText(data.title)}
           </h2>
+          <Spacer size={1} only="mobile" />
           <h4 class="c-work__release">
             <div class="c-work__month">{month}</div>
             <div class="c-work__year">{year}</div>
@@ -158,15 +158,15 @@
     <Spacer size={4} only="mobile" />
     <Spacer size={8} only="desktop" />
 
-    {#if mobile }
-      <Carousel {...data} />
-    {:else}
-      <div class="l-grid">
-        <div class="l-container">
+    <div class="l-grid">
+      <div class="l-container">
+        {#if mobile }
+          <Carousel {...data} />
+        {:else}
           <DraggableVideo {...data} uid={uid} />
-        </div>
+        {/if}
       </div>
-    {/if}
+    </div>
 
     <Spacer size={8} />
 

@@ -1,5 +1,5 @@
 <script context="module">
-  import { onDestroy } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { tweened } from 'svelte/motion';
   import { linear } from 'svelte/easing';
 
@@ -23,10 +23,10 @@
   let x = 0;
   let y = 0;
 
-  let dark = false;
   let visible = false;
   let image = null;
   let texture = null;
+  let themes = [];
   let pictureElement;
 
   let contextAlpha = tweened(0, {
@@ -94,11 +94,30 @@
     exit: () => {
       visible = false;
     }
-  })
+  });
+
+  onMount(() => {
+    setDefaultTheme();
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+      document.body.className = '';
+      setDefaultTheme();
+    });
+  });
+
+  function setDefaultTheme() {
+    const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+    if (dark) {
+      themes = ['dark', 'light'];
+    } else {
+      themes = ['light', 'dark'];
+    }
+  }
 
   function handleToggleTheme(e) {
-    dark = !dark
-    document.body.classList[dark ? 'add' : 'remove']('t-dark')
+    const [current, to] = themes;
+    document.body.className = `t-${to}`;
+    themes = [to, current];
   }
 
   function handleMouseMove(e) {
@@ -145,8 +164,8 @@
 }
 
 .c-footer__lg,
-.c-footer__sst {
-/* .c-footer__toggle { */
+.c-footer__sst,
+.c-footer__toggle {
   color: var(--color-grey);
   white-space: nowrap;
 }
@@ -165,9 +184,11 @@
   position: absolute;
   visibility: hidden;
 }
-/* .c-footer__toggle {
+
+.c-footer__toggle {
   grid-column-start: 12;
-} */
+  text-transform: capitalize;
+}
 
 @media screen and (min-width: 40em) {
   .c-footer {
@@ -189,23 +210,24 @@
   }
 
   .c-footer__lg,
-  .c-footer__sst {
-  /* .c-footer__toggle { */
+  .c-footer__sst,
+  .c-footer__toggle {
     transform: translateY(30px);
     transition: all 1s var(--ease-in-out);
   }
 
   .c-footer__list,
   .c-footer__lg,
-  .c-footer__sst {
-  /* .c-footer__toggle { */
+  .c-footer__sst,
+  .c-footer__toggle {
     opacity: 0;
     transform-style: preserve-3d;
     transition-property: opacity, transform;
   }
 
   .c-footer__hoverable {
-    transition: color 0.15s;
+    transition: color 0.25s;
+    transition-delay: 0s;
   }
 
   .c-footer__sst .c-footer__hoverable {
@@ -214,7 +236,7 @@
     padding: 80px 0;
   }
 
-  /* .c-footer__toggle:hover .c-footer__hoverable, */
+  .c-footer__toggle:hover .c-footer__hoverable,
   .c-footer__sst:hover .c-footer__hoverable {
     color: var(--color-text);
   }
@@ -229,14 +251,15 @@
     transition-delay: 0.25s;
   }
   
-  /* .c-footer__toggle {
+  .c-footer__toggle {
     grid-column-start: 10;
     transition-delay: 0.35s;
-  } */
+  }
+
   :global(.is-inview) .c-footer__list,
   :global(.is-inview) .c-footer__lg,
-  :global(.is-inview) .c-footer__sst {
-  /* :global(.is-inview) .c-footer__toggle { */
+  :global(.is-inview) .c-footer__sst,
+  :global(.is-inview) .c-footer__toggle {
     transform: none;
     opacity: 1;
   }
@@ -253,13 +276,16 @@
   >
     <ul class="c-footer__list">
       <li class="c-footer__contact">
-        <a href="/">Email</a>
+        <a href="mailto:lorenzo.girardi93@gmail.com">Email</a>
       </li>
       <li class="c-footer__contact">
         <a href="https://twitter.com/loregirardi" rel="noopener" target="_blank">Twitter</a>
       </li>
-      <li class="c-footer__contact">
+      <!-- <li class="c-footer__contact">
         <a href="https://www.linkedin.com/in/lorenzo-girardi-61241374/" rel="noopener" target="_blank">LinkedIn</a>
+      </li> -->
+      <li class="c-footer__contact">
+        <a href="https://www.instagram.com/loregirardi/" rel="noopener" target="_blank">Instagram</a>
       </li>
     </ul>
   </div>
@@ -285,12 +311,14 @@
         />
       </picture>
     </div>
-    <!-- <button
+    <button
       class="c-footer__toggle"
       on:click={handleToggleTheme}
     >
-      <span class="c-footer__hoverable">{dark ? "Light" : "Dark"} Mode</span>
-    </button> -->
+      {#if themes.length}
+        <span class="c-footer__hoverable">{themes[1]} Mode</span>
+      {/if}
+    </button>
   </div>
   <Spacer size="10" only="mobile" />
 </footer>
