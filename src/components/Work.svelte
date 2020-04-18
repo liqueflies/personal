@@ -161,7 +161,7 @@
     <div class="l-grid">
       <div class="l-container">
         {#if mobile }
-          <Carousel {...data} />
+          <Carousel {...data} uid={uid} />
         {:else}
           <DraggableVideo {...data} uid={uid} />
         {/if}

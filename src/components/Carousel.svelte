@@ -1,14 +1,16 @@
 <script context="module">
-  import { onMount } from "svelte";
-  import Glide from "@glidejs/glide";
+  import { onMount } from 'svelte';
+  import { RichText } from 'prismic-dom';
+  import Glide from '@glidejs/glide';
 
   import { scrollable } from '../context/scroll';
   import { lazyImage } from '../utils/lazy';
 </script>
 
 <script>
-  export let carousel;
   export let uid;
+  export let title;
+  export let carousel;
 
   let slidesElement;
 
@@ -119,7 +121,7 @@
       <div class="glide__slides" bind:this={slidesElement}>
         {#each carousel as item, i}
           <div class="glide__slide">
-            <img data-src={item.image.url} alt={item.image.alt} />
+            <img data-src={item.image.url} alt={RichText.asText(title)} />
           </div>
         {/each}
       </div>
