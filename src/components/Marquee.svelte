@@ -56,7 +56,7 @@
 .o-marquee__label::before {
   display: inline-block;
   content: attr(data-text);
-  padding: 0 calc( var( --spacer ) * 4 );
+  padding: 0 calc( var( --gutter ) * 4 );
 
   white-space: nowrap;
   will-change: transform;
@@ -85,7 +85,7 @@
 @media screen and (min-width: 40em) {
   .o-marquee__label::after,
   .o-marquee__label::before {
-    padding: 0 calc( var(--spacer) * 8 );
+    padding: 0 calc( var(--gutter) * 8 );
   }
 }
 </style>

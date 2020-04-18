@@ -30,7 +30,7 @@
 
   --letter-spacing-headings: -0.09em;
   --letter-spacing-sans: -0.05em;
-  --spacer: 8px;
+  --gutter: 8px;
 
   --ease-in-out: cubic-bezier(.61, .01, .08, .99);
   --ease-out-quad: cubic-bezier(.5, 1, .89, 1);
@@ -174,7 +174,7 @@ a {
   position: relative;
   color: var(--color-text);
   text-decoration: none;
-  padding-bottom: calc( var(--spacer) / 2 );
+  padding-bottom: calc( var(--gutter) / 2 );
 }
 
 a::after {

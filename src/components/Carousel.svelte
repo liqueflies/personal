@@ -1,110 +1,114 @@
-<script>
+<script context="module">
   import { onMount } from "svelte";
+  import Glide from "@glidejs/glide";
 
-  // Props
-  export let items = [...Array(12).keys()];
-  export let scrollBy = 1;
-
-  let parentElement;
-
-  $: offset = page * (scrollBy - 1);
-  $: page = 1;
-
-  $: atStart = page === 1;
-  $: parentWidth = 0;
-  $: children = null;
-  // $: atEnd = offset <= paginationFactor * (items.length - scrollBy) * -1;
-
-  $: widths = [];
-
-  const firstGte = w => {
-    for (let i = 0; i < widths.length; i++) {
-      if (widths[i] >= w) return i;
-    }
-    return -1;
-  };
-
-  const move = direction => {
-    page += direction;
-    elements[firstGte(parentWidth * (page - 1))].scrollIntoView({
-      behavior: "smooth"
-    });
-  };
-
-  // onMount(() => {
-  //   parentWidth = parentElement.clientWidth;
-  //   children = parentElement.children;
-  //   widths = children.map(e => e.offsetLeft);
-  // });
+  import CarouselSlide from '../components/CarouselSlide';
 </script>
 
-<main>
-  <div class="items" bind:this={parentElement}>
-    {#each items as item, i}
-      <div class="item" style="background-color: hsla({i * 25}deg, 75%, 55%);">{item}</div>
-    {/each}
-  </div>
-  <button on:click="{() => move(-1)}">&lsaquo; Prev</button>
-  <button on:click="{() => move(1)}">Next &rsaquo;</button>
+<script>
+  export let carousel;
+  export let uid;
 
-  <div class="details">
-    offset: {offset}<br>
-    page: {page}<br>
-    widths: {widths}
-    <!-- atStart: {atStart}<br>
-    atEnd: {atEnd} -->
-  </div>
-</main>
+  onMount(() => {
+    const glide = new Glide(`.${uid}`, {
+      type: "carousel",
+      gap: 24,
+      focusAt: "center",
+      perView: 1.5,
+    }).mount();
+  });
+</script>
 
 <style>
-  main {
-    /* width: 700px; */
+  .c-carousel {
+    transform: translate3d(0, 20%, 0);
+    transform-origin: 50% 50%;
+    transform-style: preserve-3d;
+
+    opacity: 0;
+    
+    transition: all 1.25s var(--ease-in-out);
+    transition-property: opacity, transform;
+  }
+
+  :global(.is-inview) .c-carousel {
+    transform: none;
+    opacity: 1;
+  }
+
+  .glide {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .glide * {
+    box-sizing: inherit;
+  }
+
+  .glide__track {
     overflow: hidden;
   }
 
-  .items {
+  .glide__slides {
+    position: relative;
+    width: 100%;
+    list-style: none;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    touch-action: pan-Y;
+    overflow: hidden;
+    padding: 0;
+    white-space: nowrap;
     display: flex;
-    transition: transform 0.4s ease-in-out;
-    transform: translateX(0px);
+    flex-wrap: nowrap;
+    will-change: transform;
   }
 
-  .item {
-    min-width: 167px;
-    height: 100px;
-    margin: 0 4px;
-    background-color: #ef4322;
-    border-radius: 0.7rem;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    font-size: 10rem;
+  .glide__slides--dragging {
     user-select: none;
-    overflow: hidden;
   }
 
-  .items .item:first-child {
-    margin-left: 0;
+  .glide__slide {
+    width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+    white-space: normal;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .items .item:nth-child(2n) {
-    min-width: 200px;
+  .glide__slide a {
+    user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
   }
 
-  .items .item:last-child {
-    margin-right: 0;
+  .glide__arrows {
+    -webkit-touch-callout: none;
+    user-select: none;
   }
 
-  .details {
-    margin-top: 20px;
-    font-style: italic;
-    color: #9f9f9f;
+  .glide__bullets {
+    -webkit-touch-callout: none;
+    user-select: none;
   }
 
-  @media screen and (min-width: 40em) {
-    main {
-      display: none;
-    }
+  .glide--rtl {
+    direction: rtl;
   }
 </style>
+
+<div class="c-carousel">
+  <div class="glide {uid}">
+    <div class="glide__track" data-glide-el="track">
+      <div class="glide__slides">
+        {#each carousel as item, i}
+          <CarouselSlide uid={uid} image={item.image} />
+        {/each}
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,7 +5,7 @@
 
 <style>
   .o-spacer {
-    height: calc( var( --spacer ) * ( var( --size ) ) );
+    height: calc( var( --gutter ) * ( var( --size ) ) );
     font-size: 0;
     margin: 0;
     padding: 0;

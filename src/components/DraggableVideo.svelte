@@ -147,8 +147,6 @@
   height: 0;
   padding-bottom: 56.556%;
 
-  display: none;
-
   border: solid 1px var(--color-grey);
   background-color: transparent;
 
@@ -186,12 +184,6 @@ video {
 :global(.is-inview) .c-video {
   transform: none;
   opacity: 1;
-}
-
-@media screen and (min-width: 40em) {
-  .c-video {
-    display: block;
-  }
 }
 </style>
 

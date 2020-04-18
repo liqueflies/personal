@@ -1,5 +1,6 @@
 <script context="module">
   import {RichText, Link} from 'prismic-dom';
+  import isMobile from 'is-mobile';
 
   import Spacer from '../components/Spacer.svelte';
   import DraggableVideo from '../components/DraggableVideo.svelte';
@@ -9,6 +10,8 @@
 <script>
   export let uid;
   export let data;
+
+  const mobile = isMobile({ featureDetect: true, tablet: true });
 
   const release = new Date(data.release);
   const year = release.getFullYear().toString().substr(2);
@@ -137,34 +140,49 @@
 
 <article class="c-work" data-scroll-section>
   <div data-scroll data-scroll-position="bottom" data-scroll-offset="150">
-    <header class="c-work__header">
-      <h2 class="c-work__title">
-        {RichText.asText(data.title)}
-      </h2>
-      <h4 class="c-work__release">
-        <div class="c-work__month">{month}</div>
-        <div class="c-work__year">{year}</div>
-      </h4>
-    </header>
+
+    <div class="l-grid">
+      <div class="l-container">
+        <header class="c-work__header">
+          <h2 class="c-work__title">
+            {RichText.asText(data.title)}
+          </h2>
+          <h4 class="c-work__release">
+            <div class="c-work__month">{month}</div>
+            <div class="c-work__year">{year}</div>
+          </h4>
+        </header> 
+      </div>
+    </div>
 
     <Spacer size={4} only="mobile" />
     <Spacer size={8} only="desktop" />
 
-    <DraggableVideo {...data} uid={uid} />
-
-    <!-- <Carousel /> -->
+    {#if mobile }
+      <Carousel {...data} />
+    {:else}
+      <div class="l-grid">
+        <div class="l-container">
+          <DraggableVideo {...data} uid={uid} />
+        </div>
+      </div>
+    {/if}
 
     <Spacer size={8} />
 
-    <div 
-      class="c-work__details l-grid"
-      data-scroll
-    >
-      <span class="c-work__detail">{RichText.asText(data.type)}</span>
-      <span class="c-work__detail">{@html RichText.asHtml(data.role)}</span>
-      <span class="c-work__detail"><a rel="noopener" target="_blank" href='{Link.url(data.link)}'>Visit Site</a></span>
+    <div class="l-grid">
+      <div class="l-container">
+        <div
+          data-scroll
+          class="c-work__details l-grid"
+        >
+          <span class="c-work__detail">{RichText.asText(data.type)}</span>
+          <span class="c-work__detail">{@html RichText.asHtml(data.role)}</span>
+          <span class="c-work__detail"><a rel="noopener" target="_blank" href='{Link.url(data.link)}'>Visit Site</a></span>
+        </div>
+      </div>
     </div>
-    
+
     <Spacer size={20} only="mobile" />
     <Spacer size={30} only="desktop" />  
   </div>

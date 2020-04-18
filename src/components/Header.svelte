@@ -56,9 +56,9 @@
     .c-header {
       position: fixed;
 
-      top: calc( var(--spacer) * 2 );
-      left: calc( var(--spacer) * 4 );
-      right: calc( var(--spacer) * 4 );
+      top: calc( var(--gutter) * 2 );
+      left: calc( var(--gutter) * 4 );
+      right: calc( var(--gutter) * 4 );
 
       justify-content: space-between;
 

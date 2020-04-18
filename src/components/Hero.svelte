@@ -165,7 +165,7 @@
   }
 
   .c-hero__caption {
-    bottom: calc( var(--spacer) * 6 );
+    bottom: calc( var(--gutter) * 6 );
   }
 
   .c-hero__patch {
