@@ -27,7 +27,7 @@
           getDirection: true,
           useKeyboard: true,
           smoothMobile: true,
-          touchMultiplier: 3
+          touchMultiplier: 2.5
         });
 
         scroll.on('scroll', instance => {
