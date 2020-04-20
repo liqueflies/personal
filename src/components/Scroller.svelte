@@ -24,7 +24,8 @@
           smooth: true,
           getSpeed: true,
           getDirection: true,
-          useKeyboard: true
+          useKeyboard: true,
+          smoothMobile: true
         });
 
         scroll.on('scroll', instance => {

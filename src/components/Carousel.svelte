@@ -35,20 +35,20 @@
     }
   });
 
-  onMount(async () => {
-    if (DeviceOrientationEvent && DeviceOrientationEvent.requestPermission) {
-      const response = await DeviceOrientationEvent.requestPermission();
-      if (response === 'granted') {
-        window.addEventListener('deviceorientation', handleOrientation);
-      }
-    }
-  });
+  // onMount(async () => {
+  //   if (DeviceOrientationEvent && DeviceOrientationEvent.requestPermission) {
+  //     const response = await DeviceOrientationEvent.requestPermission();
+  //     if (response === 'granted') {
+  //       window.addEventListener('deviceorientation', handleOrientation);
+  //     }
+  //   }
+  // });
 
-  function handleOrientation(event) {
-    a = event.alpha;
-    b = event.beta * 0.15;
-    g = Math.min(event.gamma, 15);
-  }
+  // function handleOrientation(event) {
+  //   a = event.alpha;
+  //   b = event.beta * 0.15;
+  //   g = Math.min(event.gamma, 15);
+  // }
 </script>
 
 <style>
@@ -156,10 +156,12 @@
 
   .c-carousel__shadow {
     position: absolute;
-    top: var(--carousel-offset);
+    top: calc(var(--carousel-offset) * 0.5);
     left: calc(50% + var(--carousel-offset));
+    
     width: calc(80% - var(--gutter) * 6);
     height: 100%;
+    
     transform: translateX(-50%);
 
     z-index: -1;
@@ -204,6 +206,7 @@
     </div>
   </div>
   <div class="c-carousel__shadow">
-    <div class="c-carousel__bg" style="transform: translate3d({g}px, {b}px, 0)"></div>
+    <div class="c-carousel__bg" data-scroll data-scroll-speed="2" data-scroll-delay="0.05"></div>
+    <!-- <div class="c-carousel__bg" style="transform: translate3d({g}px, {b}px, 0)"></div> -->
   </div>
 </div>
