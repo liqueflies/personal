@@ -28,7 +28,7 @@
           getDirection: true,
           useKeyboard: true,
           smoothMobile: true,
-          inertia: mobile ? 0.5 : 1
+          inertia: mobile ? 0.25 : 1
         });
 
         scroll.on('scroll', instance => {
