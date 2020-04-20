@@ -206,7 +206,7 @@
     </div>
   </div>
   <div class="c-carousel__shadow">
-    <div class="c-carousel__bg" data-scroll data-scroll-speed="2" data-scroll-delay="0.05"></div>
+    <div class="c-carousel__bg" data-scroll data-scroll-speed="1.5" data-scroll-delay="0.05"></div>
     <!-- <div class="c-carousel__bg" style="transform: translate3d({g}px, {b}px, 0)"></div> -->
   </div>
 </div>

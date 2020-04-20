@@ -1,5 +1,6 @@
 <script context="module">
   import { onMount, setContext } from 'svelte';
+  import isMobile from 'is-mobile';
 
   import { key } from '../context/scroll';
   import { hasTransitionEnd } from '../store/loader';
@@ -8,6 +9,7 @@
 <script>
   let el;
   let listeners = [];
+  let mobile = isMobile({ featureDetect: true, tablet: true });
 
   onMount(async () => {
     const LocomotiveModule = await import('locomotive-scroll');
@@ -25,7 +27,8 @@
           getSpeed: true,
           getDirection: true,
           useKeyboard: true,
-          smoothMobile: true
+          smoothMobile: true,
+          inertia: mobile ? 0.5 : 1
         });
 
         scroll.on('scroll', instance => {
