@@ -9,7 +9,6 @@
 <script>
   let el;
   let listeners = [];
-  let mobile = isMobile({ featureDetect: true, tablet: true });
 
   onMount(async () => {
     const LocomotiveModule = await import('locomotive-scroll');
@@ -28,7 +27,7 @@
           getDirection: true,
           useKeyboard: true,
           smoothMobile: true,
-          inertia: mobile ? 0.25 : 1
+          touchMultiplier: 4
         });
 
         scroll.on('scroll', instance => {
