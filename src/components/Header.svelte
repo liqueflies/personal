@@ -81,6 +81,11 @@
       opacity: 0;
     }
 
+    /* .c-header.scrolled .c-header__position {
+      transform: translateY(40px);
+      opacity: 0;
+    } */
+
     .c-header__location {
       display: inline-block;
     }
@@ -96,7 +101,7 @@
     <div>ITALY</div>
     <div>1993</div>
   </div>
-  <div class="c-header__position">  
+  <div class="c-header__position" data-scroll-section>  
     <Spacer size="3" />
     <span> Creative Technologist </span>
     <Spacer size="3" />

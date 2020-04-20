@@ -94,8 +94,7 @@
   class="o-marquee"
   data-scroll
   data-scroll-repeat
-  data-scroll-call="{scrollValue}"
->
+  data-scroll-call="{scrollValue}">
   <div class="o-marquee__wrapper">
     <h1
       data-text="{text}"

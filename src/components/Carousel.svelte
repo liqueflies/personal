@@ -132,7 +132,7 @@
 
     opacity: 0;
     
-    transition: all 1.25s var(--ease-in-out);
+    transition: all 1s var(--ease-in-out);
     transition-property: opacity, transform;
   }
 
@@ -206,7 +206,7 @@
     </div>
   </div>
   <div class="c-carousel__shadow">
-    <div class="c-carousel__bg" data-scroll data-scroll-speed="1.2" data-scroll-delay="0.05"></div>
+    <div class="c-carousel__bg" data-scroll data-scroll-speed="0.8" data-scroll-delay="0.05"></div>
     <!-- <div class="c-carousel__bg" style="transform: translate3d({g}px, {b}px, 0)"></div> -->
   </div>
 </div>

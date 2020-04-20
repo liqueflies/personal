@@ -41,8 +41,6 @@
   margin: 0;
   padding-bottom: calc( var( --font-size-h1 ) / 2 );
 
-  overflow: hidden;
-
   text-align: center;
 }
 
@@ -155,6 +153,8 @@
 @media screen and (min-width: 40em) {
   .c-hero {
     padding-bottom: 0;
+
+    overflow: hidden;
   }
 
   .c-hero__image {
