@@ -4,6 +4,7 @@
 
   import Card from '../components/Card';
   import { key } from '../context/swipe';
+  import { hasTransitionEnd } from '../store/loader';
 </script>
 
 <script>
@@ -18,14 +19,16 @@
   let parentEl;
   let listeners = [];
 
-  onMount(async () => {
-    const H = await import('hammerjs');
-    const Hammer = H.default;
+  hasTransitionEnd.subscribe(async value => {
+    if (value) {
+      const H = await import('hammerjs');
+      const Hammer = H.default;
 
-    listeners.forEach(entity => {
-      entity.ready = true;
-      entity.run(Hammer);
-    });
+      listeners.forEach(entity => {
+        entity.ready = true;
+        entity.run(Hammer);
+      });
+    }
   });
 
   setContext(key, {
