@@ -59,7 +59,7 @@
       <Card
         uid={uid}
         src={item.image.url}
-        alt={item.original}
+        alt={RichText.asText(title)}
         index={i}
         active={active === i}
         next={next === i}
