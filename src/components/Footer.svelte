@@ -166,7 +166,6 @@
 .c-footer__lg,
 .c-footer__sst,
 .c-footer__toggle {
-  color: var(--color-grey);
   white-space: nowrap;
 }
 
@@ -238,7 +237,7 @@
 
   .c-footer__toggle:hover .c-footer__hoverable,
   .c-footer__sst:hover .c-footer__hoverable {
-    color: var(--color-text);
+      color: var(--color-grey);
   }
 
   .c-footer__lg {
