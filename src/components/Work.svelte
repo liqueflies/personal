@@ -5,6 +5,7 @@
   import Spacer from '../components/Spacer.svelte';
   import DraggableVideo from '../components/DraggableVideo.svelte';
   import Carousel from '../components/Carousel.svelte';
+  import Tinder from '../components/Tinder.svelte';
 </script>
 
 <script>
@@ -159,7 +160,7 @@
     <Spacer size={8} only="desktop" />
 
     {#if mobile }
-      <Carousel {...data} uid={uid} />
+      <Tinder {...data} uid={uid} />
     {:else}
       <DraggableVideo {...data} uid={uid} />
     {/if}
