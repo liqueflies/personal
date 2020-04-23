@@ -3,6 +3,7 @@
   import { RichText } from 'prismic-dom';
 
   import Card from '../components/Card';
+  import { swipable } from '../context/swipe';
   import { scrollable } from '../context/scroll';
   import { lazyImage } from '../utils/lazy';
 </script>
@@ -21,6 +22,7 @@
   let el;
   let imageEl;
   let hammer;
+  let Hammer;
 
   let transX;
   let transY;
@@ -34,18 +36,10 @@
   let panning = false;
   let success = false;
 
-  scrollable({
-    value: uid,
-    enter: async () => {
-      await lazyImage(imageEl);
-    }
-  });
+  swipable(H => {
+    Hammer = H;
+    const hammer = new Hammer(el);
 
-  onMount(async () => {
-    const H = await import('hammerjs');
-    const Hammer = H.default;
-
-    hammer = new Hammer(el);
     hammer.add(new Hammer.Tap());
     hammer.add(new Hammer.Pan({
       position: Hammer.position_ALL, threshold: 0
@@ -56,6 +50,13 @@
     hammer.on('pan', handlePan);
 
     setInitialTransform();
+  });
+
+  scrollable({
+    value: uid,
+    enter: async () => {
+      await lazyImage(imageEl);
+    }
   });
 
   function setInitialTransform() {
@@ -136,6 +137,7 @@
 
   function handleTransitionEnd() {
     if (success) {
+      console.log(success, uid);
       dispatch('transitionend', {
         index
       });

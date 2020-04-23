@@ -1,7 +1,9 @@
 <script context="module">
+  import { onMount, setContext } from 'svelte';
   import { RichText } from 'prismic-dom';
 
   import Card from '../components/Card';
+  import { key } from '../context/swipe';
 </script>
 
 <script>
@@ -12,7 +14,30 @@
   let active = 0;
   let next = 1;
 
+  let el;
   let parentEl;
+  let listeners = [];
+
+  onMount(async () => {
+    const H = await import('hammerjs');
+    const Hammer = H.default;
+
+    listeners.forEach(entity => {
+      entity.ready = true;
+      entity.run(Hammer);
+    });
+  });
+
+  setContext(key, {
+    add (fn) {
+      this.remove(fn);
+      listeners.push(fn);
+    },
+    remove (fn) {
+      const idx = listeners.indexOf(fn);
+      if (idx >= 0) listeners.splice(idx, 1);
+    }
+  });
 
   function handleTransitionEnd(event) {
     const { index } = event.detail;
