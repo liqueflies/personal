@@ -4,7 +4,6 @@
 
   import Spacer from '../components/Spacer.svelte';
   import DraggableVideo from '../components/DraggableVideo.svelte';
-  import Carousel from '../components/Carousel.svelte';
   import Tinder from '../components/Tinder.svelte';
 </script>
 
