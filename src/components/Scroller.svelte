@@ -27,7 +27,7 @@
           getSpeed: true,
           getDirection: true,
           useKeyboard: true,
-          // smoothMobile: true,
+          smoothMobile: true,
           // touchMultiplier: 2.5
         });
 

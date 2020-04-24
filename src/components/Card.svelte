@@ -58,10 +58,11 @@
 
   scrollable({
     value: uid,
-    scroll: ({ scroll }) => {
-      const speed = window.pageYOffset - scroll.y;
-      console.log(scroll.y, window.pageYOffset, speed, transY)
-      transY = lerp(transY, -((speed * 0.3) * index), 0.4);
+    scroll: ({ speed }) => {
+      // const speed = window.pageYOffset - scroll.y;
+      // console.log(scroll.y, window.pageYOffset, speed, transY)
+      // transY = lerp(transY, -((speed * 0.3) * index), 0.4);
+      transY = (speed * 0.8) * index;
     },
     enter: async () => {
       await lazyImage(imageEl);
