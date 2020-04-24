@@ -1,11 +1,13 @@
 <script context="module">
   import { onMount, createEventDispatcher } from 'svelte';
+  import { tweened } from 'svelte/motion';
   import { RichText } from 'prismic-dom';
 
   import Card from '../components/Card';
   import { swipable } from '../context/swipe';
   import { scrollable } from '../context/scroll';
   import { lazyImage } from '../utils/lazy';
+  import { lerp } from '../utils/math';
 </script>
 
 <script>
@@ -25,7 +27,7 @@
   let Hammer;
 
   let transX;
-  let transY;
+  let transY = 0;
   let rotate;
   let rotateY;
   let scale;
@@ -42,18 +44,25 @@
 
     hammer.add(new Hammer.Tap());
     hammer.add(new Hammer.Pan({
-      position: Hammer.position_ALL, threshold: 0
+      position: Hammer.position_ALL, 
+      threshold: 50, 
+      direction: Hammer.DIRECTION_HORIZONTAL
     }));
     
     // pass events data to custom callbacks
-    hammer.on('tap', handleTap);
-    hammer.on('pan', handlePan);
+    // hammer.on('tap', handleTap);
+    // hammer.on('pan', handlePan);
 
-    setInitialTransform();
+    // setInitialTransform();
   });
 
   scrollable({
     value: uid,
+    scroll: ({ scroll }) => {
+      const speed = window.pageYOffset - scroll.y;
+      console.log(scroll.y, window.pageYOffset, speed, transY)
+      transY = lerp(transY, -((speed * 0.3) * index), 0.4);
+    },
     enter: async () => {
       await lazyImage(imageEl);
     }
@@ -78,6 +87,9 @@
   }
 
   function handlePan(e) {
+    if (e.direction == Hammer.DIRECTION_UP) {
+    }
+
     if (!panning) {
       panning = true;
       // remove transition properties
@@ -118,13 +130,12 @@
       } else if (propX < -0.25 && e.direction == Hammer.DIRECTION_LEFT) {
         success = true;
         // get left border position
-        _transX = - (parentEl.clientWidth + el.clientWidth)
-      
-      } else if (propY < -0.25 && e.direction == Hammer.DIRECTION_UP) {
-        success = true;
-        // get top border position
-        _transY = - (parentEl.clientHeight + el.clientHeight)
+        _transX = - (parentEl.clientWidth + el.clientWidth);
       } 
+      
+      // else if (propY < -0.25 && e.direction == Hammer.DIRECTION_UP) {
+      //   return false;
+      // } 
       
       if (success) {
         transX = _transX;
@@ -156,9 +167,10 @@
   class:active={active}
   class:next={next}
   bind:this={el}
-  style="transition: {transition}; transform: translateX({transX}px) translateY({transY}px) rotate({rotate}deg) rotateY({rotateY}deg)"
+  style="transform: translateY({transY}px)"
   on:transitionend={handleTransitionEnd}
 >
+  <!-- style="transform: translateX({transX}px) translateY({transY}px) rotate({rotate}deg) rotateY({rotateY}deg)" -->
   <img data-src={src} alt={alt} bind:this={imageEl} />
 </div>
 
@@ -171,12 +183,12 @@
   bottom: 0;
 }
 
-img {
+/* img {
   display: inline-block;
-  transform: scale(0.9);
+  transform: scale(0.8);
 
   transition: transform 0.45s var(--ease-in-out);
-}
+} */
 
 .c-card.active {
   z-index: 2;
@@ -186,7 +198,7 @@ img {
   z-index: 1;
 }
 
-.c-card.active img {
+/* .c-card.active img {
   transform: none;
-}
+} */
 </style>

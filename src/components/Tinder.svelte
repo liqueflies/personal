@@ -69,7 +69,7 @@
     transform-origin: 50% 50%;
     transform-style: preserve-3d;
 
-    opacity: 0;
+    /* opacity: 0; */
     
     transition: all 1s var(--ease-in-out);
     transition-property: opacity, transform;

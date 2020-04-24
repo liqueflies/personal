@@ -22,6 +22,7 @@
       if (value) {
         const scroll = new LocomotiveScroll({
           el,
+          elMobile: el,
           smooth: true,
           getSpeed: true,
           getDirection: true,
