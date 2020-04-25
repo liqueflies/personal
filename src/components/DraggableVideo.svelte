@@ -4,8 +4,9 @@
 
   import { scrollable } from '../context/scroll';
   import { renderable, context, height, width } from '../context/canvas';
-  import { videoLoader } from '../utils/lazy';
+  import { lazyVideo } from '../utils/lazy';
   import { lerp } from '../utils/math';
+  import { ready } from '../store'
 </script>
 
 <script>
@@ -27,7 +28,7 @@
   let scrolling;
   let trigger;
 
-  let contextAlpha = tweened(0);
+  let alpha = tweened(0);
 
   onMount(() => {
     function Video() {
@@ -48,17 +49,19 @@
     }
   });
 
+  ready.subscribe(async isReady => {
+    if (isReady) {
+      await lazyVideo(videoElement);
+      texture = videoElement;
+      updateSize();
+
+      videoElement.pause();
+      videoElement.currentTime = 0;
+    }
+  });
+
   renderable({
     setup: props => {
-      videoLoader(videoElement, () => {
-        texture = videoElement;
-        size.x = videoElement.offsetWidth;
-        size.y = videoElement.offsetHeight;
-
-        videoElement.pause();
-        videoElement.currentTime = 0;
-      });
-
       $context.imageSmoothingEnabled = false;
     },
     render: props => {
@@ -102,13 +105,11 @@
       }
     },
     enter: async () => {
-      contextAlpha.subscribe(value => {
-        if ($context) {
-          $context.globalAlpha = value;
-        }
+      alpha.subscribe(opacity => {
+        if ($context) $context.globalAlpha = opacity;
       });
       visible = true;
-      $contextAlpha = 1;
+      $alpha = 1;
       videoElement && videoElement.play();
     },
     exit: () => {
@@ -116,6 +117,19 @@
       videoElement && videoElement.pause();
     }
   });
+
+  function updateSize() {
+    size.x = videoElement.offsetWidth;
+    size.y = videoElement.offsetHeight;
+  }
+
+  function getVideoPosition() {
+    if (videoElement) {
+      return videoElement.getBoundingClientRect();
+    } else {
+      return {top: 0, left: 0};
+    }
+  }
 
   function handleMouseMove(e) {
     mX = e.clientX - size.x * 0.5;
@@ -128,12 +142,8 @@
     mY = top;
   }
 
-  function getVideoPosition() {
-    if (videoElement) {
-      return videoElement.getBoundingClientRect();
-    } else {
-      return {top: 0, left: 0};
-    }
+  function handleResize() {
+    updateSize();
   }
 </script>
 
@@ -183,6 +193,10 @@ video {
   opacity: 1;
 }
 </style>
+
+<svelte:window
+  on:resize={handleResize}
+/>
 
 <div class="l-grid">
   <div class="l-container">

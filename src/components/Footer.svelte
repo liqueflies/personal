@@ -1,5 +1,5 @@
 <script context="module">
-  import { onMount, onDestroy } from "svelte";
+  import { onMount } from "svelte";
   import { tweened } from "svelte/motion";
 
   import Spacer from "../components/Spacer";
@@ -28,7 +28,7 @@
   let themes = [];
   let pictureElement;
 
-  let contextAlpha = tweened(0);
+  let alpha = tweened(0);
 
   function CanvasImage() {
     this.x = 0;
@@ -55,12 +55,9 @@
         frames.push(e);
       }
 
-      contextAlpha.subscribe(value => {
-        $context.globalAlpha = value;
-
-        if (value === 0) {
-          texture = null;
-        }
+      alpha.subscribe(opacity => {
+        $context.globalAlpha = opacity;
+        if (opacity === 0) texture = null;
       });
     },
     render: props => {
@@ -128,11 +125,11 @@
     });
 
     texture = image;
-    $contextAlpha = 1;
+    $alpha = 1;
   }
 
   function handleMouseLeave(e) {
-    $contextAlpha = 0;
+    $alpha = 0;
   }
 </script>
 

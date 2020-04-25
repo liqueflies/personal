@@ -31,17 +31,20 @@ export const lazyPicture = pictureEl => {
   });
 }
 
-export const videoLoader = (videoElement, cb) => {
-  if (!videoElement) {
-    return false;
-  }
-
-  const sources = Array.from(videoElement.children);
-  sources.forEach(videoSource => {
-    if (typeof videoSource.tagName === "string" && videoSource.tagName === "SOURCE") {
-      videoSource.src = videoSource.dataset.src;
+export const lazyVideo = videoEl => {
+  return new Promise(resolve => {
+    if (!videoEl) {
+      resolve(null);
     }
+
+    const sources = Array.from(videoEl.children);
+    sources.forEach(videoSource => {
+      if (typeof videoSource.tagName === "string" && videoSource.tagName === "SOURCE") {
+        videoSource.src = videoSource.dataset.src;
+      }
+    });
+
+    videoEl.load();
+    resolve(videoEl);
   });
-  videoElement.load();
-  cb();
 }

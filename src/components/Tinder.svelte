@@ -4,7 +4,7 @@
 
   import Card from '../components/Card';
   import { key } from '../context/swipe';
-  import { hasTransitionEnd } from '../store/loader';
+  import { ready } from '../store';
 </script>
 
 <script>
@@ -14,12 +14,13 @@
 
   let active = 0;
   let next = 1;
+  let subsequent = 2;
 
   let el;
   let parentEl;
   let listeners = [];
 
-  hasTransitionEnd.subscribe(async value => {
+  ready.subscribe(async value => {
     if (value) {
       const H = await import('hammerjs');
       const Hammer = H.default;
@@ -46,6 +47,7 @@
     const { index } = event.detail;
     active = toNext(index);
     next = toNext(active);
+    subsequent = toNext(next);
   }
 
   function toNext(i) {
@@ -65,13 +67,11 @@
     grid-column-start: 3;
     grid-column-end: -3;
 
-    transform: translate3d(0, 20%, 0);
+    transform: translate3d(0, 30%, 0);
     transform-origin: 50% 50%;
     transform-style: preserve-3d;
-
-    /* opacity: 0; */
     
-    transition: all 1s var(--ease-in-out);
+    transition: all 1.15s var(--ease-in-out);
     transition-property: opacity, transform;
   }
 
@@ -91,6 +91,7 @@
         index={i}
         active={active === i}
         next={next === i}
+        subsequent={subsequent === i}
         parentEl={parentEl}
         on:transitionend={handleTransitionEnd}
       />

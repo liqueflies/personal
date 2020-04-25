@@ -1,5 +1,5 @@
 <script context="module">
-  import { onMount, onDestroy, setContext } from 'svelte';
+  import { onMount, setContext } from 'svelte';
   import isMobile from 'is-mobile';
 
   import {

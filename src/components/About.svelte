@@ -1,5 +1,4 @@
 <script context="module">
-  import { onDestroy } from "svelte";
   import { tweened } from "svelte/motion";
 
   import Spacer from "../components/Spacer.svelte";
@@ -7,6 +6,7 @@
   import { renderable, context, height, width } from "../context/canvas";
   import { lazyPicture } from '../utils/lazy';
   import { lerp } from "../utils/math";
+  import { ready } from '../store'
 
   const scrollValue = "about";
   const size = 90;
@@ -44,8 +44,8 @@
     };
   }
 
-  renderable({
-    setup: async props => {
+  ready.subscribe(async isReady => {
+    if (isReady) {
       textures = { creative, music, art };
 
       const images = Object.values(textures)
@@ -60,12 +60,15 @@
         const e = new CanvasImage();
         frames.push(e);
       }
+    }
+  });
 
-      alpha.subscribe(value => {
-        $context.globalAlpha = value;
-        if (value === 0) texture = null;
-      });
-    },
+  alpha.subscribe(opacity => {
+    if ($context) $context.globalAlpha = opacity;
+    if (opacity === 0) texture = null;
+  });
+
+  renderable({
     render: props => {
       if (visible) {
         x = lerp(x, mX, 0.4);
@@ -130,13 +133,13 @@
     transition: all 0.5s;
   }
   .c-abstract__first.creative {
-    transition-delay: 0.15s;
+    transition-delay: 0s;
   }
   .c-abstract__first.music {
-    transition-delay: 0.3s;
+    transition-delay: 0.15s;
   }
   .c-abstract__first.art {
-    transition-delay: 0.45s;
+    transition-delay: 0.3s;
   }
   .c-abstract__then {
     font-family: var(--font-family-secondary);
@@ -155,7 +158,7 @@
   }
   .c-abstract__then {
     --then-delay: 0.15s;
-    --then-delay-start: 0.1s;
+    --then-delay-start: 0s;
 
     transform: translateY(20px) scaleY(1.4);
     transition: all 0.5s;
@@ -177,6 +180,22 @@
   @media screen and (min-width: 40em) {
     .c-abstract__first {
       transform: translateY(120px) scaleY(1.4) skewY(8deg);
+    }
+    .c-abstract__first::after {
+      content: '';
+      position: absolute;	
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transform-origin: 100%;
+      height: 2px;
+      background-color: currentColor;
+    }
+    .c-abstract__first:hover::after {
+      animation: paint-stripes .6s;
+      animation-fill-mode: forwards;
+      animation-timing-function: var(--ease-in-out);
+      animation-delay: .1s;
     }
     .c-abstract__then {
       transform: translateY(40px) scaleY(1.4);

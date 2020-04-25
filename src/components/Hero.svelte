@@ -1,13 +1,13 @@
 <script context="module">
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount } from 'svelte';
   import { tweened } from "svelte/motion";
 
   import Marquee from '../components/Marquee.svelte';
   import { scrollable } from '../context/scroll';
   import { renderable, context, height, width } from "../context/canvas";
-  import { hasTransitionEnd } from '../store/loader';
   import { lazyPicture } from '../utils/lazy';
   import { lerp } from '../utils/math';
+  import { ready } from '../store';
 
   const scrollValue = 'hero';
   const size = 90;
@@ -16,67 +16,9 @@
 <script>
   const frames = [];
 
-  let mX = 0;
-  let mY = 0;
-
-  let x = 0;
-  let y = 0;
-
   let patchElement;
   let pictureElement;
   let progress;
-
-  let scroll;
-  let texture;
-  let visible = true;
-  let alpha = tweened(0);
-
-  function CanvasImage() {
-    this.x = 0;
-    this.y = 0;
-
-    this.draw = function(x, y) {
-      if (texture) {
-        $context.drawImage(texture, x, y, size, size);
-      }
-
-      this.x = x;
-      this.y = y;
-    };
-  }
-
-  renderable({
-    setup: async props => {
-      texture = await lazyPicture(scroll);
-
-      for (let i = 0; i < 4; i++) {
-        const e = new CanvasImage();
-        frames.push(e);
-      }
-
-      alpha.subscribe(value => {
-        $context.globalAlpha = value;
-        if (value === 0) texture = null;
-      });
-    },
-    render: props => {
-      if (visible) {
-        x = lerp(x, mX, 0.4);
-        y = lerp(y, mY, 0.4);
-
-        frames.forEach((e, i) => {
-          const next = frames[i + 1] || frames[0];
-
-          e.draw(x, y);
-
-          x = lerp(x, next.x, 0.85);
-          y = lerp(y, next.y, 0.7);
-
-          $context.globalCompositeOperation = "destination-over";
-        });
-      }
-    }
-  });
 
   scrollable({
     value: scrollValue,
@@ -94,26 +36,7 @@
   });
 
   function handleTransitionEnd() {
-    $alpha = 1;
-    $hasTransitionEnd = true;
-  }
-
-  function handleMouseMove(e) {
-    mX = e.clientX - size * 0.5;
-    mY = e.clientY - size * 0.5;
-  }
-
-  function handleMouseEnter(e) {
-    frames.forEach(e => {
-      e.x = mX;
-      e.y = mY;
-    });
-
-    $alpha = 1;
-  }
-
-  function handleMouseLeave(e) {
-    $alpha = 0;
+    $ready = true;
   }
 </script>
 
@@ -288,10 +211,6 @@
           alt="Lorenzo Girardi - Creative Technologist"
           on:transitionend={handleTransitionEnd}
         />
-      </picture>
-      <picture class="visually-hidden" bind:this={scroll}>
-        <source data-srcset="scroll.webp" type="image/webp" />
-        <img data-src="scroll.png" alt="Scroll" />
       </picture>
       <div class="c-hero__loading">
         <span class="c-hero__loading-left"></span>

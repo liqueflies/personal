@@ -1,6 +1,4 @@
 <script context="module">
-  import { onDestroy } from 'svelte';
-
   import { scrollable } from '../context/scroll';
   import { lerp } from '../utils/math';
 </script>

@@ -17,6 +17,7 @@
   export let index;
   export let active;
   export let next;
+  export let subsequent;
   export let parentEl;
 
   const dispatch = createEventDispatcher();
@@ -27,7 +28,7 @@
   let Hammer;
 
   let transX;
-  let transY = 0;
+  let transY;
   let rotate;
   let rotateY;
   let scale;
@@ -37,6 +38,9 @@
 
   let panning = false;
   let success = false;
+  let scrolling = false;
+
+  setInitialState();
 
   swipable(H => {
     Hammer = H;
@@ -46,30 +50,26 @@
     hammer.add(new Hammer.Pan({
       position: Hammer.position_ALL, 
       threshold: 50, 
+      // touchAction: 'pan-y',
       direction: Hammer.DIRECTION_HORIZONTAL
     }));
     
     // pass events data to custom callbacks
-    // hammer.on('tap', handleTap);
-    // hammer.on('pan', handlePan);
-
-    // setInitialTransform();
+    hammer.on('tap', handleTap);
+    hammer.on('pan', handlePan);
   });
 
   scrollable({
     value: uid,
-    scroll: ({ speed }) => {
-      // const speed = window.pageYOffset - scroll.y;
-      // console.log(scroll.y, window.pageYOffset, speed, transY)
-      // transY = lerp(transY, -((speed * 0.3) * index), 0.4);
-      transY = (speed * 0.8) * index;
+    scroll: () => {
+      scrolling = true;
     },
     enter: async () => {
       await lazyImage(imageEl);
     }
   });
 
-  function setInitialTransform() {
+  function setInitialState() {
     transX = 0;
     transY = 0;
     rotate = 0;
@@ -77,31 +77,28 @@
     scale = 1;
   }
 
+  function handleTouchEnd() {
+    scrolling = false;
+  } 
+
   function handleTap(e) {
     let propX = (e.center.x - e.target.getBoundingClientRect().left) / e.target.clientWidth;
-  
-    // change the transition property
     transition = 'transform 100ms ease-out';
-
-    // get degree of Y rotation (+/-15 degrees)
     rotateY = 15 * (propX < 0.05 ? -1 : 1);
   }
 
   function handlePan(e) {
-    if (e.direction == Hammer.DIRECTION_UP) {
+    if (scrolling) {
+      return false;
     }
 
     if (!panning) {
       panning = true;
-      // remove transition properties
       transition = 'none';
-      // get top card bounds
       const bounds = el.getBoundingClientRect();
-      // get finger position on top card, top (1) or bottom (-1)
       dragPosition = (e.center.y - bounds.top) > el.clientHeight / 2 ? -1 : 1;
     }
 
-    // calculate new coordinates
     transX = e.deltaX * 0.8;
     transY = e.deltaY * 0.8;
     
@@ -120,45 +117,45 @@
       let _transY = transY;
       
       panning = false;
-      // set back transition properties
       transition = 'transform 200ms ease-out';
       
       // check threshold
       if (propX > 0.25 && e.direction == Hammer.DIRECTION_RIGHT) {
         success = true;
-        // get right border position
         _transX = parentEl.clientWidth;
       } else if (propX < -0.25 && e.direction == Hammer.DIRECTION_LEFT) {
         success = true;
-        // get left border position
         _transX = - (parentEl.clientWidth + el.clientWidth);
-      } 
-      
-      // else if (propY < -0.25 && e.direction == Hammer.DIRECTION_UP) {
-      //   return false;
-      // } 
+      } else if (propY < -0.25 && e.direction == Hammer.DIRECTION_UP) {
+        success = false;
+      } else if (propY < -0.25 && e.direction == Hammer.DIRECTION_DOWN) {
+        success = false;
+      }
       
       if (success) {
         transX = _transX;
         transY = _transY;
       } else {
-        setInitialTransform();
+        setInitialState();
       }
     }
   }
 
   function handleTransitionEnd() {
     if (success) {
-      console.log(success, uid);
       dispatch('transitionend', {
         index
       });
 
-      setInitialTransform();
+      setInitialState();
       success = false;
     }
   }
 </script>
+
+<svelte:window
+  on:touchend={handleTouchEnd}
+/>
 
 <div 
   class="c-card"
@@ -167,11 +164,11 @@
   data-scroll-call={uid}
   class:active={active}
   class:next={next}
+  class:subsequent={subsequent}
   bind:this={el}
-  style="transform: translateY({transY}px)"
+  style="transition: {transition}; transform: translateX({transX}px) translateY({transY}px) rotate({rotate}deg) rotateY({rotateY}deg)"
   on:transitionend={handleTransitionEnd}
 >
-  <!-- style="transform: translateX({transX}px) translateY({transY}px) rotate({rotate}deg) rotateY({rotateY}deg)" -->
   <img data-src={src} alt={alt} bind:this={imageEl} />
 </div>
 
@@ -184,12 +181,12 @@
   bottom: 0;
 }
 
-/* img {
+img {
   display: inline-block;
-  transform: scale(0.8);
+  transform: scale(0.95);
 
   transition: transform 0.45s var(--ease-in-out);
-} */
+}
 
 .c-card.active {
   z-index: 2;
@@ -199,7 +196,23 @@
   z-index: 1;
 }
 
-/* .c-card.active img {
+.c-card.next:nth-of-type(odd) img {
+  transform: scale(0.95) rotate(4deg);
+}
+
+.c-card.next:nth-of-type(even) img {
+  transform: scale(0.95) rotate(-4deg);
+}
+
+.c-card.subsequent:nth-of-type(odd) img {
+  transform: scale(0.95) rotate(4deg);
+}
+
+.c-card.subsequent:nth-of-type(even) img {
+  transform: scale(0.95) rotate(-4deg);
+}
+
+.c-card.active img {
   transform: none;
-} */
+}
 </style>

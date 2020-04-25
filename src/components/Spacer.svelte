@@ -5,7 +5,7 @@
 
 <style>
   .o-spacer {
-    height: calc( var( --gutter ) * ( var( --size ) ) );
+    height: calc(var(--gutter) * (var(--size)));
     font-size: 0;
     margin: 0;
     padding: 0;
@@ -28,5 +28,4 @@
 
 <div
   style="--size:{size}"
-  class="o-spacer{only ? ` o-spacer--only-${only}` : ''}"
-></div>
+  class="o-spacer{only ? ` o-spacer--only-${only}` : ''}" />
