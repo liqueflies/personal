@@ -55,7 +55,7 @@
     }));
     
     // pass events data to custom callbacks
-    hammer.on('tap', handleTap);
+    // hammer.on('tap', handleTap);
     hammer.on('pan', handlePan);
   });
 
@@ -81,11 +81,11 @@
     scrolling = false;
   } 
 
-  function handleTap(e) {
-    let propX = (e.center.x - e.target.getBoundingClientRect().left) / e.target.clientWidth;
-    transition = 'transform 100ms ease-out';
-    rotateY = 15 * (propX < 0.05 ? -1 : 1);
-  }
+  // function handleTap(e) {
+    // let propX = (e.center.x - e.target.getBoundingClientRect().left) / e.target.clientWidth;
+    // transition = 'transform 100ms ease-out';
+    // rotateY = 15 * (propX < 0.05 ? -1 : 1);
+  // }
 
   function handlePan(e) {
     // if (scrolling) {
@@ -147,9 +147,11 @@
         index
       });
 
-      transition = 'transform 0s .45s';
-      setInitialState();
-      success = false;
+      setTimeout(() => {        
+        success = false;
+        transition = 'transform 0s .45s';
+        setInitialState();
+      }, 50);
     }
   }
 </script>
