@@ -187,15 +187,14 @@
       left: 0;
       right: 0;
       bottom: 0;
-      transform-origin: 100%;
+      transform-origin: 0;
       height: 2px;
       background-color: currentColor;
+      transition: transform .4s var(--ease-in-out);
     }
     .c-abstract__first:hover::after {
-      animation: paint-stripes .6s;
-      animation-fill-mode: forwards;
-      animation-timing-function: var(--ease-in-out);
-      animation-delay: .1s;
+      transform-origin: 100%;
+      transform: scale(0, 1);
     }
     .c-abstract__then {
       transform: translateY(40px) scaleY(1.4);

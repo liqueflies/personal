@@ -99,8 +99,8 @@
       dragPosition = (e.center.y - bounds.top) > el.clientHeight / 2 ? -1 : 1;
     }
 
-    transX = e.deltaX * 0.8;
-    transY = e.deltaY * 0.8;
+    transX = e.deltaX;
+    transY = e.deltaY;
     
     // get ratio between swiped pixels and the axes
     let propX = e.deltaX / parentEl.clientWidth;
@@ -122,7 +122,7 @@
       // check threshold
       if (propX > 0.25 && e.direction == Hammer.DIRECTION_RIGHT) {
         success = true;
-        _transX = parentEl.clientWidth;
+        _transX = (parentEl.clientWidth + el.clientWidth);
       } else if (propX < -0.25 && e.direction == Hammer.DIRECTION_LEFT) {
         success = true;
         _transX = - (parentEl.clientWidth + el.clientWidth);
@@ -147,6 +147,7 @@
         index
       });
 
+      transition = 'transform 0s .45s';
       setInitialState();
       success = false;
     }
