@@ -88,9 +88,9 @@
   }
 
   function handlePan(e) {
-    if (scrolling) {
-      return false;
-    }
+    // if (scrolling) {
+    //   return false;
+    // }
 
     if (!panning) {
       panning = true;
