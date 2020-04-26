@@ -49,8 +49,7 @@
     hammer.add(new Hammer.Tap());
     hammer.add(new Hammer.Pan({
       position: Hammer.position_ALL, 
-      threshold: 50, 
-      // touchAction: 'pan-y',
+      threshold: 0,
       direction: Hammer.DIRECTION_HORIZONTAL
     }));
     
