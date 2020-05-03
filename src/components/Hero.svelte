@@ -20,6 +20,7 @@
   let patchElement;
   let pictureElement;
   let progress;
+  let wh;
 
   scrollable({
     value: scrollValue,
@@ -45,8 +46,6 @@
 .c-hero {
   display: flex;
 
-  /* min-height: 100vh; */
-  height: fill-available;
   height: -webkit-fill-available;
   align-items: center;
 }
@@ -212,10 +211,14 @@
 }
 </style>
 
+<svelte:window
+  bind:innerHeight={wh}
+/>
+
 <div 
   data-scroll-section 
   class="l-container l-container--full">
-  <div class="c-hero">
+  <div class="c-hero" style="height: {wh}px">
     <figure 
       class="c-hero__figure l-grid"
       data-scroll
