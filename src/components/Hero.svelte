@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { tweened } from "svelte/motion";
 
+  import Spacer from '../components/Spacer.svelte';
   import Marquee from '../components/Marquee.svelte';
   import { scrollable } from '../context/scroll';
   import { renderable, context, height, width } from "../context/canvas";
@@ -42,10 +43,18 @@
 
 <style>
 .c-hero {
+  display: flex;
+
+  height: 100vh;
+  min-height: -webkit-fill-available;
+  align-items: center;
+}
+.c-hero__figure {
   position: relative;
 
   margin: 0;
   padding-bottom: calc( var( --font-size-h1 ) / 2 );
+  margin-bottom: calc( var( --font-size-h1 ) / 4 );
 
   text-align: center;
 }
@@ -156,8 +165,26 @@
   transform: scale3d(0, 1, 1) perspective(1px);
 }
 
+.c-hero__position {
+  opacity: 0;
+  
+  transform: translateY(20px) scaleY(1.2);
+  transform-style: preserve-3d;
+
+  transition: all 1s var(--ease-in-out);
+  transition-property: opacity, transform;
+  transition-delay: calc( var(--loading-reveal-delay) + var(--loading-marquee-delay) );
+}
+
+:global(.has-loaded-content) .c-hero__position {
+  opacity: 1;
+  transform: none;
+}
+
+
 @media screen and (min-width: 40em) {
-  .c-hero {
+  .c-hero__figure {
+    margin-bottom: 0;
     padding-bottom: 0;
 
     overflow: hidden;
@@ -177,50 +204,61 @@
   .c-hero__patch {
     display: block;
   }
+
+  .c-hero__position {
+    display: none;
+  }
 }
 </style>
 
 <div 
   data-scroll-section 
   class="l-container l-container--full">
-  <figure 
-    class="c-hero l-grid"
-    data-scroll
-    data-scroll-repeat
-    data-scroll-call={scrollValue}
-  >
-    <div class="l-container l-container--small c-hero__frame">
-      <picture bind:this={pictureElement}>
-        <source
-          media="(max-width: 768px)"
-          data-srcset="lorenzo-girardi@mobile.webp"
-          type="image/webp"
-        />
-        <source 
-          media="(max-width: 768px)"
-          data-srcset="lorenzo-girardi@mobile.jpg"
-          type="image/jpeg"
-        />
-        <source
-          data-srcset="lorenzo-girardi.webp"
-          type="image/webp"
-        />
-        <img
-          class="c-hero__image"
-          data-src="lorenzo-girardi.jpg"
-          alt="Lorenzo Girardi - Creative Technologist"
-          on:transitionend={handleTransitionEnd}
-        />
-      </picture>
-      <div class="c-hero__loading">
-        <span class="c-hero__loading-left"></span>
-        <span class="c-hero__loading-stroke"></span>
-        <span class="c-hero__loading-right"></span>
+  <div class="c-hero">
+    <figure 
+      class="c-hero__figure l-grid"
+      data-scroll
+      data-scroll-repeat
+      data-scroll-call={scrollValue}
+    >
+      <div class="l-container c-hero__position" data-scroll-section>
+        <Spacer size="3" />
+        <span> Creative Technologist </span>
+        <Spacer size="3" />
       </div>
-      <div class="c-hero__patch" bind:this={patchElement}></div>
-    </div>
-    <figcaption class="l-container l-container--full c-hero__caption">
-      <Marquee text="Lorenzo Girardi" />
-    </figcaption>
-  </figure>
+      <div class="l-container l-container--small c-hero__frame">
+        <picture bind:this={pictureElement}>
+          <source
+            media="(max-width: 768px)"
+            data-srcset="lorenzo-girardi@mobile.webp"
+            type="image/webp"
+          />
+          <source 
+            media="(max-width: 768px)"
+            data-srcset="lorenzo-girardi@mobile.jpg"
+            type="image/jpeg"
+          />
+          <source
+            data-srcset="lorenzo-girardi.webp"
+            type="image/webp"
+          />
+          <img
+            class="c-hero__image"
+            data-src="lorenzo-girardi.jpg"
+            alt="Lorenzo Girardi - Creative Technologist"
+            on:transitionend={handleTransitionEnd}
+          />
+        </picture>
+        <div class="c-hero__loading">
+          <span class="c-hero__loading-left"></span>
+          <span class="c-hero__loading-stroke"></span>
+          <span class="c-hero__loading-right"></span>
+        </div>
+        <div class="c-hero__patch" bind:this={patchElement}></div>
+      </div>
+      <figcaption class="l-container l-container--full c-hero__caption">
+        <Marquee text="Lorenzo Girardi" />
+      </figcaption>
+    </figure> 
+  </div>
 </div>
