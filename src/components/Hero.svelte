@@ -45,8 +45,9 @@
 .c-hero {
   display: flex;
 
-  height: 100vh;
-  min-height: -webkit-fill-available;
+  /* min-height: 100vh; */
+  height: fill-available;
+  height: -webkit-fill-available;
   align-items: center;
 }
 .c-hero__figure {
