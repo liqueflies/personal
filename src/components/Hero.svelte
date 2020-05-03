@@ -20,7 +20,8 @@
   let patchElement;
   let pictureElement;
   let progress;
-  let wh;
+  let vh;
+  let vw;
 
   scrollable({
     value: scrollValue,
@@ -33,9 +34,21 @@
   });
 
   onMount(async () => {
+    setHeroSize();
     const src = await lazyPicture(pictureElement);
     document.documentElement.classList.add('has-loaded-content');
   });
+
+  function setHeroSize() {
+    vh = window.innerHeight;
+    vw = window.innerWidth;
+  }
+
+  function handleResize() {
+    if (vw !== window.innerWidth) {
+      setHeroSize();
+    }
+  }
 
   function handleTransitionEnd() {
     $ready = true;
@@ -212,13 +225,13 @@
 </style>
 
 <svelte:window
-  bind:innerHeight={wh}
+  on:resize|passive={handleResize}
 />
 
 <div 
   data-scroll-section 
   class="l-container l-container--full">
-  <div class="c-hero" style="height: {wh}px">
+  <div class="c-hero" style="height: {vh}px">
     <figure 
       class="c-hero__figure l-grid"
       data-scroll
