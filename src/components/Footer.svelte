@@ -138,6 +138,12 @@
     text-align: center;
   }
 
+  .c-footer__about p {
+    display: block;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+  }
+
   .c-footer__list {
     margin: 0;
     padding: 0;
@@ -169,6 +175,7 @@
 
   .c-footer__sst {
     grid-column-start: 6;
+    grid-column-end: 10;
     cursor: default;
   }
 
@@ -195,7 +202,8 @@
       font-size: var(--font-size-h4);
     }
 
-    .c-footer__list {
+    .c-footer__list,
+    .c-footer__about {
       transform-origin: top left;
       transform: translateY(40px) scaleY(1.4) skewY(8deg);
       transition: all 0.8s var(--ease-in-out);
@@ -211,7 +219,8 @@
     .c-footer__list,
     .c-footer__lg,
     .c-footer__sst,
-    .c-footer__toggle {
+    .c-footer__toggle,
+    .c-footer__about {
       opacity: 0;
       transform-style: preserve-3d;
       transition-property: opacity, transform;
@@ -240,6 +249,7 @@
 
     .c-footer__sst {
       grid-column-start: 3;
+      grid-column-end: auto;
       transition-delay: 0.25s;
     }
 
@@ -251,7 +261,8 @@
     :global(.is-inview) .c-footer__list,
     :global(.is-inview) .c-footer__lg,
     :global(.is-inview) .c-footer__sst,
-    :global(.is-inview) .c-footer__toggle {
+    :global(.is-inview) .c-footer__toggle,
+    :global(.is-inview) .c-footer__about {
       transform: none;
       opacity: 1;
     }
@@ -259,6 +270,16 @@
 </style>
 
 <footer data-scroll-section class="c-footer l-container">
+  <div data-scroll>
+    <div class="c-footer__about">
+      <p>Focusing on Interactive Development</p>
+      <p>and growing technological culture of companies</p>
+      <p>pushing ideas outside boundaries.</p>
+      <p>Co-founder of <a rel="noopener" target="_blank" href="https://developers.caffeina.com/tech-mondays-caffeina-ec85fbe7361">Tech Mondays</a></p>
+      <p>Spreading knowledge as a <a rel="noopener" target="_blank" href="https://speakerdeck.com/loregirardi">Speaker</a>.</p>
+    </div>
+  </div>
+  <Spacer size="8" />
   <div
     data-scroll
     data-scroll-repeat

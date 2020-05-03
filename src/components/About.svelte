@@ -225,7 +225,7 @@
         </span>
       </div>
       <div class="c-abstract__para c-abstract__then technologist">
-        Technologist
+        Technologist,
       </div>
       <div class="c-abstract__para">
         <span

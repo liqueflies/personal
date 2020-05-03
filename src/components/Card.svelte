@@ -53,8 +53,6 @@
       direction: Hammer.DIRECTION_HORIZONTAL
     }));
     
-    // pass events data to custom callbacks
-    // hammer.on('tap', handleTap);
     hammer.on('pan', handlePan);
   });
 
@@ -78,19 +76,9 @@
 
   function handleTouchEnd() {
     scrolling = false;
-  } 
-
-  // function handleTap(e) {
-    // let propX = (e.center.x - e.target.getBoundingClientRect().left) / e.target.clientWidth;
-    // transition = 'transform 100ms ease-out';
-    // rotateY = 15 * (propX < 0.05 ? -1 : 1);
-  // }
+  }
 
   function handlePan(e) {
-    // if (scrolling) {
-    //   return false;
-    // }
-
     if (!panning) {
       panning = true;
       transition = 'none';
