@@ -54,7 +54,7 @@
 
   margin: 0;
   padding-bottom: calc( var( --font-size-h1 ) / 2 );
-  margin-bottom: calc( var( --font-size-h1 ) / 4 );
+  /* margin-bottom: calc( var( --font-size-h1 ) / 4 ); */
 
   text-align: center;
 }
@@ -184,7 +184,7 @@
 
 @media screen and (min-width: 40em) {
   .c-hero__figure {
-    margin-bottom: 0;
+    /* margin-bottom: 0; */
     padding-bottom: 0;
 
     overflow: hidden;
@@ -226,7 +226,7 @@
       data-scroll-call={scrollValue}
     >
       <div class="l-container c-hero__position" data-scroll-section>
-        <Spacer size="3" />
+        <!-- <Spacer size="3" /> -->
         <span> Creative Technologist </span>
         <Spacer size="3" />
       </div>
