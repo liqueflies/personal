@@ -64,10 +64,10 @@
 }
 .c-hero__figure {
   position: relative;
+  width: 100%;
 
   margin: 0;
   padding-bottom: calc( var( --font-size-h1 ) / 2 );
-  /* margin-bottom: calc( var( --font-size-h1 ) / 4 ); */
 
   text-align: center;
 }
