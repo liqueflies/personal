@@ -239,7 +239,7 @@
       data-scroll-call={scrollValue}
     >
       <div class="l-container c-hero__position" data-scroll-section>
-        <!-- <Spacer size="3" /> -->
+        <Spacer size="2" />
         <span> Creative Technologist </span>
         <Spacer size="3" />
       </div>
