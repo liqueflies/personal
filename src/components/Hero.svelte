@@ -113,7 +113,7 @@
 
 .c-hero__loading-left,
 .c-hero__loading-right {
-  width: calc( 50% - 1px );
+  width: 50%;
 }
 
 .c-hero__loading-stroke,
@@ -125,6 +125,7 @@
 
 .c-hero__loading-stroke {
   width: 2px;
+  z-index: 2;
 }
 
 .c-hero__loading-left,
