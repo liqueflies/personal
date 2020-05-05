@@ -25,7 +25,7 @@
   }
 
   function isMobile() {
-    return _isMobile({ featureDetect: true, tablet: true });
+    return _isMobile({ featureDetect: true, tablet: false });
   }
 </script>
 
@@ -140,7 +140,7 @@
 
     .c-work__detail:nth-child(2) {
       grid-column-start: 3;
-      grid-column-end: auto;
+      grid-column-end: 7;
       text-align: left;
     }
 

@@ -195,8 +195,13 @@
   transform: none;
 }
 
-
 @media screen and (min-width: 40em) {
+  .c-hero__image {
+    height: 75vh;
+  }
+}
+
+@media screen and (min-width: 62em) {
   .c-hero__figure {
     /* margin-bottom: 0; */
     padding-bottom: 0;
@@ -240,19 +245,19 @@
       data-scroll-call={scrollValue}
     >
       <div class="l-container c-hero__position" data-scroll-section>
-        <Spacer size="2" />
+        <!-- <Spacer size="2" /> -->
         <span> Creative Technologist </span>
         <Spacer size="3" />
       </div>
       <div class="l-container l-container--small c-hero__frame">
         <picture bind:this={pictureElement}>
           <source
-            media="(max-width: 768px)"
+            media="(max-width: 992px)"
             data-srcset="lorenzo-girardi@mobile.webp"
             type="image/webp"
           />
           <source 
-            media="(max-width: 768px)"
+            media="(max-width: 992px)"
             data-srcset="lorenzo-girardi@mobile.jpg"
             type="image/jpeg"
           />

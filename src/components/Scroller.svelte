@@ -66,6 +66,7 @@
 <style>
   main {
     position: relative;
+    overflow: hidden;
   }
 </style>
 

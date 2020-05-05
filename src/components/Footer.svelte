@@ -179,7 +179,7 @@
   }
 
   .c-footer__sst {
-    grid-column-start: 6;
+    grid-column-start: 4;
     grid-column-end: 10;
     cursor: default;
   }
@@ -190,7 +190,9 @@
   }
 
   .c-footer__toggle {
-    grid-column-start: 12;
+    /* grid-column-start: 12; */
+    grid-column-start: 10;
+    grid-column-end: -1;
     text-transform: capitalize;
   }
 
@@ -201,7 +203,7 @@
 
     .c-footer__about {
       grid-column-start: 1;
-      grid-column-end: 4;
+      grid-column-end: 6;
     }
 
     .c-footer__credits {
@@ -277,6 +279,18 @@
       opacity: 1;
     }
   }
+
+  @media screen and (min-width: 62em) {
+    .c-footer__about {
+      grid-column-end: 6;
+    }
+  }
+
+  @media screen and (min-width: 75em) {
+    .c-footer__about {
+      grid-column-end: 4;
+    }
+  }
 </style>
 
 <footer data-scroll-section class="c-footer l-container">
@@ -340,7 +354,7 @@
       {/if}
     </button>
   </div>
-  <Spacer size="10" only="mobile" />
+  <Spacer size="5" only="mobile" />
 </footer>
 
 <svelte:body on:mousemove={handleMouseMove} />

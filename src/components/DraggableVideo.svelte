@@ -88,20 +88,19 @@
 
   scrollable({
     value: uid,
-    scroll: ({ speed, direction, instance }) => {
+    scroll: ({ speed, direction, delta, scroll, instance }) => {
       const {top, left} = getVideoPosition();
       mX = left;
       mY = top;
 
-      scrolling = Math.abs(speed) > 0;
+      scrolling = !delta || Math.abs(speed) > 0;
+      const dir = direction || window.pageYOffset - scroll.y < 0 ? 'up' : 'down';
 
-      if (direction) {
-        const prevTrigger = trigger;
-        trigger = direction === 'down' ? 'bottom' : 'top';
+      const prevTrigger = trigger;
+      trigger = dir === 'down' ? 'bottom' : 'top';
 
-        if (prevTrigger !== trigger) {
-          instance.update();
-        }
+      if (prevTrigger !== trigger) {
+        instance.update();
       }
     },
     enter: async () => {
@@ -205,7 +204,7 @@ video {
       data-scroll
       data-scroll-repeat
       data-scroll-call={uid}
-      data-scroll-offset="10%"
+      data-scroll-offset="-10%"
       data-scroll-position={trigger || 'bottom'}
     >
       <div

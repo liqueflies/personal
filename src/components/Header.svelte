@@ -52,7 +52,7 @@
     transform: none;
   }
 
-  @media screen and (min-width: 40em) {
+  @media screen and (min-width: 62em) {
     .c-header {
       position: fixed;
 

@@ -251,7 +251,9 @@ body.t-dark {
     --font-size-h4: 96px;
     --font-size-default: 16px;	
   }
+}
 
+@media (min-width: 62em) {
   .l-container--small {
     grid-column-start: 4;
     grid-column-end: 10;

@@ -24,7 +24,7 @@
   let frame;
 
   onMount(() => {
-    if (isMobile({featureDetect: true, tablet: true})) {
+    if (isMobile({featureDetect: true, tablet: false})) {
       return false;
     }
   
