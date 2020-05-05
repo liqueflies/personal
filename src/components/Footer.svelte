@@ -138,10 +138,15 @@
     text-align: center;
   }
 
+  .c-footer__about {
+    grid-column-start: 2;
+    grid-column-end: -2;
+  }
+
   .c-footer__about p {
-    display: block;
     margin-top: 0;
-    margin-bottom: 0.5em;
+    margin-bottom: calc(var(--gutter) * 4);
+    line-height: 1.667;
   }
 
   .c-footer__list {
@@ -194,6 +199,11 @@
       text-align: left;
     }
 
+    .c-footer__about {
+      grid-column-start: 1;
+      grid-column-end: 4;
+    }
+
     .c-footer__credits {
       align-items: center;
     }
@@ -239,7 +249,7 @@
 
     .c-footer__toggle:hover .c-footer__hoverable,
     .c-footer__sst:hover .c-footer__hoverable {
-      color: var(--color-grey);
+      color: #787878;
     }
 
     .c-footer__lg {
@@ -270,16 +280,17 @@
 </style>
 
 <footer data-scroll-section class="c-footer l-container">
-  <div data-scroll>
+  <div class="l-grid" data-scroll>
     <div class="c-footer__about">
-      <p>Focusing on Interactive Development</p>
-      <p>and growing technological culture of companies</p>
-      <p>pushing ideas outside boundaries.</p>
-      <p>Co-founder of <a rel="noopener" target="_blank" href="https://developers.caffeina.com/tech-mondays-caffeina-ec85fbe7361">Tech Mondays</a></p>
-      <p>Spreading knowledge as a <a rel="noopener" target="_blank" href="https://speakerdeck.com/loregirardi">Speaker</a>.</p>
+      <p>Focusing on Interactive Development
+        and growing technological culture of companies,
+        pushing ideas outside boundaries.
+      <p>Co-founder of <a rel="noopener" target="_blank" href="https://developers.caffeina.com/tech-mondays-caffeina-ec85fbe7361">Tech Mondays</a><br />
+      Spreading knowledge as a <a rel="noopener" target="_blank" href="https://speakerdeck.com/loregirardi">Speaker</a>.</p>
     </div>
   </div>
-  <Spacer size="8" />
+  <Spacer size={15} only="mobile" />
+  <Spacer size={20} only="desktop" />
   <div
     data-scroll
     data-scroll-repeat

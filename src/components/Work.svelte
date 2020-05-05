@@ -56,7 +56,7 @@
 
   .c-work__title,
   .c-work__release,
-  .c-work__detail {
+  .c-work__detail {    
     opacity: 0;
     transform-style: preserve-3d;
     transition: all 1s var(--ease-in-out);
@@ -77,6 +77,8 @@
   }
 
   .c-work__detail {
+    line-height: 1.445;
+
     transform: translateY(15px);
   }
 
