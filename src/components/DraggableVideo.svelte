@@ -113,6 +113,13 @@
     },
     exit: () => {
       visible = false;
+      const {top, left} = getVideoPosition();
+      
+      frames.forEach((e, i) => {
+        e.x = left;
+        e.y = top;
+      });
+
       videoElement && videoElement.pause();
     }
   });
