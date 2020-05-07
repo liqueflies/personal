@@ -29,6 +29,7 @@
   let visible;
   let trigger;
   let scrolling;
+  let moving;
 
   let alpha = tweened(0);
 
@@ -147,12 +148,10 @@
     }
   }
 
-  let moving = true;
-  const delta = 10;
   function handleMouseMove(e) {
-    const {top, left, width, height} = getContainerBounds();
+    const {top, left, bottom, right, width, height} = getContainerBounds();
 
-    if (moving && top <= y && left <= x) {
+    if (moving && top <= y && left <= x && right >= (x + size.x) && bottom >= (y + size.y)) {
       mX = e.clientX - size.x * 0.5;
       mY = e.clientY - size.y * 0.5;
     } else {
@@ -199,11 +198,6 @@
   right: 0;
   left: 0;
   bottom: 0;
-  /* position: absolute;
-  top: 12%;
-  left: 15%;
-  right: 15%;
-  bottom: 12%; */
 
   display: flex;
   align-items: center;
@@ -211,9 +205,10 @@
 }
 
 .c-video__trigger {
-  width: 80px;
-  height: 80px;
 
+  width: 48%;
+  height: 48%;
+  
   position: absolute;
   top: 0;
   left: 0;
@@ -222,16 +217,14 @@
 
   margin: auto;
 
-  background: red;
-
-  z-index: 11;
+  z-index: 2;
 }
 
 video {
   display: inline-block;
 
-  width: 70%;
-  height: 70%;
+  width: 48%;
+  height: 48%;
 
   visibility: hidden;
 }
