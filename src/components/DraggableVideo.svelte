@@ -24,15 +24,17 @@
 
   let texture;
   let videoElement;
+  let containerElement;
+
   let visible;
-  let scrolling;
   let trigger;
+  let scrolling;
 
   let alpha = tweened(0);
 
   onMount(() => {
     function Video() {
-      const {top, left} = getVideoPosition();
+      const {top, left} = getVideoBounds();
       this.x = left;
       this.y = top;
 
@@ -89,7 +91,7 @@
   scrollable({
     value: uid,
     scroll: ({ speed, direction, delta, scroll, instance }) => {
-      const {top, left} = getVideoPosition();
+      const {top, left} = getVideoBounds();
       mX = left;
       mY = top;
 
@@ -113,8 +115,8 @@
     },
     exit: () => {
       visible = false;
-      const {top, left} = getVideoPosition();
-      
+      const {top, left} = getVideoBounds();
+
       frames.forEach((e, i) => {
         e.x = left;
         e.y = top;
@@ -129,23 +131,41 @@
     size.y = videoElement.offsetHeight;
   }
 
-  function getVideoPosition() {
+  function getVideoBounds() {
     if (videoElement) {
       return videoElement.getBoundingClientRect();
     } else {
-      return {top: 0, left: 0};
+      return {top: 0, left: 0, width: 0, height: 0};
     }
   }
 
-  function handleMouseMove(e) {
-    mX = e.clientX - size.x * 0.5;
-    mY = e.clientY - size.y * 0.5;
+  function getContainerBounds() {
+    if (containerElement) {
+      return containerElement.getBoundingClientRect();
+    } else {
+      return {top: 0, left: 0, width: 0, height: 0};
+    }
   }
 
-  function handleMouseLeave(e) {
-    const {top, left} = getVideoPosition();
-    mX = left;
-    mY = top;
+  let moving = true;
+  const delta = 10;
+  function handleMouseMove(e) {
+    const {top, left, width, height} = getContainerBounds();
+
+    if (moving && top <= y && left <= x) {
+      mX = e.clientX - size.x * 0.5;
+      mY = e.clientY - size.y * 0.5;
+    } else {
+      moving = false;
+
+      const {top: t, left: l} = getVideoBounds();
+      mX = l;
+      mY = t;
+    }
+  }
+
+  function handleMouseEnter(e) {
+    moving = true;
   }
 
   function handleResize() {
@@ -175,14 +195,36 @@
 
 .c-video__container {
   position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  /* position: absolute;
   top: 12%;
   left: 15%;
   right: 15%;
-  bottom: 12%;
+  bottom: 12%; */
 
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.c-video__trigger {
+  width: 80px;
+  height: 80px;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  margin: auto;
+
+  background: red;
+
+  z-index: 11;
 }
 
 video {
@@ -216,9 +258,10 @@ video {
     >
       <div
         class="c-video__container"
+        bind:this={containerElement}
         on:mousemove={handleMouseMove}
-        on:mouseleave={handleMouseLeave}
       >
+        <div class="c-video__trigger" on:mouseenter={handleMouseEnter}></div>
         <video autoplay muted loop playsinline bind:this={videoElement}>
           <source data-src={video.url} type="video/mp4">
         </video>
