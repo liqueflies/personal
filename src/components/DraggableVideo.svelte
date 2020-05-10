@@ -246,8 +246,8 @@
   /* background-color: salmon; */
 }
 
-video,
-.c-video__trigger {
+video {
+/* .c-video__trigger { */
 
   width: 48%;
   height: 48%;
@@ -261,10 +261,10 @@ video,
   margin: auto;
 }
 
-.c-video__trigger {
-  z-index: 2;
+/* .c-video__trigger { */
+  /* z-index: 2; */
   /* background-color: peru; */
-}
+/* } */
 
 video {
   visibility: hidden;
