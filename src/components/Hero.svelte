@@ -60,11 +60,13 @@
   display: flex;
 
   height: -webkit-fill-available;
-  align-items: center;
+  flex-flow: column;
 }
 .c-hero__figure {
   position: relative;
   width: 100%;
+
+  flex: 0 0 auto;
 
   margin: 0;
   padding-bottom: calc( var( --font-size-h1 ) / 2 );
@@ -102,6 +104,14 @@
 .c-hero__patch {
   display: none;
   background-color: #333;
+}
+
+.c-hero__layout {
+  flex: 1 1 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .c-hero__loading {
@@ -224,7 +234,7 @@
     display: block;
   }
 
-  .c-hero__position {
+  .c-hero__layout {
     display: none;
   }
 }
@@ -238,17 +248,15 @@
   data-scroll-section 
   class="l-container l-container--full">
   <div class="c-hero" style="height: {vh}px">
+    <div class="c-hero__position c-hero__layout">
+      <span> Creative Technologist </span>
+    </div>
     <figure 
       class="c-hero__figure l-grid"
       data-scroll
       data-scroll-repeat
       data-scroll-call={scrollValue}
     >
-      <div class="l-container c-hero__position" data-scroll-section>
-        <!-- <Spacer size="2" /> -->
-        <span> Creative Technologist </span>
-        <Spacer size="3" />
-      </div>
       <div class="l-container l-container--small c-hero__frame">
         <picture bind:this={pictureElement}>
           <source
@@ -282,6 +290,8 @@
       <figcaption class="l-container l-container--full c-hero__caption">
         <Marquee text="Lorenzo Girardi" />
       </figcaption>
-    </figure> 
+    </figure>
+    <div class="c-hero__layout">
+    </div>
   </div>
 </div>

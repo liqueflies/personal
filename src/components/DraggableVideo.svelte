@@ -22,9 +22,11 @@
   let x = 0;
   let y = 0;
 
+  let vw;
+
   let texture;
-  let videoElement;
-  let containerElement;
+  let videoEl;
+  let containerEl;
 
   let visible;
   let trigger;
@@ -54,12 +56,10 @@
 
   ready.subscribe(async isReady => {
     if (isReady) {
-      await lazyVideo(videoElement);
-      texture = videoElement;
+      await lazyVideo(videoEl);
+      texture = videoEl;
       updateSize();
-
-      videoElement.pause();
-      videoElement.currentTime = 0;
+      stop();
     }
   });
 
@@ -107,14 +107,15 @@
       }
     },
     enter: async () => {
+      play();
       alpha.subscribe(opacity => {
         if ($context) $context.globalAlpha = opacity;
       });
       visible = true;
       $alpha = 1;
-      videoElement && videoElement.play();
     },
     exit: () => {
+      pause();
       visible = false;
       const {top, left} = getVideoBounds();
 
@@ -122,27 +123,44 @@
         e.x = left;
         e.y = top;
       });
-
-      videoElement && videoElement.pause();
     }
   });
 
+  function stop() {
+    if (videoEl) {
+      videoEl.pause();
+      videoEl.currentTime = 0;
+    }
+  }
+
+  function play() {
+    if (videoEl) {
+      videoEl.play();
+    }
+  }
+
+  function pause() {
+    if (videoEl) {
+      videoEl.pause();
+    }
+  }
+
   function updateSize() {
-    size.x = videoElement.offsetWidth;
-    size.y = videoElement.offsetHeight;
+    size.x = videoEl.offsetWidth;
+    size.y = videoEl.offsetHeight;
   }
 
   function getVideoBounds() {
-    if (videoElement) {
-      return videoElement.getBoundingClientRect();
+    if (videoEl) {
+      return videoEl.getBoundingClientRect();
     } else {
       return {top: 0, left: 0, width: 0, height: 0};
     }
   }
 
   function getContainerBounds() {
-    if (containerElement) {
-      return containerElement.getBoundingClientRect();
+    if (containerEl) {
+      return containerEl.getBoundingClientRect();
     } else {
       return {top: 0, left: 0, width: 0, height: 0};
     }
@@ -151,12 +169,17 @@
   function handleMouseMove(e) {
     const {top, left, bottom, right, width, height} = getContainerBounds();
 
-    if (moving && top <= y && left <= x && right >= (x + size.x) && bottom >= (y + size.y)) {
-      mX = e.clientX - size.x * 0.5;
-      mY = e.clientY - size.y * 0.5;
+    if (moving && top < y && left < x && right > x + size.x && bottom > y + size.y) {
+      const vwHalf = width * 0.5;
+      const vhHalf = height * 0.5;
+      const vwPercentage = (e.clientX - left) / vwHalf;
+      const vhPercentage = (e.clientY - top) / vhHalf;
+
+      mX = e.clientX - ( size.x * ( 0.5 * vwPercentage ) );
+      mY = e.clientY - ( size.y * ( 0.5 * vhPercentage ) );
     } else {
       moving = false;
-
+    
       const {top: t, left: l} = getVideoBounds();
       mX = l;
       mY = t;
@@ -204,6 +227,26 @@
   justify-content: center;
 }
 
+.c-video__container::before,
+.c-video__container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+}
+
+.c-video__container::before {
+  left: 0;
+  /* background-color: palevioletred; */
+}
+
+.c-video__container::after {
+  right: 0;
+  /* background-color: salmon; */
+}
+
+video,
 .c-video__trigger {
 
   width: 48%;
@@ -216,16 +259,14 @@
   bottom: 0;
 
   margin: auto;
+}
 
+.c-video__trigger {
   z-index: 2;
+  /* background-color: peru; */
 }
 
 video {
-  display: inline-block;
-
-  width: 48%;
-  height: 48%;
-
   visibility: hidden;
 }
 
@@ -236,6 +277,7 @@ video {
 </style>
 
 <svelte:window
+  bind:innerWidth={vw}
   on:resize={handleResize}
 />
 
@@ -251,11 +293,12 @@ video {
     >
       <div
         class="c-video__container"
-        bind:this={containerElement}
+        bind:this={containerEl}
+        on:mouseenter={handleMouseEnter}
         on:mousemove={handleMouseMove}
       >
-        <div class="c-video__trigger" on:mouseenter={handleMouseEnter}></div>
-        <video autoplay muted loop playsinline bind:this={videoElement}>
+        <!-- <div class="c-video__trigger"></div> -->
+        <video autoplay muted loop playsinline bind:this={videoEl}>
           <source data-src={video.url} type="video/mp4">
         </video>
       </div>
