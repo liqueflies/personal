@@ -46,15 +46,6 @@
 
   renderable({
     setup: async props => {
-      image = await lazyPicture(pictureElement);
-      size.x = image.naturalWidth * 0.45;
-      size.y = image.naturalHeight * 0.45;
-
-      for (let i = 0; i < 4; i++) {
-        const e = new CanvasImage();
-        frames.push(e);
-      }
-
       alpha.subscribe(opacity => {
         $context.globalAlpha = opacity;
         if (opacity === 0) texture = null;
@@ -83,6 +74,16 @@
     value: scrollValue,
     scroll: props => {
       visible = props.visible
+    },
+    enter: async () => {
+      image = await lazyPicture(pictureElement);
+      size.x = image.naturalWidth * 0.45;
+      size.y = image.naturalHeight * 0.45;
+
+      for (let i = 0; i < 4; i++) {
+        const e = new CanvasImage();
+        frames.push(e);
+      }
     }
   });
 
