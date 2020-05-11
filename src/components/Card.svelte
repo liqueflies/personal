@@ -18,7 +18,7 @@
   export let active;
   export let next;
   export let subsequent;
-  export let parentEl;
+  // export let parentEl;
 
   const dispatch = createEventDispatcher();
 
@@ -53,7 +53,8 @@
       direction: Hammer.DIRECTION_HORIZONTAL
     }));
     
-    hammer.on('pan', handlePan);
+    // hammer.on('pan', handlePan);
+    hammer.on('tap', handleTap);
   });
 
   scrollable({
@@ -78,55 +79,61 @@
     scrolling = false;
   }
 
-  function handlePan(e) {
-    if (!panning) {
-      panning = true;
-      transition = 'none';
-      const bounds = el.getBoundingClientRect();
-      dragPosition = (e.center.y - bounds.top) > el.clientHeight / 2 ? -1 : 1;
-    }
-
-    transX = e.deltaX;
-    transY = e.deltaY;
-    
-    // get ratio between swiped pixels and the axes
-    let propX = e.deltaX / parentEl.clientWidth;
-    let propY = e.deltaY / parentEl.clientHeight;
-    
-    // get swipe direction, left (-1) or right (1)
-    let dirX = e.deltaX < 0 ? -1 : 1;
-    
-    // calculate rotation, between 0 and +/- 45 deg
-    rotate = dragPosition * dirX * Math.abs(propX) * 45;
-    
-    if (e.isFinal) {
-      let _transX = transX;
-      let _transY = transY;
-      
-      panning = false;
-      transition = 'transform 200ms ease-out';
-      
-      // check threshold
-      if (propX > 0.25 && e.direction == Hammer.DIRECTION_RIGHT) {
-        success = true;
-        _transX = (parentEl.clientWidth + el.clientWidth);
-      } else if (propX < -0.25 && e.direction == Hammer.DIRECTION_LEFT) {
-        success = true;
-        _transX = - (parentEl.clientWidth + el.clientWidth);
-      } else if (propY < -0.25 && e.direction == Hammer.DIRECTION_UP) {
-        success = false;
-      } else if (propY < -0.25 && e.direction == Hammer.DIRECTION_DOWN) {
-        success = false;
-      }
-      
-      if (success) {
-        transX = _transX;
-        transY = _transY;
-      } else {
-        setInitialState();
-      }
-    }
+  function handleTap(e) {
+    dispatch('transitionend', {
+      index
+    });
   }
+
+  // function handlePan(e) {
+  //   if (!panning) {
+  //     panning = true;
+  //     transition = 'none';
+  //     const bounds = el.getBoundingClientRect();
+  //     dragPosition = (e.center.y - bounds.top) > el.clientHeight / 2 ? -1 : 1;
+  //   }
+
+  //   transX = e.deltaX;
+  //   transY = e.deltaY;
+    
+  //   // get ratio between swiped pixels and the axes
+  //   let propX = e.deltaX / parentEl.clientWidth;
+  //   let propY = e.deltaY / parentEl.clientHeight;
+    
+  //   // get swipe direction, left (-1) or right (1)
+  //   let dirX = e.deltaX < 0 ? -1 : 1;
+    
+  //   // calculate rotation, between 0 and +/- 45 deg
+  //   rotate = dragPosition * dirX * Math.abs(propX) * 45;
+    
+  //   if (e.isFinal) {
+  //     let _transX = transX;
+  //     let _transY = transY;
+      
+  //     panning = false;
+  //     transition = 'transform 200ms ease-out';
+      
+  //     // check threshold
+  //     if (propX > 0.25 && e.direction == Hammer.DIRECTION_RIGHT) {
+  //       success = true;
+  //       _transX = (parentEl.clientWidth + el.clientWidth);
+  //     } else if (propX < -0.25 && e.direction == Hammer.DIRECTION_LEFT) {
+  //       success = true;
+  //       _transX = - (parentEl.clientWidth + el.clientWidth);
+  //     } else if (propY < -0.25 && e.direction == Hammer.DIRECTION_UP) {
+  //       success = false;
+  //     } else if (propY < -0.25 && e.direction == Hammer.DIRECTION_DOWN) {
+  //       success = false;
+  //     }
+      
+  //     if (success) {
+  //       transX = _transX;
+  //       transY = _transY;
+  //     } else {
+  //       setInitialState();
+  //     }
+  //   }
+  // }
 
   function handleTransitionEnd() {
     if (success) {
@@ -173,9 +180,9 @@
 
 img {
   display: inline-block;
-  transform: scale(0.95);
+  /* transform: scale(0.95); */
 
-  transition: transform 0.45s var(--ease-in-out);
+  /* transition: transform 0.45s var(--ease-in-out); */
 }
 
 .c-card.active {
@@ -186,7 +193,7 @@ img {
   z-index: 1;
 }
 
-.c-card.next:nth-of-type(odd) img {
+/* .c-card.next:nth-of-type(odd) img {
   transform: scale(0.95) rotate(4deg);
 }
 
@@ -200,9 +207,9 @@ img {
 
 .c-card.subsequent:nth-of-type(even) img {
   transform: scale(0.95) rotate(-4deg);
-}
+} */
 
-.c-card.active img {
+/* .c-card.active img {
   transform: none;
-}
+} */
 </style>

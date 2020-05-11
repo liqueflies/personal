@@ -64,8 +64,8 @@
     height: 0;
     padding-bottom: 180%;
 
-    grid-column-start: 3;
-    grid-column-end: -3;
+    grid-column-start: 2;
+    grid-column-end: -2;
 
     transform: translate3d(0, 30%, 0);
     transform-origin: 50% 50%;
@@ -75,26 +75,108 @@
     transition-property: opacity, transform;
   }
 
+    .relative {
+    position: relative;
+  }
+
+  ol {
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    transform: translateY(-50%);
+
+    list-style: none;
+
+    right: 0;
+
+    margin: 0;
+    padding: 0;
+  }
+
+  ol li {
+    display: block;
+    /* width: var(--gutter);
+    height: var(--gutter); */
+
+    margin-bottom: calc(var(--gutter) * 1.5);
+
+    opacity: 0;
+
+    transform: translate3d(0, calc(var(--gutter) * 3), 0);
+    transform-origin: 50% 50%;
+    transform-style: preserve-3d;
+    
+    transition: all 1.15s var(--ease-in-out);
+    transition-property: opacity, transform;
+  }
+
+  ol li:nth-child(1) {
+    transition-delay: 0.15s;
+  }
+  ol li:nth-child(2) {
+    transition-delay: 0.2s;
+  }
+  ol li:nth-child(3) {
+    transition-delay: 0.25s;
+  }
+  ol li:nth-child(4) {
+    transition-delay: 0.3s;
+  }
+  ol li:nth-child(5) {
+    transition-delay: 0.35s;
+  }
+
+  ol li::before {
+    content: "";
+    display: block;
+    width: var(--gutter);
+    height: var(--gutter);
+
+    transform: scale(0.75);
+
+    background: var(--color-primary);
+    border-radius: 50%;
+  }
+
   :global(.is-inview) .c-tinder {
     transform: none;
     opacity: 1;
   }
+
+  :global(.is-inview) ol li {
+    transform: none;
+    opacity: 1;
+  }
+
+  ol li.active::before {
+    transform: none;
+  }
+
 </style>
 
 <div class="l-grid" bind:this={parentEl}>
-  <div class="c-tinder">
-    {#each carousel as item, i (item.image.url)}
-      <Card
-        uid={uid}
-        src={item.image.url}
-        alt={RichText.asText(title)}
-        index={i}
-        active={active === i}
-        next={next === i}
-        subsequent={subsequent === i}
-        parentEl={parentEl}
-        on:transitionend={handleTransitionEnd}
-      />
-    {/each}
+  <div class="l-container relative">  
+    <ol>
+      {#each carousel as item, i (item.image.url)}
+        <li class:active={active === i}></li>
+      {/each}
+    </ol>
+    <div class="l-grid">    
+      <div class="c-tinder">
+        {#each carousel as item, i (item.image.url)}
+          <Card
+            uid={uid}
+            src={item.image.url}
+            alt={RichText.asText(title)}
+            index={i}
+            active={active === i}
+            next={next === i}
+            subsequent={subsequent === i}
+            parentEl={parentEl}
+            on:transitionend={handleTransitionEnd}
+          />
+        {/each}
+      </div>
+    </div>
   </div>
 </div>
