@@ -28,7 +28,7 @@
   let themes = [];
   let pictureElement;
 
-  let alpha = tweened(0);
+  let alpha = tweened(0, { duration: 200 });
 
   function CanvasImage() {
     this.x = (window.innerWidth - size.x) * 0.5;
@@ -133,8 +133,8 @@
   }
 
   function handleMouseLeave(e) {
-    mX = (window.innerWidth - size.x) * 0.5;
-    mY = window.innerHeight - size.y;
+    // mX = (window.innerWidth - size.x) * 0.5;
+    mY = window.innerHeight - ( size.y * 0.5 );
 
     $alpha = 0;
   }
