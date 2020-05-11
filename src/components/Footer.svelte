@@ -50,6 +50,11 @@
         $context.globalAlpha = opacity;
         if (opacity === 0) texture = null;
       });
+
+      for (let i = 0; i < 4; i++) {
+        const e = new CanvasImage();
+        frames.push(e);
+      }
     },
     render: props => {
       if (visible) {
@@ -61,8 +66,8 @@
 
           e.draw(x, y);
 
-          x = lerp(x, next.x, 0.85);
-          y = lerp(y, next.y, 0.7);
+          x = lerp(x, next.x, 0.9);
+          y = lerp(y, next.y, 0.9);
 
           $context.globalCompositeOperation = "destination-over";
         });
@@ -79,11 +84,6 @@
       image = await lazyPicture(pictureElement);
       size.x = image.naturalWidth * 0.45;
       size.y = image.naturalHeight * 0.45;
-
-      for (let i = 0; i < 4; i++) {
-        const e = new CanvasImage();
-        frames.push(e);
-      }
     }
   });
 
@@ -120,21 +120,22 @@
   }
 
   function handleMouseEnter(e) {
-    frames.forEach((e, i) => {
-      e.x = (window.innerWidth - size.x) * 0.5;
-      e.y = window.innerHeight - size.y;
-    });
+    // frames.forEach(e => {
+    //   e.x = e.clientX;
+    //   e.y = e.clientY;
+    // });
 
-    mX = x = (window.innerWidth - size.x) * 0.5;
-    mY = y = window.innerHeight - size.y;
+    // mX *= e.clientX > mX ? 1.15 : 0.75;
+    // x = mX = e.clientX;
+    // y = mY = e.clientY;
 
     texture = image;
     $alpha = 1;
   }
 
   function handleMouseLeave(e) {
-    // mX = (window.innerWidth - size.x) * 0.5;
-    mY = window.innerHeight - ( size.y * 0.5 );
+    mX *= e.clientX > mX ? 1.15 : 0.75;
+    // mY *= e.clientY > mY ? 1.15 : 0.95;
 
     $alpha = 0;
   }
@@ -347,7 +348,6 @@
     <div class="c-footer__sst">
       <span
         class="c-footer__hoverable"
-        on:mousemove={handleMouseMove}
         on:mouseenter={handleMouseEnter}
         on:mouseleave={handleMouseLeave}>
         (: — S)
@@ -367,4 +367,4 @@
   <Spacer size="3" only="desktop" />
 </footer>
 
-<!-- <svelte:body on:mousemove={handleMouseMove} /> -->
+<svelte:body on:mousemove={handleMouseMove} />
