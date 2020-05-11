@@ -64,8 +64,8 @@
     height: 0;
     padding-bottom: 180%;
 
-    grid-column-start: 2;
-    grid-column-end: -2;
+    grid-column-start: 3;
+    grid-column-end: -3;
 
     transform: translate3d(0, 30%, 0);
     transform-origin: 50% 50%;
@@ -87,7 +87,7 @@
 
     list-style: none;
 
-    right: 0;
+    right: calc(var(--gutter) * -0.5);
 
     margin: 0;
     padding: 0;
@@ -132,7 +132,7 @@
     width: var(--gutter);
     height: var(--gutter);
 
-    transform: scale(0.75);
+    transform: scale(0.7);
 
     background: var(--color-primary);
     border-radius: 50%;
@@ -154,29 +154,25 @@
 
 </style>
 
-<div class="l-grid" bind:this={parentEl}>
-  <div class="l-container relative">  
-    <ol>
-      {#each carousel as item, i (item.image.url)}
-        <li class:active={active === i}></li>
-      {/each}
-    </ol>
-    <div class="l-grid">    
-      <div class="c-tinder">
-        {#each carousel as item, i (item.image.url)}
-          <Card
-            uid={uid}
-            src={item.image.url}
-            alt={RichText.asText(title)}
-            index={i}
-            active={active === i}
-            next={next === i}
-            subsequent={subsequent === i}
-            parentEl={parentEl}
-            on:transitionend={handleTransitionEnd}
-          />
-        {/each}
-      </div>
-    </div>
+<div class="l-grid relative" bind:this={parentEl}>
+  <ol class="l-container">
+    {#each carousel as item, i (item.image.url)}
+      <li class:active={active === i}></li>
+    {/each}
+  </ol>
+  <div class="c-tinder">
+    {#each carousel as item, i (item.image.url)}
+      <Card
+        uid={uid}
+        src={item.image.url}
+        alt={RichText.asText(title)}
+        index={i}
+        active={active === i}
+        next={next === i}
+        subsequent={subsequent === i}
+        parentEl={parentEl}
+        on:transitionend={handleTransitionEnd}
+      />
+    {/each}
   </div>
 </div>

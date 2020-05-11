@@ -179,7 +179,8 @@
       <DraggableVideo {...data} {uid} />
     {/if}
 
-    <Spacer size={8} />
+    <Spacer size={4} only="mobile" />
+    <Spacer size={8} only="desktop" />
 
     <div class="l-grid">
       <div class="l-container">
