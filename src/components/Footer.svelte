@@ -31,8 +31,8 @@
   let alpha = tweened(0);
 
   function CanvasImage() {
-    this.x = 0;
-    this.y = 0;
+    this.x = (window.innerWidth - size.x) * 0.5;
+    this.y = window.innerHeight - size.y * 0.5;
 
     this.draw = function(x, y) {
       if (texture) {
@@ -53,8 +53,8 @@
     },
     render: props => {
       if (visible) {
-        x = lerp(x, mX, 0.4);
-        y = lerp(y, mY, 0.4);
+        x = lerp(x, mX, 0.3);
+        y = lerp(y, mY, 0.3);
 
         frames.forEach((e, i) => {
           const next = frames[i + 1] || frames[0];
@@ -120,16 +120,22 @@
   }
 
   function handleMouseEnter(e) {
-    frames.forEach(e => {
-      e.x = mX;
-      e.y = mY;
+    frames.forEach((e, i) => {
+      e.x = (window.innerWidth - size.x) * 0.5;
+      e.y = window.innerHeight - size.y;
     });
+
+    mX = x = (window.innerWidth - size.x) * 0.5;
+    mY = y = window.innerHeight - size.y;
 
     texture = image;
     $alpha = 1;
   }
 
   function handleMouseLeave(e) {
+    mX = (window.innerWidth - size.x) * 0.5;
+    mY = window.innerHeight - size.y;
+
     $alpha = 0;
   }
 </script>
@@ -247,7 +253,7 @@
     .c-footer__sst .c-footer__hoverable {
       display: inline-block;
       cursor: default;
-      padding: 80px 0;
+      padding: 40px;
     }
 
     .c-footer__toggle:hover .c-footer__hoverable,
@@ -335,11 +341,13 @@
     </ul>
   </div>
   <Spacer size="10" only="mobile" />
+  <Spacer size="3" only="desktop" />
   <div class="l-grid c-footer__credits" data-scroll data-scroll-repeat>
     <div class="c-footer__lg">LG{today.getFullYear()} — ∞</div>
     <div class="c-footer__sst">
       <span
         class="c-footer__hoverable"
+        on:mousemove={handleMouseMove}
         on:mouseenter={handleMouseEnter}
         on:mouseleave={handleMouseLeave}>
         (: — S)
@@ -356,6 +364,7 @@
     </button>
   </div>
   <Spacer size="5" only="mobile" />
+  <Spacer size="3" only="desktop" />
 </footer>
 
-<svelte:body on:mousemove={handleMouseMove} />
+<!-- <svelte:body on:mousemove={handleMouseMove} /> -->

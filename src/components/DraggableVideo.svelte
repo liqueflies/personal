@@ -69,7 +69,7 @@
     },
     render: props => {
       if (visible && texture) {
-        let intensity = scrolling ? 0.8 : 0.35;
+        let intensity = scrolling ? 0.7 : 0.35;
         let delay = scrolling ? 0.5 : 0.8;
 
         x = lerp(x, mX, intensity);
