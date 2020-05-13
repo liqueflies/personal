@@ -148,6 +148,13 @@
       grid-column-start: 10;
     }
   }
+
+  @media screen and (min-width: 62em) {
+    .c-work__detail:nth-child(2) {
+      grid-column-start: 2;
+      grid-column-end: 6;
+    }
+  }
 </style>
 
 <svelte:window

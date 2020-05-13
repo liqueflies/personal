@@ -83,9 +83,9 @@ html.has-scroll-dragging {
   min-height: 100vh; 
 }
 
-.has-no-pointer * {
+/* .has-no-pointer * {
   pointer-events: none;
-}
+} */
 
 h1,
 h2,
@@ -170,14 +170,16 @@ button {
   }
 }
 
-a {
+a,
+button {
   position: relative;
   color: var(--color-text);
   text-decoration: none;
   padding-bottom: calc( var(--gutter) / 2 );
 }
 
-a::after {
+a::after,
+button::after {
   content: '';
   position: absolute;	
   left: 0;
@@ -188,7 +190,8 @@ a::after {
   background-color: currentColor;
 }
 
-a:hover::after {
+a:hover::after,
+button:hover::after {
   animation: paint-stripes .6s;
   animation-fill-mode: forwards;
   animation-timing-function: var(--ease-in-out);

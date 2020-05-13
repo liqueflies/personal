@@ -119,6 +119,7 @@
   .c-abstract {
     text-align: center;
   }
+
   .c-abstract__content {
     font-size: var(--font-size-h2);
   }
@@ -176,6 +177,9 @@
   :global(.is-inview).c-abstract__content .c-abstract__then {
     transform: none;
     opacity: 1;
+  }
+  :global(.has-no-pointer) .c-abstract {
+    pointer-events: none;
   }
   @media screen and (min-width: 40em) {
     .c-abstract__first {

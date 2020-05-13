@@ -201,6 +201,9 @@
     /* grid-column-start: 12; */
     grid-column-start: 10;
     grid-column-end: -1;
+  }
+
+  .c-footer__toggle button {
     text-transform: capitalize;
   }
 
@@ -247,20 +250,25 @@
     }
 
     .c-footer__hoverable {
-      transition: color 0.25s;
-      transition-delay: 0s;
-    }
+      display: inline-block;
+      cursor: default;
+      padding: 40px;
 
+      /* transition: color 0.25s;
+      transition-delay: 0s; */
+    }
+    
+/* 
     .c-footer__sst .c-footer__hoverable {
       display: inline-block;
       cursor: default;
       padding: 40px;
-    }
+    } */
 
-    .c-footer__toggle:hover .c-footer__hoverable,
+    /* .c-footer__toggle:hover .c-footer__hoverable,
     .c-footer__sst:hover .c-footer__hoverable {
       color: #787878;
-    }
+    } */
 
     .c-footer__lg {
       grid-column-end: 2;
@@ -350,18 +358,18 @@
         class="c-footer__hoverable"
         on:mouseenter={handleMouseEnter}
         on:mouseleave={handleMouseLeave}>
-        (: — S)
+        <a rel="noopener" target="_blank" href="https://www.behance.net/-sst">(: — S)</a>
       </span>
       <picture bind:this={pictureElement}>
         <source data-srcset="amsterdam-nsdm.webp" type="image/webp" />
         <img data-src="amsterdam-nsdm.png" alt="Amsterdam NSDM - 2018" />
       </picture>
     </div>
-    <button class="c-footer__toggle" on:click={handleToggleTheme}>
+    <div class="c-footer__toggle">
       {#if themes.length}
-        <span class="c-footer__hoverable">{themes[1]} Mode</span>
+        <button on:click={handleToggleTheme}>{themes[1]} Mode</button>
       {/if}
-    </button>
+    </div>
   </div>
   <Spacer size="5" only="mobile" />
   <Spacer size="3" only="desktop" />
