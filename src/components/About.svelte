@@ -178,10 +178,11 @@
     transform: none;
     opacity: 1;
   }
-  :global(.has-no-pointer) .c-abstract {
+  :global(.has-no-pointer) .c-abstract,
+  :global(.has-no-pointer) .c-abstract > * {
     pointer-events: none;
   }
-  
+
   @media screen and (min-width: 40em) {
     .c-abstract__first {
       transform: translateY(120px) scaleY(1.4) skewY(8deg);
