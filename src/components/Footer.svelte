@@ -312,11 +312,11 @@
 <footer data-scroll-section class="c-footer l-container">
   <div class="l-grid" data-scroll>
     <div class="c-footer__about">
-      <p>Focusing on Interactive Development
-        and growing technological culture of companies,
-        pushing ideas outside boundaries.
-      <p>Co-founder of <a rel="noopener" target="_blank" href="https://developers.caffeina.com/tech-mondays-caffeina-ec85fbe7361">Tech Mondays</a><br />
-      Spreading knowledge as a <a rel="noopener" target="_blank" href="https://speakerdeck.com/loregirardi">Speaker</a>.</p>
+      <p>Interactive development for a world wide web,
+        distributing creative technology for you and yours.
+      <p>Co-founder of <a rel="noopener" target="_blank" href="https://developers.caffeina.com/tech-mondays-caffeina-ec85fbe7361">Tech Mondays</a> and other bright initiatives.
+      <a rel="noopener" target="_blank" href="https://speakerdeck.com/loregirardi">Speaker</a> at selected industry conferences.</p>
+      <p>Say hi, don’t be shy. </p>
     </div>
   </div>
   <Spacer size={15} only="mobile" />
