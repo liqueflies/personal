@@ -222,9 +222,7 @@
 
 @media screen and (min-width: 62em) {
   .c-hero__figure {
-    /* margin-bottom: 0; */
     padding-bottom: 0;
-
     overflow: hidden;
   }
 

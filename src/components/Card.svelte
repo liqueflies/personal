@@ -8,6 +8,7 @@
   import { scrollable } from '../context/scroll';
   import { lazyImage } from '../utils/lazy';
   import { lerp } from '../utils/math';
+  import { ready } from '../store';
 </script>
 
 <script>
@@ -16,8 +17,8 @@
   export let src;
   export let index;
   export let active;
-  export let next;
-  export let subsequent;
+  // export let next;
+  // export let subsequent;
   // export let parentEl;
 
   const dispatch = createEventDispatcher();
@@ -27,11 +28,11 @@
   let hammer;
   let Hammer;
 
-  let transX;
-  let transY;
-  let rotate;
-  let rotateY;
-  let scale;
+  // let transX;
+  // let transY;
+  // let rotate;
+  // let rotateY;
+  // let scale;
 
   let transition;
   let dragPosition;
@@ -40,7 +41,13 @@
   let success = false;
   let scrolling = false;
 
-  setInitialState();
+  // setInitialState();
+
+  ready.subscribe(async isReady => {
+    if (isReady) {
+      await lazyImage(imageEl);
+    }
+  });
 
   swipable(H => {
     Hammer = H;
@@ -62,18 +69,18 @@
     scroll: () => {
       scrolling = true;
     },
-    enter: async () => {
-      await lazyImage(imageEl);
-    }
+    // enter: async () => {
+    //   await lazyImage(imageEl);
+    // }
   });
 
-  function setInitialState() {
-    transX = 0;
-    transY = 0;
-    rotate = 0;
-    rotateY = 0;
-    scale = 1;
-  }
+  // function setInitialState() {
+  //   transX = 0;
+  //   transY = 0;
+  //   rotate = 0;
+  //   rotateY = 0;
+  //   scale = 1;
+  // }
 
   function handleTouchEnd() {
     scrolling = false;
@@ -135,37 +142,37 @@
   //   }
   // }
 
-  function handleTransitionEnd() {
-    if (success) {
-      dispatch('transitionend', {
-        index
-      });
+  // function handleTransitionEnd() {
+  //   if (success) {
+  //     dispatch('transitionend', {
+  //       index
+  //     });
 
-      setTimeout(() => {        
-        success = false;
-        transition = 'transform 0s .45s';
-        setInitialState();
-      }, 50);
-    }
-  }
+  //     setTimeout(() => {        
+  //       success = false;
+  //       transition = 'transform 0s .45s';
+  //       setInitialState();
+  //     }, 50);
+  //   }
+  // }
 </script>
 
 <svelte:window
   on:touchend={handleTouchEnd}
 />
 
-<div 
+<div
   class="c-card"
-  data-scroll
-  data-scroll-offset="-100%"
-  data-scroll-call={uid}
   class:active={active}
-  class:next={next}
-  class:subsequent={subsequent}
   bind:this={el}
-  style="transition: {transition}; transform: translateX({transX}px) translateY({transY}px) rotate({rotate}deg) rotateY({rotateY}deg)"
-  on:transitionend={handleTransitionEnd}
 >
+  <!-- data-scroll
+  data-scroll-offset="-100%"
+  data-scroll-call={uid} -->
+  <!-- class:next={next} -->
+  <!-- class:subsequent={subsequent} -->
+  <!-- style="transition: {transition}; transform: translateX({transX}px) translateY({transY}px) rotate({rotate}deg) rotateY({rotateY}deg)" -->
+  <!-- on:transitionend={handleTransitionEnd} -->
   <img data-src={src} alt={alt} bind:this={imageEl} />
 </div>
 

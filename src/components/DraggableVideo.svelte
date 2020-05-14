@@ -1,6 +1,5 @@
 <script context="module">
   import { onMount, onDestroy } from 'svelte';
-  // import { tweened } from 'svelte/motion';
 
   import { scrollable } from '../context/scroll';
   import { renderable, context, height, width } from '../context/canvas';
@@ -32,8 +31,6 @@
   let trigger;
   let scrolling;
   let moving;
-
-  // let alpha = tweened(0);
 
   onMount(() => {
     function Video() {
@@ -109,10 +106,6 @@
     enter: async () => {
       play();
       visible = true;
-      // alpha.subscribe(opacity => {
-      //   if ($context) $context.globalAlpha = opacity;
-      // });
-      // $alpha = 1;
     },
     exit: () => {
       pause();
@@ -238,17 +231,13 @@
 
 .c-video__container::before {
   left: 0;
-  /* background-color: palevioletred; */
 }
 
 .c-video__container::after {
   right: 0;
-  /* background-color: salmon; */
 }
 
 video {
-/* .c-video__trigger { */
-
   width: 48%;
   height: 48%;
   
@@ -260,11 +249,6 @@ video {
 
   margin: auto;
 }
-
-/* .c-video__trigger { */
-  /* z-index: 2; */
-  /* background-color: peru; */
-/* } */
 
 video {
   visibility: hidden;
@@ -297,7 +281,6 @@ video {
         on:mouseenter={handleMouseEnter}
         on:mousemove={handleMouseMove}
       >
-        <!-- <div class="c-video__trigger"></div> -->
         <video autoplay muted loop playsinline bind:this={videoEl}>
           <source data-src={video.url} type="video/mp4">
         </video>

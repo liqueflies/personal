@@ -95,10 +95,10 @@
 
   ol li {
     display: block;
-    /* width: var(--gutter);
-    height: var(--gutter); */
 
     margin-bottom: calc(var(--gutter) * 1.5);
+
+    border-radius: 100%;
 
     opacity: 0;
 
@@ -135,7 +135,7 @@
     transform: scale(0.7);
 
     background: var(--color-primary);
-    border-radius: 50%;
+    border-radius: 100%;
   }
 
   :global(.is-inview) .c-tinder {

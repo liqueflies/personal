@@ -253,22 +253,7 @@
       display: inline-block;
       cursor: default;
       padding: 40px;
-
-      /* transition: color 0.25s;
-      transition-delay: 0s; */
     }
-    
-/* 
-    .c-footer__sst .c-footer__hoverable {
-      display: inline-block;
-      cursor: default;
-      padding: 40px;
-    } */
-
-    /* .c-footer__toggle:hover .c-footer__hoverable,
-    .c-footer__sst:hover .c-footer__hoverable {
-      color: #787878;
-    } */
 
     .c-footer__lg {
       grid-column-end: 2;
