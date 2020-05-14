@@ -20,6 +20,7 @@
   let patchElement;
   let pictureElement;
   let progress;
+
   let vh;
   let vw;
 
@@ -28,7 +29,7 @@
     scroll: (instance) => {
       if (instance.visible) {
         progress = instance.scroll.y / (patchElement.offsetHeight);
-        patchElement.style.transform = `scale3d(${1 + progress}, 1, 1) perspective(1px)`;
+        patchElement.style.transform = `scale3d(${1 + progress}, 1, 1)`;
       }
     }
   });
@@ -96,14 +97,20 @@
 .c-hero__loading {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  bottom: 0;
 }
 
 .c-hero__patch {
   display: none;
   background-color: #333;
+
+  left: 1px;
+  right: 1px;
+}
+
+.c-hero__loading {
+  left: 0;
+  right: 0;
 }
 
 .c-hero__layout {
@@ -134,8 +141,8 @@
 }
 
 .c-hero__loading-stroke {
-  width: 2px;
-  z-index: 2;
+  width: 1px;
+  flex: 0 0 auto;
 }
 
 .c-hero__loading-left,
@@ -157,7 +164,7 @@
 }
 
 .c-hero__image {
-  transform: scale3d(0.75, 0.75, 0.75) perspective(1px);
+  transform: scale3d(0.75, 0.75, 0.75);
   transition: transform var(--loading-reveal-time) var(--ease-in-out);
 }
 
@@ -167,26 +174,14 @@
 .c-hero__loading-right,
 .c-hero__patch {
   transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .c-hero__image,
 .c-hero__loading-left,
 .c-hero__loading-right {
   transition-delay: var(--loading-reveal-delay);
-}
-
-:global(.has-loaded-content) .c-hero__image {
-  transform: scale3d(1, 1, 1) perspective(1px);
-}
-
-
-:global(.has-loaded-content) .c-hero__loading-stroke {
-  transform: scale3d(1, 0, 1) perspective(1px);
-}
-
-:global(.has-loaded-content) .c-hero__loading-left,
-:global(.has-loaded-content) .c-hero__loading-right {
-  transform: scale3d(0, 1, 1) perspective(1px);
 }
 
 .c-hero__position {
@@ -198,6 +193,20 @@
   transition: all 1s var(--ease-in-out);
   transition-property: opacity, transform;
   transition-delay: calc( var(--loading-reveal-delay) + var(--loading-marquee-delay) );
+}
+
+:global(.has-loaded-content) .c-hero__image {
+  transform: scale3d(1, 1, 1);
+}
+
+
+:global(.has-loaded-content) .c-hero__loading-stroke {
+  transform: scale3d(1, 0, 1);
+}
+
+:global(.has-loaded-content) .c-hero__loading-left,
+:global(.has-loaded-content) .c-hero__loading-right {
+  transform: scale3d(0, 1, 1);
 }
 
 :global(.has-loaded-content) .c-hero__position {
@@ -285,7 +294,7 @@
           <span class="c-hero__loading-stroke"></span>
           <span class="c-hero__loading-right"></span>
         </div>
-        <div class="c-hero__patch" bind:this={patchElement}></div>
+        <div class="c-hero__patch" class:ready={$ready} bind:this={patchElement}></div>
       </div>
       <figcaption class="l-container l-container--full c-hero__caption">
         <Marquee text="Lorenzo Girardi" />

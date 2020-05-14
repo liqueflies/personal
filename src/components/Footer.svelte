@@ -316,7 +316,6 @@
         distributing creative technology for you and yours.
       <p>Co-founder of <a rel="noopener" target="_blank" href="https://developers.caffeina.com/tech-mondays-caffeina-ec85fbe7361">Tech Mondays</a> and other bright initiatives.
       <a rel="noopener" target="_blank" href="https://speakerdeck.com/loregirardi">Speaker</a> at selected industry conferences.</p>
-      <p>Say hi, don’t be shy. </p>
     </div>
   </div>
   <Spacer size={15} only="mobile" />
