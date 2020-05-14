@@ -1,6 +1,6 @@
 <script context="module">
   import { onMount, onDestroy } from 'svelte';
-  import { tweened } from 'svelte/motion';
+  // import { tweened } from 'svelte/motion';
 
   import { scrollable } from '../context/scroll';
   import { renderable, context, height, width } from '../context/canvas';
@@ -33,7 +33,7 @@
   let scrolling;
   let moving;
 
-  let alpha = tweened(0);
+  // let alpha = tweened(0);
 
   onMount(() => {
     function Video() {
@@ -108,11 +108,11 @@
     },
     enter: async () => {
       play();
-      alpha.subscribe(opacity => {
-        if ($context) $context.globalAlpha = opacity;
-      });
       visible = true;
-      $alpha = 1;
+      // alpha.subscribe(opacity => {
+      //   if ($context) $context.globalAlpha = opacity;
+      // });
+      // $alpha = 1;
     },
     exit: () => {
       pause();
