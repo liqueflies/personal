@@ -1,5 +1,5 @@
 <script context="module">
-  import { scrollable } from '../context/scroll';
+  // import { scrollable } from '../context/scroll';
   import { lerp } from '../utils/math';
 </script>
 
@@ -9,21 +9,21 @@
   let transform = 0;
   const scrollValue = 'marquee';
 
-  scrollable({
-    value: scrollValue,
-    scroll: ({ speed, visible }) => {
-      if (visible) {
-        const movement = Math.min(Math.abs(speed), 10) * 0.2;
-        transform -= movement;
-      } else {
-        // avoid continuously set to 0.
-        if (transform === 0) {
-          return false;
-        }
-        transform = 0;
-      }
-    }
-  });
+  // scrollable({
+  //   value: scrollValue,
+  //   scroll: ({ speed, visible }) => {
+  //     if (visible) {
+  //       const movement = Math.min(Math.abs(speed), 10) * 0.2;
+  //       transform -= movement;
+  //     } else {
+  //       // avoid continuously set to 0.
+  //       if (transform === 0) {
+  //         return false;
+  //       }
+  //       transform = 0;
+  //     }
+  //   }
+  // });
 </script>
 
 <style>

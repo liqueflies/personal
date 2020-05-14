@@ -196,9 +196,9 @@ img {
   z-index: 2;
 }
 
-.c-card.next {
+/* .c-card.next {
   z-index: 1;
-}
+} */
 
 /* .c-card.next:nth-of-type(odd) img {
   transform: scale(0.95) rotate(4deg);
