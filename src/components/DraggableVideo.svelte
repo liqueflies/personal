@@ -105,6 +105,7 @@
     },
     enter: async () => {
       play();
+      $context.globalAlpha = 1;
       visible = true;
     },
     exit: () => {
