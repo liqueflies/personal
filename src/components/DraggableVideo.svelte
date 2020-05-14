@@ -66,6 +66,12 @@
     },
     render: props => {
       if (visible && texture) {
+
+        // force opacity 1
+        if ($context.globalAlpha !== 1) {
+          $context.globalAlpha = 1;
+        }
+
         let intensity = scrolling ? 0.7 : 0.35;
         let delay = scrolling ? 0.5 : 0.8;
 
@@ -105,7 +111,6 @@
     },
     enter: async () => {
       play();
-      $context.globalAlpha = 1;
       visible = true;
     },
     exit: () => {
