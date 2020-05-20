@@ -17,10 +17,10 @@
 	<title>Lorenzo Girardi - Creative Technologist</title>
 	<meta name="description" content="Lorenzo Girardi is Creative Technologist, music & art aficionado.">
 	<meta property="og:type" content="website" />
-  <meta property="og:url"  content="https://loregirardi.netlify.com" />
+  <meta property="og:url"  content="https://www.loregirardi.it" />
   <meta property="og:title" content="Lorenzo Girardi - Creative Technologist" />
   <meta property="og:description" content="Lorenzo Girardi is Creative Technologist, music & art aficionado." />
-  <meta property="og:image" content="https://loregirardi.netlify.com/social.jpg" />
+  <meta property="og:image" content="https://www.loregirardi.it/social.jpg" />
 </svelte:head>
 
 <Hero />
